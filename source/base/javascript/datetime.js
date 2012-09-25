@@ -2,83 +2,98 @@
  * @name datetime.js
  * @fileOverview date and time formatting routines
  * 
- * 
  */
 
 /*globals  G11n enyo*/
 
 //* @public
 /**
-Create a new date formatter object.
+    Returns a date formatter object that formats dates according to the given
+    parameters.
 
-* params (String/Object): parameters that control the output format
+    * params (String/Object): Parameters that control the output format
 
-If the params is passed as a string, then the string should specify the custom date
-format to use. If the params are specified as an object, they may contain the 
-following properties:
+        If _params_ is passed as a string, then the string should specify the
+        custom date format to use. If the params are specified as an object,
+        the object may contain the following properties:
 
-* locale: locale to use to format the date. If not specified, the locale used
-will be the current locale of the device.
-* date: format a date using the locale's standard format, and specify the length 
-of the format to use. Valid values are 'short', 'medium', 'long', and 'full', or
-specify a custom date format string directly. Default is "long" if this property 
-is not specified.
-* time: format a time using the locale's standard format, and specify the length 
-of the format to use. Valid values are 'short', 'medium', 'long', and 'full', or
-specify a custom time format string directly. Default is "long" if this property is not specified.
-* format: format as a date and time string together, specifying the length of 
-the format. Valid values are 'short', 'medium', 'long', and 'full', or specify a
-custom date/time format string directly.
-* dateComponents: format a date with only certain components in it using the 
-locale's standard format for those components. Valid values are 'DM', 'MY', and 'DMY',
-which mean "date and month", "month and year", and "date, month, and year" 
-respectively. This can be combined with the date or format properties to specify the length of 
-those components. Default if this property is not specified is 'DMY'. 
-* timeComponents: format a time with certain additional components in it using the 
-locale's standard format for those components. Valid values are 'A', 'Z', and 'AZ',
-which mean "am/pm", "time zone", and "am/pm and time zone" respectively. The additional
-components will appear before or after the time, as required by the locale. This can 
-be combined with the time or format properties to specify the length of those components. Default 
-if this property is not specified is no additional components.
-* twelveHourFormat: if passed as true, use a 12-hour clock when formatting times.
-* weekday: if passed as true, return the date formatted with the day of the week included
-in the date format as well. If passed as 'short', 'medium', 'long', or 'full', then include
-the day of the week of the given length. The default if this property is not specified is 
-that no day of the week is included in the format for the short, medium, or long styles. The
-full style always has the day of the week.
-* TZ: use the given time zone. If not specified, the current device time zone is used.
-Otherwise, if false, use a 24-hour clock. 
+        * locale: Locale to use to format the date. If not specified, the locale
+            used will be the current locale of the device.
 
-The codes to use when specifying custom date or time formats are the following:
+        * date: The verbosity level of the date when formatted according to the
+            locale's standard rules. Valid values are 'short', 'medium', 'long',
+            and 'full'; you may also specify a custom date format string.
+            Defaults to "long" if no value is specified.
 
-* yy: two-digit year
-* yyyy: four-digit year
-* MMMM: name of a the month spelled out in long format (eg. "July" or "August")
-* MMM: name of the month in abbreviated form (eg. "Jul" or "Aug")
-* MM: zero-padded 2-digit month
-* M: 1- or 2-digit month, not padded
-* dd: zero-padded 2-digit day of the month
-* d: 1- or 2-digit day of the month, not padded
-* zzz: time zone name
-* a: am/pm notation for 12-hour formats
-* KK: zero-padded hour of the day in the 12-hour clock, in the range 00 to 11
-* K: hour of the day in the 12-hour clock, not padded, in the range 0 to 11
-* hh: zero-padded hour of the day in the 12-hour clock, in the range 01 to 12
-* h: hour of the day in the 12-hour clock, not padded, in the range 1 to 12
-* HH: zero-padded hour of the day in the 24-hour clock, in the range 00 to 23
-* H: hour of the day in the 24-hour clock, not padded, in the range 0 to 23
-* kk: zero-padded hour of the day in the 24-hour clock, in the range 01 to 24
-* k: hour of the day in the 24-hour clock, not padded, in the range 1 to 24
-* EEEE: day of the week, spelled out fully (eg. Wednesday)
-* EEE: day of the week, in 3-letter abbreviations (eg. Wed)
-* EE: day of the week, in 2-letter abbreviations (eg. We)
-* E: day of the week, in 1-letter abbreviations (eg. W)
-* mm: zero-padded minute of the hour
-* ss: zero-padded second of the minute
+        * time: The verbosity level of the time when formatted according to the
+            locale's standard rules. Valid values are 'short', 'medium', 'long',
+            and 'full'; you may also specify a custom time format string.
+            Defaults to "long" if no value is specified.
 
-Please note that the current formatter only supports formatting dates in the Gregorian calendar.
+        * format: The verbosity level of the date and time when formatted
+            together according to the locale's standard rules. Valid values are
+            'short', 'medium', 'long', and 'full'; you may also specify a custom
+            date/time format string.
 
-Returns a date formatter object that formats dates according to the given parameters.
+        * dateComponents: Formats a date with only certain components in it,
+            using the locale's standard format for those components. Valid
+            values are 'DM', 'MY', and 'DMY', which stand for "date and month",
+            "month and year", and "date, month, and year", respectively. This
+            may be combined with the _date_ or _format_ properties to specify
+            the verbosity level of those components. Defaults to 'DMY' if no
+            value is specified. 
+
+        * timeComponents: Formats a time with certain additional components in
+            it, using the locale's standard format for those components. Valid
+            values are 'A', 'Z', and 'AZ', which stand for  "am/pm", "time
+            zone", and "am/pm and time zone", respectively. The additional
+            components appear before or after the time, as required by the
+            locale. This can be combined with the _time_ or _format_ properties
+            to specify the verbosity level of those components. Defaults to no
+            additional components if no value is specified.
+
+        * twelveHourFormat: If true, a 12-hour clock is used when formatting
+            times; if false, a 24-hour clock is used.
+
+        * weekday: If true, the formatted date is returned with the day of the
+            week included. If the value is 'short', 'medium', 'long', or 'full',
+            the day of the week is included at the given level of verbosity. If
+            no value is specified, the default is that no day of the week will
+            be included in the format for the short, medium, or long styles. The
+            full style always includes the day of the week.
+
+        * TZ: Uses the given time zone. If no value is specified, the current
+            device time zone is used.
+
+    The following codes are used when specifying custom date or time formats:
+
+    * yy: 2-digit year
+    * yyyy: 4-digit year
+    * MMMM: Name of a the month spelled out in long format (e.g., "July" or "August")
+    * MMM: Name of the month in abbreviated form (e.g., "Jul" or "Aug")
+    * MM: Zero-padded 2-digit month
+    * M: 1- or 2-digit month, not padded
+    * dd: Zero-padded 2-digit day of the month
+    * d: 1- or 2-digit day of the month, not padded
+    * zzz: Time zone name
+    * a: am/pm notation for 12-hour formats
+    * KK: Zero-padded hour of the day in the 12-hour clock, in the range 00 to 11
+    * K: Hour of the day in the 12-hour clock, not padded, in the range 0 to 11
+    * hh: Zero-padded hour of the day in the 12-hour clock, in the range 01 to 12
+    * h: Hour of the day in the 12-hour clock, not padded, in the range 1 to 12
+    * HH: Zero-padded hour of the day in the 24-hour clock, in the range 00 to 23
+    * H: Hour of the day in the 24-hour clock, not padded, in the range 0 to 23
+    * kk: Zero-padded hour of the day in the 24-hour clock, in the range 01 to 24
+    * k: Hour of the day in the 24-hour clock, not padded, in the range 1 to 24
+    * EEEE: Day of the week, spelled out fully (e.g., "Wednesday")
+    * EEE: Day of the week, in 3-letter abbreviations (e.g., "Wed")
+    * EE: Day of the week, in 2-letter abbreviations (e.g., "We")
+    * E: Day of the week, in 1-letter abbreviations (e.g., "W")
+    * mm: Zero-padded minute of the hour
+    * ss: Zero-padded second of the minute
+
+    Please note that the current formatter only supports formatting dates in the
+    Gregorian calendar.
 */
 enyo.g11n.DateFmt = function(params){
 	var locale, dateFormat, timeFormat, finalFormat, self;
@@ -389,7 +404,7 @@ enyo.g11n.DateFmt = function(params){
 
 //* @public
 /**
-Return the format string that this formatter instance uses to format dates. 
+    Returns the format string that this formatter instance uses to format dates. 
 */
 enyo.g11n.DateFmt.prototype.toString = function() {
 	return this.tokenized.join("");
@@ -397,7 +412,7 @@ enyo.g11n.DateFmt.prototype.toString = function() {
 
 //* @public
 /**
-Return true if the current formatter uses a 12-hour clock to format times.
+    Returns true if the current formatter uses a 12-hour clock to format times.
 */
 enyo.g11n.DateFmt.prototype.isAmPm = function(){
 	return this.twelveHourFormat;
@@ -405,7 +420,8 @@ enyo.g11n.DateFmt.prototype.isAmPm = function(){
 
 //* @public
 /**
-Return true if the locale of this formatter uses a 12-hour clock to format times.
+    Returns true if the locale of this formatter uses a 12-hour clock to format
+    times.
 */
 enyo.g11n.DateFmt.prototype.isAmPmDefault = function(){
 	return this.dateTimeFormatHash.is12HourDefault;
@@ -413,14 +429,13 @@ enyo.g11n.DateFmt.prototype.isAmPmDefault = function(){
 
 //* @public
 /**
-Return the day of the week that represents the first day of the week in the
-current locale. The numbers represent the days of the week as such:
+    Returns the day of the week that represents the first day of the week in the
+    current locale. The numbers represent the days of the week as follows:
  
-* 0 - Sunday
-* 1 - Monday
-* 2 - Tuesday
-* etc.
- 
+    * 0 - Sunday
+    * 1 - Monday
+    * 2 - Tuesday
+    * etc.
 */
 enyo.g11n.DateFmt.prototype.getFirstDayOfWeek = function(){
 	return this.dateTimeHash.firstDayOfWeek;
@@ -596,10 +611,10 @@ enyo.g11n.DateFmt.prototype._format = function(date, parsedArray) {
 
 //* @public
 /**
-format(date): Format a date according to the format set up in the constructor of this formatter instance.
-* date (Object): a standard javascript date instance to format as a string
- 
-Returns a string with the date formatted according to the format set up for this formatter instance
+    Returns a string with the date formatted according to the format specified
+    in the constructor for this formatter instance.
+
+    * date (Object): A standard javascript date instance to format as a string
 */
 enyo.g11n.DateFmt.prototype.format = function(date) {
     //var startTime = new Date();
@@ -614,39 +629,42 @@ enyo.g11n.DateFmt.prototype.format = function(date) {
 
 //* @public
 /**
-Format a date as relative to another date.
+    Returns a string with the relative date (i.e., the date in relation to
+    another date).
 
-* date (Object): the date/time object to format
-* options (Object): specify options to the formatting
+    * date (Object): The date/time object to format
 
-This method formats a date as being relative to another date. If the two dates
-are close in time, the time distance between them is given rather than a 
-formatted date. If the two dates are not close, then the date is formatted
-as per the format set up for this formatter instance.
+    * options (Object): Options to apply to the formatting. The _options_ object
+        may have the following properties:
 
-The options object can have the following properties:
+        * referenceDate: The reference date, in relation to which the _date_ is
+            being formatted
 
-* referenceDate: give the reference date for which the date to be formatted is
-relative
-* verbosity: if true, then format dates between a week old and a year old as
-relative as well. Otherwise these are formatted regularly according to the 
-format for the current formatter instance
- 
-The relative dates/times are as follows:
+        * verbosity: If true, dates between a week old and a year old are
+            formatted as relative; otherwise, these are formatted normally
+            according to the specifications of the current formatter instance.
 
-* today
-* yesterday
-* tomorrow
-* for dates within the last week, give the day name
-* for dates within the last month, give the number of weeks ago when verbosity=true, 
-or the formatted date otherwise
-* for dates within the last year, give the number of months ago when verbosity=true, 
-or the formatted date otherwise
-* for all other dates, format the date as per the format of the current formatter instance
+    This method formats a date, taking into consideration its relationship to
+    another date. If the two dates are close in time, the time distance between
+    them is returned, instead of a formatted date. If the two dates are not
+    close, then the date is formatted as per the format set up for the given
+    formatter instance.
 
-When strings are returned as relative, the text in them is already localized to the current locale.
+    The relative dates/times are as follows:
 
-Returns a string with the relative date.
+    * today
+    * yesterday
+    * tomorrow
+    * For dates within the last week, the day name
+    * For dates within the last month, the number of weeks ago if _verbosity=true_, 
+        or the formatted date otherwise
+    * For dates within the last year, the number of months ago if _verbosity=true_,
+        or the formatted date otherwise
+    * For all other dates, the date formatted according to the rules of the
+        current formatter instance
+
+    When relative strings are returned, the text in them is already localized to
+    the current locale.
 */
 enyo.g11n.DateFmt.prototype.formatRelativeDate = function(date, options) {
 	var refDate, verbosity, template, offset, self = this;
@@ -705,41 +723,52 @@ enyo.g11n.DateFmt.prototype.formatRelativeDate = function(date, options) {
 };
 
 /**
-Format a pair of dates as a date range.
+    Returns a string in which a pair of dates are formatted as a date range.
 
-* dateStart (Object): the date at the start of the range
-* dateEnd (Object): the date at the end of the range
+    * dateStart (Object): The date at the start of the range
 
-This method formats a pair of dates as a date/time range from start to end using the settings of
-the formatter object to guide the formatting. 
+    * dateEnd (Object): The date at the end of the range
 
-The format of the output string is determined as follows:
+    This method formats a pair of dates as a date/time range, from start to end,
+    according to the settings of the formatter object. 
 
-* If the dates are on the same calendar day, the format is a time range of the form 
-(starttime_to_endtime, month+date)
-* If the dates are on different calendar days, but are in the same calendar month, the
-format is a date range of the form (month date_to_date, year)
-* If the dates are on different calendar days and different calendar months, but the 
-same calendar year, the format is to a date range of (month+date to month+date, year)
-* If the dates are on in different consecutive calendar years, the format
-is a date range of the form (month+date+year to month+date+year)
-* If the dates are further apart than 2 years, the format is a date range of the form
-(year to year)
+    The format of the output string is determined as follows:
 
-The order of the month, date, and year components in the above formats and the text of 
-the separators are locale-dependent. For example, if the start date is September 2, 2011, and 
-the end date is September 5, 2011, the ranges would be:
+        * If the dates are on the same calendar day, the format is a time range
+            of the form _(starttime_to_endtime, month+date)_.
 
-* US English: "Sept 2-5, 2011"
-* British English: "2-5 Sept, 2011"
-* German: "2.-5. Sept, 2011"
+        * If the dates are on different calendar days, but are in the same
+            calendar month, the format is a date range of the form
+            _(month date_to_date, year)_.
 
-The length of the month abbreviations are determined by the date length with which the current 
-formatter object was constructed. If the end date preceeds the start date, the dates will 
-be switched so that the earlier date will become the start date. The text in the returned string 
-will be localized to the locale of the formatter instance.
+        * If the dates are on different calendar days and in different calendar
+            months, but the same calendar year, the format is a date range of
+            the form _(month+date to month+date, year)_.
 
-Returns a string with the date/time range.
+        * If the dates are in different, but consecutive, calendar years, the
+            format is a date range of the form
+            _(month+date+year to month+date+year)_.
+
+        * If the dates are more than 2 years apart, the format is a date range
+            of the form _(year to year)_.
+
+    The order of the month, date, and year in the above formats is
+    locale-dependent, as is the text of the separators. For example, if the
+    start date is September 2, 2011, and the end date is September 5, 2011, the
+    ranges would be:
+
+    * US English: "Sept 2-5, 2011"
+    * British English: "2-5 Sept, 2011"
+    * German: "2.-5. Sept, 2011"
+
+    The length of the month abbreviations is determined by the date verbosity
+    with which the current formatter object was constructed.
+
+    If the end date precedes the start date, the dates will be switched so that
+    the earlier date becomes the start date.
+    
+    The text in the returned string will be localized to the locale of the
+    formatter instance.
 */
 enyo.g11n.DateFmt.prototype.formatRange = function(dateStart, dateEnd) {
 	var temp, 

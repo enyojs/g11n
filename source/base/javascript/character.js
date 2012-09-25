@@ -1,8 +1,6 @@
 /*$
  * @name locale.js
  * @fileOverview This file has conventions related to localization.
- * 
- * 
  *
  */
 
@@ -85,7 +83,8 @@ enyo.g11n.Char._isIdeoOther = function (num)
 
 //* @public
 /**
-Return true is the first character in the string an Asian ideographic character. 
+    Returns true if the first character in the string an Asian ideographic
+    character. 
 */
 enyo.g11n.Char.isIdeo = function isIdeo(ch) {
 	var num;
@@ -307,7 +306,8 @@ enyo.g11n.Char._punctChars = {
 
 //* @public
 /**
-Returns true if the first character in the string is a punctuation character. 
+    Returns true if the first character in the string is a punctuation
+    character. 
 */
 enyo.g11n.Char.isPunct = function isPunct(ch) {
 	var punctChars, ret;
@@ -362,7 +362,7 @@ enyo.g11n.Char._space = {
 
 //* @public
 /**
-Returns true if the first character in the string is a whitespace character. 
+    Returns true if the first character in the string is a whitespace character.
 */
 enyo.g11n.Char.isSpace = function isSpace(ch) {
 	var num;
@@ -376,17 +376,14 @@ enyo.g11n.Char.isSpace = function isSpace(ch) {
 
 //* @public
 /**
-Upper-case every character in a string.
+    Returns a string containing the same content as the original parameter, but
+    with all characters upper-cased according to the rules of the given locale.
 
-* str (String): string to be upper-cased
-* locale (String): the string is upper-cased using the rules of the given locale. If 
-this parameter is not specified, the function will use the current locale
+    * str (String): The string to be upper-cased
 
-Upper-case every character in a string according to the rules of the given locale. 
-If the locale is not given, the current locale is used.
- 
-Returns a string containing the same content as the original parameter, but with
-all characters upper-cased
+    * locale (String): The string is upper-cased using the rules of the given
+        locale. If this parameter is not specified, the function will use the
+        current locale.
 */
 enyo.g11n.Char.toUpper = function toUpper(str, locale) {
 	var langinfo;
@@ -425,7 +422,7 @@ enyo.g11n.Char.toUpper = function toUpper(str, locale) {
 
 //* @public
 /**
-Returns true if the first character in the string is a letter character. 
+    Returns true if the first character in the string is a letter character.
 */
 enyo.g11n.Char.isLetter = function isLetter(ch) {
 	var c, num, letterChars, ret;
@@ -450,23 +447,24 @@ enyo.g11n.Char.isLetter = function isLetter(ch) {
 };
 
 /**
-- locale (String): the locale for which the alphabetic index chars are being sought.
-This is a required parameter
+    Returns an array of strings containing all of the alphabetic characters that
+    are used as index characters for the current locale. 
 
-Return an array of strings containing all of the alphabetic characters that are
-used as index characters for the current locale. The characters are 
-returned in the order they should appear in the index. An index character 
-is a character under which multiple items in a list can be categorized. In
-most languages, accented versions of a character are considered a 
-variant of the base character, so list items are grouped together under
-the same base character. In other locales, accented characters are
-considered separate characters than the base without the accent, and
-list items starting with the accented character should be grouped under
-a separate header. The symbol "#" is appended to the end of the list
-as the placeholder character representing all strings that do not
-start with any of the alphabetic index chars.
+    * locale (String): The locale for which the alphabetic index chars are being
+        sought. This is a required parameter.
 
-Returns an array of strings containing all the index characters in order
+    The characters are returned in the order in which they should appear in the
+    index. An index character is a character under which multiple items in a
+    list can be categorized. In most languages, accented versions of a character
+    are considered to be variants of the base character, so list items are
+    grouped together under the same base character. In some locales, however,
+    accented characters are considered to be separate from the unaccented base
+    characters, so list items starting with the accented character are grouped
+    under a separate header.
+    
+    The symbol "#" is appended to the end of the list as the placeholder
+    character representing all strings that do not start with any of the
+    alphabetic index chars.
 */
 enyo.g11n.Char.getIndexChars = function getIndexChars(locale) {
 	var indexchars, loc, rb;
@@ -505,23 +503,21 @@ enyo.g11n.Char.getIndexChars = function getIndexChars(locale) {
 
 
 /**
-Converts every character in a string to its corresponding base character
-according to the rules of the given locale.
+    Returns a string containing the same content as the original parameter, but
+    with all characters replaced with their base characters according to the
+    rules of the given locale.
 
-- str (String): string to be de-accented
-- locale (String/Object): if specified, the string is de-accented using 
-the rules of the given locale. If the locale is not specified, this function 
-uses the current UI locale.
+    * str (String): The string to be de-accented
 
-The base character is defined to be
-a version of the same character in the list of alphabetic index chars
-as returned by [[getIndexChars]] that usually does not have
-any accents or diacriticals unless the language considers the character
-with the accent to be a distinct character from the unaccented version.  
- 
-Returns a string containing the same content as the original parameter, but with
-all characters replaced with their base characters
-**/
+    * locale (String/Object): If specified, the string is de-accented using the
+        rules of the given locale. If the locale is not specified, this function
+        uses the current UI locale.
+
+    The base character is defined to be a version of the same character in the
+    list of alphabetic index chars as returned by _getIndexChars_, which usually
+    does not have any accents or diacriticals unless the language considers the
+    character with the accent to be distinct from the unaccented version.
+*/
 enyo.g11n.Char.getBaseString = function getBaseString(str, locale) {
 	var langinfo, loc;
 	
