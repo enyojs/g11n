@@ -2,35 +2,40 @@
  * @name name.js
  * @fileOverview This file has the implementation of the Name formatter object
  * 
- * 
- *
  */
 
 /*globals  G11n enyo*/
 
 //* @public
 /**
-Identifiers for use with the length property of the formatter parameters.
+    Identifiers for use with the length property of the formatter parameters.
 */
 enyo.g11n.Name.shortName = 'short';
 enyo.g11n.Name.mediumName = 'medium';
 enyo.g11n.Name.longName = 'long';
 
 /**
-Creates a formatter object that formats personal names for display.
+    Creates a formatter object that formats personal names for display.
 
-The params object can contain the following properties:
+    The params object can contain the following properties:
 
-* style (String): the format style to use with this name. Default is shortName
-* locale (String): locale to use to format the name. If not specified, this function will use the current formats locale
+    * style (String): The format style to use with this name.
 
-The style parameter should be passed as one of the following contants:
+        The style parameter should be passed as one of the following contants:
 
-* enyo.g11n.Name.shortName: Format the shortest unique name. For most locales, this is the first
-given name and the family name.
-* enyo.g11n.Name.mediumName: Format the most common parts of the name. For most locales, this
-is the short name plus a middle name
-* enyo.g11n.Name.longName: Format all parts of the name that are available
+        * enyo.g11n.Name.shortName (the default): Formats the shortest unique
+            name. For most locales, this is the first given name and the family
+            name.
+
+        * enyo.g11n.Name.mediumName: Formats the most common parts of the name.
+            For most locales, this is the short name plus a middle name.
+
+        * enyo.g11n.Name.longName: Formats all parts of the name that are
+            available.
+
+    * locale (String): Locale to use to format the name. If no value is
+        specified, this function will use the current formatLocale.
+
 
 */
 enyo.g11n.NameFmt = function (params) {
@@ -106,21 +111,21 @@ enyo.g11n.NameFmt.prototype = {
 	
 	//* @public
 	/**
-	Format an enyo.g11n.Name instance for display.
-	
-	If the name does not contain all the parts required for the style, those parts
-	will be left blank.
-	
-	There are two basic styles of formatting: European, and Asian. If this formatter object
-	is set for European style, but an Asian name is passed to the format method, then this
-	method will format the Asian name with a generic Asian template. Similarly, if the
-	formatter is set for an Asian style, and a European name is passed to the format method,
-	the formatter will use a generic European template.
-	
-	This means it is always safe to format any name with a formatter for any locale. You should
-	always get something reasonable as output.
-	
-	This method returns a string containing the formatted name.
+	    Formats an enyo.g11n.Name instance for display and returns a string
+	    containing the formatted name.
+
+	    If the name does not contain all the parts required for the style, the
+	    missing parts will be left blank.
+
+	    There are two basic styles of formatting: European and Asian. If this
+	    formatter object is set for European style, but an Asian name is passed
+	    into the format method, this method will format the Asian name with a
+	    generic Asian template. Similarly, if the formatter is set for an Asian
+	    style, and a European name is passed to the format method, the formatter
+	    will use a generic European template.
+
+	    This means it is always safe to format any name with a formatter for any
+	    locale. You should always get something reasonable as output.
 	*/
 	format: function (name) {
 		var formatted, temp, modified, isAsianName;
