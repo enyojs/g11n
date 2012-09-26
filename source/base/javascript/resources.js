@@ -2,21 +2,20 @@
  * @name resources.js
  * @fileOverview This file has conventions related to resources.
  * 
- * 
  */
 
 /*globals G11n  document enyo $L*/
 
 //* @public
 /**
-Global translation function, for convenience. This is only useful to apps
-that want to translate strings to the current UI language. If you want to
-translate to a different language, or if you want to translate strings for
-a library or package, you need to create a Resources object instead, and
-call its $L method.
+    A global translation function, for convenience. This is only useful to apps
+    that want to translate strings to the current UI language. If you want to
+    translate to a different language, or if you want to translate strings for a
+    library or package, you need to create a Resources object instead, and call
+    its $L method.
 
-If the string does not have a translation in the current language, the 
-argument is returned as-is.
+    If the string does not have a translation in the current language, the
+    argument is returned unmodified.
 */
 $L = function(inText) {
 	if (!$L._resources) {
@@ -30,14 +29,17 @@ $L._resources = null;
 
 //* @public
 /**
-Creates a new bundle of resource strings. The params object may contain the following:
+    Creates a new bundle of resource strings.
+    
+    The passed-in params object may contain the following properties:
 
-* *root* - the path to the root of the current component. For libraries and packages, this
-should be the absolute path to the directory containing the resources directory that contains
-the translations for the component.
-* *locale* - a Locale instance, or a locale spec string, specifying the locale of the resources
-to load. If this parameter is left out, the resources for the current UI locale are loaded.
+    * root: The path to the root of the current component. For libraries and
+        packages, this should be the absolute path to the directory containing
+        the resources directory that contains the translations for the component.
 
+    * locale: a Locale instance, or a locale spec string, specifying the locale
+        of the resources to load. If no value is specified, the resources for
+        the current UI locale are loaded.
 */
 enyo.g11n.Resources = function(params){
 	if (params && params.root) {
@@ -63,20 +65,21 @@ enyo.g11n.Resources = function(params){
 };
 
 /**
-Get a localized file
+    Gets a localized file.
 
-* path (String): the path relative to a locale directory to the file to load
+    * path (String): The path, relative to a locale directory, to the file to load
 
-This will search the resources directory looking for the localized version of the file.
-The sequence of places that it looks for the file is as follows:
+    This method will search the resources directory looking for the localized
+    version of the file.  The sequence of places that it looks for the file is
+    as follows:
 
-1. The variant directory, if there is one. (eg. resources/fr/fr/sfr/path)
-1. The region directory, if there is one (eg. resources/fr/fr/path)
-1. The language directory if there is one (eg. resources/fr/path)
-1. The English directory (eg. resources/en/path)
-1. The unlocalized files under the root. (eg. path)
+    1. The variant directory, if there is one (e.g., "resources/fr/fr/sfr/path")
+    2. The region directory, if there is one (e.g., "resources/fr/fr/path")
+    3. The language directory, if there is one (e.g., "resources/fr/path")
+    4. The English directory (e.g., "resources/en/path")
+    5. The unlocalized files under the root (e.g., "path")
 
-If the file cannot be found, this function returns undefined.
+    If the file cannot be found, the function returns undefined.
 */
 enyo.g11n.Resources.prototype.getResource = function (path) {
 	var file;
@@ -130,9 +133,10 @@ enyo.g11n.Resources.prototype.getResource = function (path) {
 };
 
 /**
-Retrieve a translated string. If the string to localize is not found in the resources,
-the original argument is returned unmodified. This means that is always safe to call
-$L because this method will always return something useful.
+    Retrieves a translated string. If the string to localize is not found in the
+    resources, the original argument is returned unmodified. This means that it
+    is always safe to call $L, because this method will always return something
+    useful.
 */
 enyo.g11n.Resources.prototype.$L = function(stringToLocalize){} // dummy for the documentation
 

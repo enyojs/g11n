@@ -2,7 +2,6 @@
  * @name timezone.js
  * @fileOverview This file handles the implementation of the Timezone formatter object
  * 
- * 
  */
 
 /*globals  G11n enyo */
@@ -12,12 +11,12 @@ enyo.g11n._TZ = enyo.g11n._TZ || {};
 
 //* @public
 /**
-Create a new timezone format instance 
+    Creates and returns a new timezone formatter instance.
 
-The params argument is a string that is a timezone id specifier. The specifier has the following format:
+    The params argument is a string that is a timezone id specifier. The
+    specifier has the format:
 
-Zone name (see man tzfile), daylight savings supported, offset from UTC.
-
+        Zone name (see man tzfile), daylight savings supported, offset from UTC.
 */
 enyo.g11n.TzFmt = function (params) {
 	// get the system timezone info and set the current timezone name
@@ -37,7 +36,7 @@ enyo.g11n.TzFmt = function (params) {
 enyo.g11n.TzFmt.prototype = {
 	//* @public
 	/**
-	 Return the time zone as a string.
+	    Returns the time zone as a string.
 	*/
 	toString: function () {
     	if (this.TZ !== undefined) {
@@ -48,12 +47,12 @@ enyo.g11n.TzFmt.prototype = {
 	},
 
 	/**
-	 This set of functions caches the current timezone name (e.g. "PST").
-	 The subscribe: false (default) since timezone most likely does not
-	 change frequently. 
+	     This set of functions caches the current timezone name (e.g. "PST").
+	     The subscribe property defaults to false, since the timezone is not
+	     likely to change frequently. 
 	 
-	 This is for use by DateFmt() in globalization framework,
-	 which needs the current timezone for the 'zzz' specifier.
+	     This is for use by DateFmt() in the globalization framework, which
+	     needs the current timezone for the 'zzz' specifier.
 	 */
 	setTZ: function() {
 		var d = new Date().toString();
@@ -69,9 +68,9 @@ enyo.g11n.TzFmt.prototype = {
 	},
 	
 	/**
-	 Returns the current timezone of the device. The timezone is updated whenever the user
-	 changes it, if set manually, or by the network, if set automatic.
-	 Returns the name of timezone. 
+	    Returns the name of the current timezone. If set manually, the timezone
+	    is updated whenever the user changes it; if set automatically, it is
+	    updated by the network.
 	 */
 	getCurrentTimeZone: function() {
 		if (this.TZ !== undefined) {

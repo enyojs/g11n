@@ -2,17 +2,18 @@
  * @name template.js
  * @fileOverview basic string template formatting routines used by the whole g11n package.
  * 
- * 
  */
 
 /*globals G11n  enyo*/
 
 //* @public
 /**
-Return a Template object that substitutes the strings into a specified string template.
+    Creates and returns a Template object that substitutes the strings into a
+    specified string template.
 
-The template parameter is a string to substitute into. The pattern parameter is an 
-optional parameter that overrides the normal #{foo} substitution format.
+    The template parameter is a string to substitute into. The pattern parameter
+    is an optional parameter that overrides the normal #{foo} substitution
+    format.
 */
 
 enyo.g11n.Template = function(template, pattern) {
@@ -76,61 +77,59 @@ enyo.g11n.Template.prototype._evalHelper = function(template, data) {
 
 //* @public
 /**
-Substitutes the strings into a specified string template 
+    Substitutes the strings into a specified string template.
 
-The data parameter is an object giving values to interpolate
-into the template string.
+    The data parameter is an object giving values to interpolate into the
+    template string.
 
-    var source = '\\#{zero} #{zero} #{woot.blah}...';
-    var model = {zero:0, woot:{blah: "Zeta"}};
-    var template = new enyo.g11n.Template(source);
+        var source = '\\#{zero} #{zero} #{woot.blah}...';
+        var model = {zero:0, woot:{blah: "Zeta"}};
+        var template = new enyo.g11n.Template(source);
 
-    // should return ---> '#{zero} 0 Zeta...'
-    template.evaluate(model);
-
+        // should return ---> '#{zero} 0 Zeta...'
+        template.evaluate(model);
 */
 enyo.g11n.Template.prototype.evaluate = function (data) {
 	return this._evalHelper(this.template, data);
 };
 
 /**
-Format a string template as a choice string according to the given value and model.
+    Formats a string template as a choice string according to the given value
+    and model.
 
-A choice string is a sequence of choices separated by a vertical 
-bar character. Each choice has a value to match, followed by a hash character,
-followed by the string to use if the value matches. The string
-cannot contain a vertical bar. The strings may contain references
-to objects in the given model that are use to format that string. The syntax 
-for the value of "2>" means "greater than 2". Similarly, the syntax "2<" 
-means "less than 2". If the value of the choice is empty, that means to 
-use that choice as the default string.
+    A choice string is a sequence of choices separated by a vertical bar
+    character. Each choice has a value to match, followed by a hash character,
+    followed by the string to use if the value matches. The string cannot
+    contain a vertical bar. The strings may contain references to objects in the
+    given model that are use to format that string. The syntax "2>" means
+    "greater than 2". Similarly, the syntax "2<" means "less than 2". If the
+    value of the choice is empty, that means to use that choice as the default
+    string.
 
-Example choice string:
-<pre>
-0#There are no files|1#There is one file|9>#There are #{num} files.|#There are some files.
-</pre>
+    Here is an example choice string:
 
-In the above example, if the value passed in with the first
-parameter is 0, then use the first string "There are no files".
-If the value passed in with the first parameter is 1, then use 
-the second string "There is one file". If the value is more than 9,
-use the string, "There are #{num} files." If no other choices 
-match, then the default string of "There are some files." is used 
-instead.
+        0#There are no files|1#There is one file|9>#There are #{num} files.|#There are some files.
 
-The strings may contain references (such as #{num}) to objects in 
-the given model that are used to format the final string.
+    In this example, if the value passed in with the first parameter is 0, then
+    the first string ("There are no files") is used. If the value passed in with
+    the first parameter is 1, then the second string ("There is one file") is
+    used. If the value is greater than 9, the string "There are #{num} files."
+    is used. If no other choices match, then the default string ("There are some
+    files.") is used.
 
-When this function is called this way:
+    The strings may contain references (such as #{num}) to objects in the given
+    model that are used to format the final string.
 
-    var files = 2185;
-    var model = { num: files };
-    var template = new enyo.g11n.Template("0#There are no files|1#There is one file|1<#There are #{num} files.");
-    var str = template.formatChoice(files, model);
+    When the function is called this way:
 
-The result in str would be:
-There are 2185 files.
+        var files = 2185;
+        var model = { num: files };
+        var template = new enyo.g11n.Template("0#There are no files|1#There is one file|1<#There are #{num} files.");
+        var str = template.formatChoice(files, model);
 
+    The result in str would be:
+
+        There are 2185 files.
 */
 enyo.g11n.Template.prototype.formatChoice = function(value, model) {
 	try {
@@ -186,4 +185,3 @@ enyo.g11n.Template.prototype.formatChoice = function(value, model) {
 		return '';
 	}
 };
-
