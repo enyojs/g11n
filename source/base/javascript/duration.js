@@ -9,29 +9,29 @@
 
 //* @public
 /**
-Create a new duration (time interval) formatter object.
+    Creates and returns a duration formatter object that can format time 
+    intervals according to the given parameters.
 
-* params (String/Object): parameters that control the output format
+    * params (String/Object): Parameters that control the output format
 
-The params may contain the following properties:
+        The params may contain the following properties:
 
-* locale: locale to use to format the date. If not specified, the current format
-locale of the device is used.
-* style: style of duration to use. Valid styles are 'short', 'medium', 'long', 
-and 'full'. The default is 'short' if not specified.
+        * locale: Locale to use to format the date. If not specified, the
+            current format locale of the device is used.
 
-The styles form progressively longer strings. Examples of each style for US English:
+        * style: Style of duration to use.  Valid values are 'short', 'medium',
+            'long', and 'full'. Defaults to 'short' if no value is specified.
 
-* short: 2y 6m 2w 5d 14:21:56
-* medium: 2 yr 6 mo 2 wk 5 dy 14:21:56
-* long: 2 yrs 6 mos 2 wks 5 days 14 hrs 21 min 56 sec
-* full: 2 years, 6 months, 2 weeks, 5 days, 14 hours, 21 minutes and 56 seconds
+        The style values correspond to progressively longer strings. Here
+        are examples of each style for U.S. English:
 
-The format, the language of the words in the text, and the separator characters are 
-correct for the given locale.
+        * short: 2y 6m 2w 5d 14:21:56
+        * medium: 2 yr 6 mo 2 wk 5 dy 14:21:56
+        * long: 2 yrs 6 mos 2 wks 5 days 14 hrs 21 min 56 sec
+        * full: 2 years, 6 months, 2 weeks, 5 days, 14 hours, 21 minutes and 56 seconds
 
-Returns a duration formatter object that can format time intervals according to the 
-given parameters.
+    The format, the language of the words in the text, and the separator
+    characters are localized for the given locale.
 */
 enyo.g11n.DurationFmt = function(params) {
 	if (typeof(params) === 'undefined') {
@@ -129,57 +129,61 @@ enyo.g11n.DurationFmt = function(params) {
 
 //* @public
 /**
-Format a duration (time interval) according to the format set up in the 
-constructor of this formatter instance.
+    Returns a string in which the passed-in duration object is formatted
+    according to the settings of the current formatter instance. If the duration
+    parameter is empty or undefined, an empty string is returned.
 
-* duration (Object): a javascript object containing fields to format as a string.
+    * duration (Object): A JavaScript object containing fields to format as a
+        string
 
-The duration object can contain any or all of these properties:
+        The duration object may contain any or all of these properties:
 
-* years
-* months
-* weeks
-* days
-* hours
-* minutes
-* seconds
+        * years
+        * months
+        * weeks
+        * days
+        * hours
+        * minutes
+        * seconds
 
-Each property should have an integer value, or should be left out completely.
+        Each property should either have an integer value or be omitted from the
+        object.
 
-If any property is left out of the duration object or has the value of 0, it will not be 
-included in the formatted string output. The only exceptions are 0 minutes or 0 seconds 
-in the short and medium formats. In those cases, double zeros are included to make the 
-time correct.
+    Any property that is left out of the duration object or has a value of 0
+    will not be included in the formatted string output. The only exceptions are
+    _0 minutes_ or _0 seconds_ in the short and medium formats. In these cases,
+    double zeroes are included in order to make the time correct.
 
-Example: 14 hours even would be formatted in US English as
+    For example, in U.S. English, 14 hours even would be formatted as
+    follows:
 
-* short: 14:00:00
-* medium: 14:00:00
-* long: 14 hr
-* full: 14 hours
+    * short: 14:00:00
+    * medium: 14:00:00
+    * long: 14 hr
+    * full: 14 hours
 
-If any of the properties contain a number that is too big for the field, this formatter
-will NOT recalculate. It is up to the caller to make sure the elements are in the 
-desired range. This formatter will also not truncate any propeties to approximate a time
-interval. If an approximate time interval is desired, it is up to the caller to leave
-off fields in the duration parameter.
+    If any property contains a number that is too big for the field, the
+    formatter will NOT recalculate. It is up to the caller to make sure the
+    elements are in the desired range. In addition, this formatter will not
+    truncate any propeties to approximate a time interval. If an approximate
+    time interval is desired, it is up to the caller to leave off fields in the
+    duration parameter.
 
-This also means it is possible to format a duration with a relatively large number in 
-any property without it being "wrapped" down to the normal range for that property when
-formatted as a time of day or as a normal day of the year. 
+    This also means it is possible to format a duration with a relatively large
+    number in any property without its being "wrapped" down to the normal range
+    for that property when formatted as a time of day or as a normal day of the
+    year. 
 
-Example: A process that took 174 hours and 23 seconds to complete would be formatted as
+    For example, a process that took 174 hours and 23 seconds to complete would
+    have its duration formatted as:
 
-* short: 174:00:23
-* medium: 174:00:23
-* long: 174 hr 23 sec
-* full: 174 hours and 23 seconds
+    * short: 174:00:23
+    * medium: 174:00:23
+    * long: 174 hr 23 sec
+    * full: 174 hours and 23 seconds
 
-The 174 hours is NOT brought down to the the normal daily range for hours of 0-24.
-
-Returns a string with the date formatted according to the style and locale set up for 
-this formatter instance. If the duration parameter is empty or undefined, an empty 
-string is returned.
+    The 174 hours are NOT wrapped down to the the normal daily range for hours,
+    0-24.
 */
 enyo.g11n.DurationFmt.prototype.format = function(duration) {
 	var dates = [],

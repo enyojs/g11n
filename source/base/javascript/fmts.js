@@ -2,20 +2,18 @@
  * @name fmts.js
  * @fileOverview basic handling of the format info files
  * 
- * 
  */
 
 /*globals EnvironmentUtils  G11n enyo*/
 
 //* @public
 /**
-Create an instance of a formats information object.
+    Creates and returns an instance of a formats information object.  This
+    instance has various pieces of information about the given locale.
 
-* params: currently, the only parameter that is used is "locale". Leave this argument undefined to 
-cause this instance to use the current device formats locale.
- 
-Return an instance of a formats information object. This instance has various pieces of information 
-about the given locale. 
+    * params: Currently, the only parameter used is "locale". Leave this
+        argument undefined to cause this instance to use the current device
+        formats locale. 
 */
 enyo.g11n.Fmts = function Fmts(params){
 	 var locale;
@@ -59,9 +57,8 @@ enyo.g11n.Fmts = function Fmts(params){
 
 //* @public
 /**
-Tell whether or not the user is currently using a 12-hour or 24-hour clock on this device.
-
-Returns true if 12-hour, and false for 24-hour.
+    Returns true if a 12-hour clock is currently in use; false if 24-hour clock
+    is in use.
 */
 enyo.g11n.Fmts.prototype.isAmPm = function(){
 	if (typeof(this.twelveHourFormat) === 'undefined') {
@@ -73,8 +70,8 @@ enyo.g11n.Fmts.prototype.isAmPm = function(){
 
 //* @public
 /**
-Return true if this locale uses a 12-hour clock to format times,
-or false for a 24-hour clock.
+    Returns true if the current locale uses a 12-hour clock to format times;
+    false if it uses a 24-hour clock.
 */
 enyo.g11n.Fmts.prototype.isAmPmDefault = function(){
 	return this.dateTimeFormatHash.is12HourDefault;
@@ -82,14 +79,13 @@ enyo.g11n.Fmts.prototype.isAmPmDefault = function(){
 
 //* @public
 /**
-Return the day of the week that represents the first day of the week in the
-current locale. The numbers represent the days of the week as such:
+    Returns an integer representing the first day of the week in the current
+    locale. The numbers correspond to the days of the week as follows:
 
-* 0 - Sunday
-* 1 - Monday
-* 2 - Tuesday
-* etc.
- 
+    * 0 - Sunday
+    * 1 - Monday
+    * 2 - Tuesday
+    * etc.
 */
 enyo.g11n.Fmts.prototype.getFirstDayOfWeek = function(){
 	return this.dateTimeFormatHash.firstDayOfWeek;
@@ -97,14 +93,9 @@ enyo.g11n.Fmts.prototype.getFirstDayOfWeek = function(){
 
 //* @public
 /**
-Returns the order of the fields in a formatted date for the current locale. This
-function returns an array of strings in the correct order. The strings it returns
-are one of:
-
-* month
-* day
-* year
-
+    Returns the order of the fields in a formatted date for the current locale.
+    This function returns an array of three strings--having the values "month",
+    "day", and "year"--arranged in the proper order.
 */
 enyo.g11n.Fmts.prototype.getDateFieldOrder = function(){
 	if (!this.dateTimeFormatHash){
@@ -117,16 +108,11 @@ enyo.g11n.Fmts.prototype.getDateFieldOrder = function(){
 
 //* @public
 /**
-Returns the order of the fields in a formatted time for the current locale. This
-function returns an array of strings in the correct order. The strings it returns
-are one of:
+    Returns the order of the fields in a formatted time for the current locale.
+    This function returns an array of three strings--having the values "minute",
+    "hour", and "ampm"--arranged in the proper order.
 
-* minute
-* hour
-* ampm
-
-The last string represents where the AM or PM marker should go for 12-hour clocks.
-
+    "ampm" indicates where the AM or PM marker should go for 12-hour clocks.
 */
 enyo.g11n.Fmts.prototype.getTimeFieldOrder = function(){
 
@@ -140,8 +126,9 @@ enyo.g11n.Fmts.prototype.getTimeFieldOrder = function(){
 
 //* @public
 /**
-Returns the medium-sized abbreviation for the month names in this locale. In most locales, this
-is the 3-letter abbreviations of the month names.
+    Returns an array of the medium-sized abbreviations for the month names in
+    this locale.  In most cases, these will be the 3-letter abbreviations of the
+    month names.
 */
 enyo.g11n.Fmts.prototype.getMonthFields = function(){
 	if (this.dateTimeHash){
@@ -152,7 +139,8 @@ enyo.g11n.Fmts.prototype.getMonthFields = function(){
 };
 
 /**
-Returns the string for AM in the current locale, or the default AM if it cannot be found.
+    Returns the string for AM in the current locale, or the default "AM" if it
+    cannot be found.
 */
 enyo.g11n.Fmts.prototype.getAmCaption = function(){
 	if (this.dateTimeHash){
@@ -164,7 +152,8 @@ enyo.g11n.Fmts.prototype.getAmCaption = function(){
 };
 
 /**
-Returns the string for PM in the current locale, or the default PM if it cannot be found.
+    Returns the string for PM in the current locale, or the default "PM" if it
+    cannot be found.
 */
 enyo.g11n.Fmts.prototype.getPmCaption = function(){
 	if (this.dateTimeHash){
@@ -176,46 +165,49 @@ enyo.g11n.Fmts.prototype.getPmCaption = function(){
 };
 
 /**
-Returns the measurement system for the current locale. The possible values are "uscustomary",
-"imperial", and "metric". The default is "metric" if not otherwise specified in the formats 
-config file.
+    Returns the measurement system for the current locale. The possible values
+    are "uscustomary", "imperial", and "metric". Defaults to "metric" if not
+    otherwise specified in the formats config file.
 */
 enyo.g11n.Fmts.prototype.getMeasurementSystem = function(){
 	return (this.dateTimeFormatHash && this.dateTimeFormatHash.measurementSystem) || "metric";
 };
 
 /**
-Returns the default paper size for printers in the current locale. The possible values 
-are "letter" (ie. 8½" x 11") or "A4" (210mm × 297mm). The default is "A4" if not otherwise
-specified in the formats config file.
+    Returns the default paper size for printers in the current locale. The
+    possible values are "letter" (ie. 8½" x 11") or "A4" (210mm × 297mm).
+    Defaults to "A4" if not otherwise specified in the formats config file.
 */
 enyo.g11n.Fmts.prototype.getDefaultPaperSize = function(){
 	return (this.dateTimeFormatHash && this.dateTimeFormatHash.defaultPaperSize) || "A4";
 };
 
 /**
-Returns the default photo size for printers in the current locale. The possible values 
-are "10X15CM" (ie. 10 by 15 cm), "4x6" (4 x 6 inches), or "L" (roughly 9 × 13 cm). The 
-default is "10X15CM" if not otherwise specified in the formats config file.
+    Returns the default photo size for printers in the current locale. The
+    possible values are "10X15CM" (ie. 10 by 15 cm), "4x6" (4 x 6 inches), or
+    "L" (roughly 9 × 13 cm). Defaults to "10X15CM" if not otherwise specified in
+    the formats config file.
 */
 enyo.g11n.Fmts.prototype.getDefaultPhotoSize = function(){
 	return (this.dateTimeFormatHash && this.dateTimeFormatHash.defaultPhotoSize) || "10X15CM";
 };
 
 /**
-Returns the zone ID of the default time zone for the locale. For many locales, there are multiple
-time zones. This function returns the one that either is the most important or contains the 
-largest population. If the current formats object is for an unknown locale, the default time
-zone is GMT (Europe/London).
+    Returns the zone ID of the default time zone for the locale. For many
+    locales, there are multiple time zones. This function returns the one that
+    is either the most important or contains the largest population. If the
+    current formats object is for an unknown locale, the default time zone is
+    GMT (Europe/London).
 */
 enyo.g11n.Fmts.prototype.getDefaultTimeZone = function(){
 	return (this.dateTimeFormatHash && this.dateTimeFormatHash.defaultTimeZone) || "Europe/London";
 };
 
 /**
-Returns whether or not the locale uses an Asian-style script. That is, words are written without 
-spaces between them. Most locales use a Western-style script where words are written with spaces 
-between them. A return value of true from this function means that it is an Asian-style script.
+    Returns true if the current locale uses an Asian-style script--i.e., one in
+    which words are written without spaces between them--otherwise, false. Most
+    locales use a Western-style script, in which words are written with spaces
+    between them.
 */
 enyo.g11n.Fmts.prototype.isAsianScript = function(){
 	if (this.dateTimeFormatHash && typeof(this.dateTimeFormatHash.asianScript) !== 'undefined') {
@@ -225,9 +217,10 @@ enyo.g11n.Fmts.prototype.isAsianScript = function(){
 };
 
 /**
-Returns whether or not the locale uses traditional Han Chinese characters or simplified. If the
-return value is true, then this locale uses traditional, and false means simplified. This function
-returns false for all locales that do not use Han Chinese characters.
+    Returns true if the locale uses traditional Han Chinese characters, as
+    opposed to simplified characters.  Returns false for locales that use
+    simplified characters, as well as for locales that do not use Han Chinese
+    characters at all.
 */
 enyo.g11n.Fmts.prototype.isHanTraditional = function(){
 	if (this.dateTimeFormatHash && typeof(this.dateTimeFormatHash.scriptStyle) !== 'undefined') {
@@ -237,11 +230,11 @@ enyo.g11n.Fmts.prototype.isHanTraditional = function(){
 }
 
 /**
-Returns a string that indicates the direction of written text in this locale. Possible values are:
+    Returns a string indicating the direction of written text in this locale.
+    Possible values are:
 
-* ltr - left to right (Western and Asian languages)
-* rtl - right to left (Arabic, Farsi, and Hebrew)
-
+    * ltr - left to right (Western and Asian languages)
+    * rtl - right to left (Arabic, Farsi, and Hebrew)
 */
 enyo.g11n.Fmts.prototype.textDirection = function(){
 	return this.dateTimeFormatHash && this.dateTimeFormatHash.scriptDirection || 'ltr';
