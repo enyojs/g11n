@@ -1,8 +1,7 @@
 /*$
  * @name loadfile.js
  * @fileOverview basic config file loading routines used by the whole g11n package.
- * 
- * 
+ *
  */
 
 /*globals G11n  IMPORTS root document enyo*/
@@ -13,7 +12,7 @@ enyo.g11n.Utils = enyo.g11n.Utils || function() {};
 enyo.g11n.Utils._fileCache = {};
 
 /**
-	Finds the root window
+	Finds and returns the root window.
 */
 enyo.g11n.Utils._getRootWindow = function() {
 	var w = window.opener || window.rootWindow || window.top || window;
@@ -24,7 +23,7 @@ enyo.g11n.Utils._getRootWindow = function() {
 }
 
 /**
-	Return a string with the URL that is the root path of the application.
+	Returns a string with the URL that is the root path of the application.
 */
 enyo.g11n.Utils._fetchAppRootPath = function() {
 	var r = enyo.g11n.Utils._getRootWindow();
@@ -94,19 +93,21 @@ enyo.g11n.Utils._loadFile = function _loadFile(path) {
 };
 
 /**
-getNonLocaleFile(params) - load a json file from disk and convert it to a javascript object
-- params (Object): parameters controlling the loading of the file.
+    Loads a JSON file from disk, converts it to a JavaScript object, and returns
+    the object.
 
-Return a javascript object that parsed json file. The object is kept around in the
-cache until the
-timeout period has elapsed, at which point it may be unloaded from memory when
-a routine calls releaseAllJsonFiles, and the garbage collector runs.
+    * params (Object): Parameters controlling the loading of the file
 
-Params can contain:
+        The params object may contain the following properties:
 
-* root: absolute path to which the path section is relative
-* path: relative path to the json file from the root, including the file name
-* cache: if set to false, don't cache the resulting json. Default is true to cache the json.
+        * root: Absolute path to which the path section is relative
+        * path: Relative path to the JSON file from the root, including the file name
+        * cache: If set to false, the resulting JSON is not cached. Default is true
+            to cache the JSON.
+
+    The JavaScript object is kept in the cache until the timeout period has
+    elapsed, at which point it may be unloaded from memory when
+    _releaseAllJsonFiles_ is called and the garbage collector runs.
 */
 enyo.g11n.Utils.getNonLocaleFile = function getNonLocaleFile(params) {
 	var json, rootPath, fullPath;
@@ -151,23 +152,33 @@ enyo.g11n.Utils.getNonLocaleFile = function getNonLocaleFile(params) {
 };
 
 /**
-getJsonFile(params) - load a json file from disk and convert it to a javascript object
-- params (Object): parameters controlling the loading of the file.
+    Loads a JSON file from disk, converts it to a JavaScript object, and returns
+    the object.
 
-Return a javascript object that parsed json file. The object is kept around until the
-timeout period has elapsed, at which point it may be unloaded from memory when
-a routine calls releaseAllJsonFiles, and the garbage collector runs.
+    * params (Object): Parameters controlling the loading of the file
 
-Params can contain:
+        The params object may contain the following properties:
 
-* root: root of the package, app, or library where the json files can be found. 
-* path: path relative to the root underneath which the resources dir can be found
-* locale: a locale instance that names which locale to load the json file for.
-* prefix: an optional prefix for the file name. File names will be calculated as prefix + locale name + ".json"
-* cache: if set to false, don't cache the resulting json. Default is true to cache the json.
-* *merge: if set to true, will merge the variant, region and language json files according to rules defined in (define rules). Default is set to false.
-* type: one of "language", "region", or "either". Default is "either". This loads files specific to the language name, the region name, or either one if they are available.
+        * root: Root of the package, app, or library where the JSON files can
+            be found.
+        * path: Path relative to the root, underneath which the resources dir
+            can be found.
+        * locale: A locale instance that names which locale to load the JSON
+            file for.
+        * prefix: An optional prefix for the file name. File names are
+            constructed as _prefix + locale name + ".json"_.
+        * cache: If set to false, the resulting JSON is not cached. Default is
+            true to cache the JSON.
+        * merge: If set to true, the variant, region and language JSON files are
+            merged according to rules defined in (define rules). Default is
+            false.
+        * type: One of "language", "region", or "either". This loads files
+            specific to the language name, the region name, or either one if
+            available. Default is "either".
 
+    The JavaScript object is kept in the cache until the timeout period has
+    elapsed, at which point it may be unloaded from memory when
+    _releaseAllJsonFiles_ is called and the garbage collector runs.
 */
 enyo.g11n.Utils.getJsonFile = function getJsonFile(params) {
 	var json, path, rootPath, prefix, lang, reg, reg2, variant, cachePath;
@@ -255,8 +266,8 @@ enyo.g11n.Utils.getJsonFile = function getJsonFile(params) {
 };
 
 /**
-Merge an array of string tables together into a single table where the strings from later tables
-override strings with the same key from earlier tables.
+    Merges an array of string tables together into a single table. Strings from
+    later tables override strings with the same key from earlier tables.
 */
 enyo.g11n.Utils._merge = function _merge(tables) {
 	var i, len, mergedTable = {};
@@ -267,24 +278,22 @@ enyo.g11n.Utils._merge = function _merge(tables) {
 };
 
 /**
-releaseAllJsonFiles(timeout, all) - release json files from the cache
-- timeout (Number) - only expire and purge files that are older than this number of 
-milliseconds. If this parameter is not given, the default is 60000ms. (1 minute)
-- all (Boolean) - if true, purges all files. If false or not defined, files that
-belong to any of the current locales will be kept in memory, as they are most likely 
-to be used again soon
+    Expires and purges all JSON files from the cache that are older than the
+    passed-in timeout limit, returning the number of items removed.
 
-Expires and purges all json files from the cache that are older than the timeout 
-limit. cache guarantees that at least one
-reference to the object will exist in memory for the length of the timeout period so that
-the garbage collector will not collect it. If other code still
-has a reference to an object loaded with getJsonFile, the object will stay around in 
-memory until the reference to it is removed. 
+    * timeout (Number) - Only files that are older than this number of
+        milliseconds are expired and purged. If this parameter is not given, the
+        default is 60000ms (i.e., 1 minute).
 
-The timeout parameter specifies the age in milliseconds above which object will be expired
-and purged from the cache. 
+    * all (Boolean) - If true, all files are purged; if false or undefined,
+        files that belong to any of the current locales will be kept in memory,
+        as they are likely to be used again soon.
 
-Returns the number of items expired from the cache.
+    Caching guarantees that at least one reference to an object will exist in
+    memory for the length of the timeout period, so that the garbage collector
+    will not collect it. If other code still has a reference to an object loaded
+    with _getJsonFile_, the object will remain in memory until the reference to
+    it is removed. 
 */
 enyo.g11n.Utils.releaseAllJsonFiles = function releaseAllJsonFiles(timeout, all) {
 	var now = new Date(),
