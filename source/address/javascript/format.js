@@ -9,16 +9,17 @@
 
 //* @public
 /**
-Create a new formatter object to format physical addresses in a particular way.
+    Creates and returns a new formatter object that can format multiple
+    addresses.
 
-The params object may contain the following properties, both of which are optional:
+    The params object may contain the following properties, both of which are
+    optional:
 
-* *locale* - the locale to use to format this address. If not specified, it uses the
-formats locale of the device.
-* *style* - the style of this address. The default style for each country usually includes
-all valid fields for that country.
+    * locale: The locale to use to format this address. If no value is
+        specified, the formatsLocale is used.
 
-Returns a formatter instance that can format multiple addresses.
+    * style: The style of this address. The default style for each country
+        usually includes all valid fields for that country.
 */
 enyo.g11n.AddressFmt = function(params) {
 	var formatInfo, format;
@@ -59,22 +60,23 @@ enyo.g11n.AddressFmt = function(params) {
 };
 
 /**
-This function formats a physical address (enyo.g11n.Address instance) for display. 
-Whitespace is trimmed from the beginning and end of final resulting string, and 
-multiple consecutive whitespace characters in the middle of the string are 
-compressed down to 1 space character.
+    Formats a physical address (an enyo.g11n.Address instance) for display and
+    returns the formatted address as a String. Whitespace is trimmed from the
+    beginning and end of the final resulting string, and multiple consecutive
+    whitespace characters in the middle of the string are compressed down to one
+    space character.
 
-If the Address instance is for a locale that is different than the locale for this
-formatter, then a hybrid address is produced. The country name is located in the
-correct spot for the current formatter's locale, but the rest of the fields are
-formatted according to the default style of the locale of the actual address.
+    If the passed-in Address instance is for a locale different from that of
+    this formatter, a hybrid address is produced. The country name is located in
+    the correct spot for the current formatter's locale, but the rest of the
+    fields are formatted according to the default style of the locale of the
+    actual address.
 
-Example: a mailing address in China, but formatted for the US might produce the words
-"People's Republic of China" in English at the last line of the address, and the 
-Chinese-style address will appear in the first line of the address. In the US, the
-country is on the last line, but in China the country is usually on the first line.
-
-Returns a String containing the formatted address.
+    For example, if a mailing address for a location in China is formatted for
+    the U.S., it might produce the words "People's Republic of China" in English
+    as the last line of the address, while the Chinese-style address appears in
+    the first line of the address. In the U.S., the country is placed on the
+    last line, but in China, the country is typically on the first line.
 */
 enyo.g11n.AddressFmt.prototype.format = function (address) {
 	var ret, template, other, format;

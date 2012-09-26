@@ -9,36 +9,33 @@ Copyright 2010 HP, Inc.  All rights reserved.
 
 //* @public
 /**
-Create a new Address instance and parse a physical address.
+    Creates a new Address instance and parses a physical address, returning a
+    JavaScript object containing the extracted address data in its properties.
 
-* address (String): free-form address to parse, or a javascript object
-containing the fields
-* params (Object): parameters to the parser.
+    * address (String): Free-form address to parse, or a JavaScript object
+        containing the fields
 
-locale to use to parse the address. If not specified, 
-this function will use the current locale
+    * params (Object): Parameters controlling the behavior of the parser
 
-This function parses a physical address written in a free-form string. 
-It returns an object with a number of properties from the list below 
-that it may have extracted from that address.
+        The params object's locale property specifies the locate to use when
+        parsing the address. If no value is specified, this function will use
+        the current locale.
 
-The following is a list of properties that the algorithm will return:
+    The returned JavaScript object may contain the following properties:
 
-* streetAddress: The street address, including house numbers and all
-* locality: the locality of this address (usually a city or town) 
-* region: the region where the locality is located. In the US, this
-corresponds to states
-* postalCode: country-specific code for expediting mail. In the US, 
-this is the zip code 
-* country: the country of the address 
+    * streetAddress: The street address, including house number
+    * locality: The locality of the address (usually a city or town) 
+    * region: The region where the locality is located. In the U.S., this
+        corresponds to the state.
+    * postalCode: Country-specific code for expediting mail. In the U.S., this
+        is the zip code.
+    * country: The country of the address 
 
-For any individual property, if the address does not contain that
-property, it is left out.
+    For any individual property, if the address does not contain that property,
+    it is left out of the returned object.
 
-When an address cannot be parsed properly, the entire address will be placed
-into the streetAddress property.
-
-Returns an object with the various properties listed above.
+    When an address cannot be parsed properly, the entire address will be placed
+    into the streetAddress property.
 */
 enyo.g11n.Address = function (freeformAddress, params) {
 	var addressInfo,
