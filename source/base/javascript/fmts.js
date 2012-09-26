@@ -8,8 +8,8 @@
 
 //* @public
 /**
-    Creates and returns an instance of a formats information object.  This
-    instance has various pieces of information about the given locale.
+    Creates and returns an instance of a formats information object.  The
+    instance contains various pieces of information about the given locale.
 
     * params: Currently, the only parameter used is "locale". Leave this
         argument undefined to cause this instance to use the current device
@@ -94,8 +94,8 @@ enyo.g11n.Fmts.prototype.getFirstDayOfWeek = function(){
 //* @public
 /**
     Returns the order of the fields in a formatted date for the current locale.
-    This function returns an array of three strings--having the values "month",
-    "day", and "year"--arranged in the proper order.
+    This function returns an array of three strings--with the values "month",
+    "day", and "year"--arranged in the proper order for the locale.
 */
 enyo.g11n.Fmts.prototype.getDateFieldOrder = function(){
 	if (!this.dateTimeFormatHash){
@@ -109,8 +109,8 @@ enyo.g11n.Fmts.prototype.getDateFieldOrder = function(){
 //* @public
 /**
     Returns the order of the fields in a formatted time for the current locale.
-    This function returns an array of three strings--having the values "minute",
-    "hour", and "ampm"--arranged in the proper order.
+    This function returns an array of three strings--with the values "minute",
+    "hour", and "ampm"--arranged in the proper order for the locale.
 
     "ampm" indicates where the AM or PM marker should go for 12-hour clocks.
 */
@@ -175,7 +175,7 @@ enyo.g11n.Fmts.prototype.getMeasurementSystem = function(){
 
 /**
     Returns the default paper size for printers in the current locale. The
-    possible values are "letter" (ie. 8½" x 11") or "A4" (210mm × 297mm).
+    possible values are "letter" (ie. 8½" x 11") and "A4" (210mm × 297mm).
     Defaults to "A4" if not otherwise specified in the formats config file.
 */
 enyo.g11n.Fmts.prototype.getDefaultPaperSize = function(){
@@ -184,7 +184,7 @@ enyo.g11n.Fmts.prototype.getDefaultPaperSize = function(){
 
 /**
     Returns the default photo size for printers in the current locale. The
-    possible values are "10X15CM" (ie. 10 by 15 cm), "4x6" (4 x 6 inches), or
+    possible values are "10X15CM" (ie. 10 by 15 cm), "4x6" (4 x 6 inches), and
     "L" (roughly 9 × 13 cm). Defaults to "10X15CM" if not otherwise specified in
     the formats config file.
 */

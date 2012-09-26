@@ -17,7 +17,7 @@
         The params may contain the following properties:
 
         * locale: Locale to use to format the date. If not specified, the
-            current format locale of the device is used.
+            current format locale is used.
 
         * style: Style of duration to use.  Valid values are 'short', 'medium',
             'long', and 'full'. Defaults to 'short' if no value is specified.
@@ -129,9 +129,9 @@ enyo.g11n.DurationFmt = function(params) {
 
 //* @public
 /**
-    Returns a string in which the passed-in duration object is formatted
-    according to the settings of the current formatter instance. If the duration
-    parameter is empty or undefined, an empty string is returned.
+    Returns a string in which the passed-in duration is formatted according to
+    the settings of the current formatter instance. If the duration parameter is
+    empty or undefined, an empty string is returned.
 
     * duration (Object): A JavaScript object containing fields to format as a
         string
@@ -154,8 +154,7 @@ enyo.g11n.DurationFmt = function(params) {
     _0 minutes_ or _0 seconds_ in the short and medium formats. In these cases,
     double zeroes are included in order to make the time correct.
 
-    For example, in U.S. English, 14 hours even would be formatted as
-    follows:
+    For example, in U.S. English, 14 hours even would be formatted as follows:
 
     * short: 14:00:00
     * medium: 14:00:00
@@ -164,9 +163,9 @@ enyo.g11n.DurationFmt = function(params) {
 
     If any property contains a number that is too big for the field, the
     formatter will NOT recalculate. It is up to the caller to make sure the
-    elements are in the desired range. In addition, this formatter will not
+    elements are in the desired range. In addition, the formatter will not
     truncate any propeties to approximate a time interval. If an approximate
-    time interval is desired, it is up to the caller to leave off fields in the
+    time interval is desired, it is up to the caller to omit fields in the
     duration parameter.
 
     This also means it is possible to format a duration with a relatively large
