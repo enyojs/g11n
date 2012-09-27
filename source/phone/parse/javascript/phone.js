@@ -2,106 +2,140 @@
  * @name phone.js
  * @fileOverview basic routines to parse phone numbers around the world
  * 
- * 
  */
 
 /*globals  G11n PhoneLoc PhoneUtils StatesData NumPlan GBStateHandler StateHandler */
 
 /**
-Creates a new PhoneNumber instance that parses the phone number parameter for its 
-constituent parts, and store them as separate fields in the returned object.
+    Creates a new PhoneNumber instance that parses the _number_ parameter for
+    its constituent parts and stores them as separate fields in the returned
+    JavaScript object.
 
-* number (String/Object): A free-form phone number to be parsed, or a javascript object containing the already-parsed fields
-* params (Object): parameters that guide the parser in parsing the number. 
+    * number (String/Object): A free-form phone number to be parsed, or a
+        JavaScript object containing the already-parsed fields
 
-The params object may include these properties:
+    * params (Object): Parameters that guide the parser in parsing the number 
 
-* locale (String): The locale with which to parse the number.
-* mcc (String): The MCC associated with the carrier that the phone is currently connected to, if known
+        The _params_ object may include the following properties:
 
+        * locale (String): The locale used to parse the number
 
-This function is locale-sensitive, and will assume any number passed to it is
-appropriate for the given locale. If the MCC is given, this method will assume
-that numbers without an explicit country code have been dialled within the country
-given by the MCC. This affects how things like area codes are parsed. If the MCC
-is not given, this method will use the given locale to determine the country
-code. If the locale is not explicitly given either, then this function uses the 
-current phone region as the default.
+        * mcc (String): The MCC associated with the carrier that the phone is
+            currently connected to, if known
 
-The input number may contain any formatting characters for the given locale. Each 
-field that is returned in the json object is a simple string of digits with
-all formatting and whitespace characters removed.
+    This function is locale-sensitive, and will assume that any number passed in
+    is appropriate for the given locale. If the MCC is given, this method will
+    assume that numbers without an explicit country code have been dialed within
+    the country given by the MCC. This affects how things like area codes are
+    parsed. If the MCC is not given, this method will use the given locale to
+    determine the country code. If the locale is not explicitly given either,
+    then this function will default to using the current phone region.
 
-The number is decomposed into its parts, regardless if the number
-contains formatting characters. If a particular part cannot be extracted from given 
-number, the field will not be returned as a field in the object. If no fields can be
-extracted from the number at all, then all digits found in the string will be 
-returned in the subscriberNumber field. If the number parameter contains no 
-digits, an empty object is returned.
+    The passed-in number may contain any formatting characters for the given
+    locale. Each field that is returned in the JSON object is a simple string of
+    digits with all formatting and whitespace characters removed.
 
-The output json has the following fields:
+    The number is decomposed into its parts, regardless of whether the it
+    contains formatting characters. If a particular part cannot be extracted
+    from the given number, the field will not be returned as a field in the
+    object. If no fields can be extracted from the number at all, then all
+    digits found in the string are returned in the _subscriberNumber_ field. If
+    the _number_ parameter contains no digits, an empty object is returned.
 
-* vsc - if this number starts with a VSC (Vertical Service Code, or "star code"), this field will contain the star and the code together
-* iddPrefix - the prefix for international direct dialing. This can either be in the form of a plus character or the IDD access code for the given locale
-* countryCode - if this number is an international direct dial number, this is the country code
-* cic - for "dial-around" services (access to other carriers), this is the prefix used as the carrier identification code
-* emergency - an emergency services number
-* mobilePrefix - prefix that introduces a mobile phone number
-* trunkAccess - trunk access code (long-distance access)
-* serviceCode - like a geographic area code, but it is a required prefix for various services
-* areaCode - geographic area codes
-* subscriberNumber - the unique number of the person or company that pays for this phone line
-* extension - in some countries, extensions are dialed directly without going through an operator or a voice prompt system. If the number includes an extension, it is given in this field.
-* invalid - this property is added and set to true if the parser found that the number is invalid in the numbering plan for the country. This method will make its best effort at parsing, but any digits after the error will go into the subscriberNumber field
+    The returned object has the following fields:
+
+    * vsc: If this number starts with a VSC (Vertical Service Code, or "star
+        code"), this field will contain the star together with the code.
+
+    * iddPrefix: The prefix for international direct dialing. This can either be
+        in the form of a plus character or the IDD access code for the given
+        locale.
+
+    * countryCode: If the number is an international direct dial number, this
+        will be the country code.
+
+    * cic: For "dial-around" services (access to other carriers), this is the
+        prefix used as the carrier identification code.
+
+    * emergency: An emergency services number
+
+    * mobilePrefix: Prefix that introduces a mobile phone number
+
+    * trunkAccess: Trunk access code (long-distance access)
+
+    * serviceCode: This is like a geographic area code, but is a required prefix
+        for various services
+
+    * areaCode: Geographic area codes
+
+    * subscriberNumber: The unique number of the person or company that pays for
+        this phone line
+
+    * extension: In some countries, extensions are dialed directly without going
+        through an operator or a voice prompt system. If the number includes an
+        extension, it is given in this field.
+
+    * invalid: This property is added and set to true if the parser finds that
+        the number is invalid in the numbering plan for the country. This method
+        makes its best effort at parsing, but any digits after the error will be
+        placed in the _subscriberNumber_ field.
  
-The following rules determine how the number is parsed:
+    The following rules determine how the number is parsed:
 
-* If the number starts with a character that is alphabetic instead of numeric, do
-not parse the number at all. There is a good chance that it is not really a phone number.
-In this case, an empty json object will be returned.
-* If the phone number uses the plus notation or explicitly uses the international direct
-dialing prefix for the given locale, then the country code is identified in 
-the number. The rules of given locale are used to parse the IDD prefix, and then the rules
-of the country in the prefix are used to parse the rest of the number.
-* If a country code is provided as an argument to the function call, use that country's
-parsing rules for the number. This is intended for apps like contacts that know what the 
-country is of the person that owns the phone number and can pass that on as a hint.
-* If the appropriate locale cannot be easily determined, default to using the rules 
-for the current user's region.
+    * If the number starts with a character that is alphabetic instead of
+        numeric, do not parse the number at all. There is a good chance that it
+        is not really a phone number. In this case, an empty JSON object will be
+        returned.
 
-Example: parsing the number "+49 02101345345-78" will give the following properties:
+    * If the phone number uses the plus notation or explicitly uses the
+        international direct dialing prefix for the given locale, then the
+        country code is identified in the number. The rules of given locale are
+        used to parse the IDD prefix, and then the rules of the country in the
+        prefix are used to parse the rest of the number.
 
-     {
-       iddPrefix: "+",
-       countryCode: "49",
-       areaCode: "02101",
-       subscriberNumber: "345345",
-       extension: "78"
-     }
+    * If a country code is provided as an argument to the function call, use
+        that country's parsing rules for the number. This is intended for apps
+        like Contacts that know what the country is for the person that owns the
+        phone number and can pass that on as a hint.
+
+    * If the appropriate locale cannot be easily determined, default to using
+        the rules for the current user's region.
+
+    For example, parsing the number "+49 02101345345-78" will yield an object
+    with the following properties:
+
+        {
+            iddPrefix: "+",
+            countryCode: "49",
+            areaCode: "02101",
+            subscriberNumber: "345345",
+            extension: "78"
+        }
  
-Note that in this example, because international direct dialing is explicitly used 
-in the number, the part of this number after the IDD prefix and country code will be 
-parsed exactly the same way in all locales with German rules (country code 49).
- 
-Regions currently supported are:
- 
-* NANP (North American Numbering Plan) countries - USA, Canada, Bermuda, various Caribbean nations
-* UK
-* Republic of Ireland
-* Germany
-* France
-* Spain
-* Italy
-* Mexico
-* India
-* People's Republic of China
-* Netherlands
-* Belgium
-* Luxembourg
-* Australia
-* New Zealand
-* Singapore
+    Note that, in this example, because international direct dialing is
+    explicitly used in the number, the part of the number after the IDD prefix
+    and country code will be parsed exactly the same way in all locales with
+    German rules (country code 49).
 
+    The regions currently supported are:
+ 
+    * NANP (North American Numbering Plan) countries: USA, Canada, Bermuda,
+        various Caribbean nations
+    * U.K.
+    * Republic of Ireland
+    * Germany
+    * France
+    * Spain
+    * Italy
+    * Mexico
+    * India
+    * People's Republic of China
+    * Netherlands
+    * Belgium
+    * Luxembourg
+    * Australia
+    * New Zealand
+    * Singapore
 */
 enyo.g11n.PhoneNumber = function(number, params) {
 	var i, ch,
@@ -306,61 +340,67 @@ enyo.g11n.PhoneNumber.prototype = {
 
 	//* @public
 	/**
-	 This routine will compare the two phone numbers in an locale-sensitive
-	 manner to see if they possibly reference the same phone number.
-	 
-	 * other (Object): second phone number to compare this one to
-	  
-	 In many places,
-	 there are multiple ways to reach the same phone number. In North America for 
-	 example, you might have a number with the trunk access code of "1" and another
-	 without, and they reference the exact same phone number. This is considered a
-	 strong match. For a different pair of numbers, one may be a local number and
-	 the other a full phone number with area code, which may reference the same 
-	 phone number if the local number happens to be located in that area code. 
-	 However, you cannot say for sure if it is in that area code, so it will 
-	 be considered a somewhat weaker match. 
-	  
-	 Similarly, in other countries, there are sometimes different ways of 
-	 reaching the same destination, and the way that numbers
-	 match depends on the locale.
-	 
-	 The various phone number fields are handled differently for matches. There
-	 are various fields that do not need to match at all. For example, you may
-	 type equally enter "00" or "+" into your phone to start international direct
-	 dialling, so the iddPrefix field does not need to match at all. 
-	 
-	 Typically, fields that require matches need to match exactly if both sides have a value 
-	 for that field. If both sides specify a value and those values differ, that is
-	 a strong non-match. If one side does not have a value and the other does, that 
-	 causes a partial match, because the number with the missing field may possibly
-	 have an implied value that matches the other number. For example, the numbers
-	 "650-555-1234" and "555-1234" have a partial match as the local number "555-1234"
-	 might possibly have the same 650 area code as the first number, and might possibly
-	 not. If both side do not specify a value for a particular field, that field is 
-	 considered matching. 
-	  
-	 The values of following fields are ignored when performing matches:
-	    
-	 * vsc
-	 * iddPrefix
-	 * cic
-	 * trunkAccess
-	 
-	 The values of the following fields matter if they do not match:
-	   
-	 * countryCode - A difference causes a moderately strong problem except for 
-	 certain countries where there is a way to access the same subscriber via IDD 
-	 and via intranetwork dialling
-	 * mobilePrefix - A difference causes a possible non-match
-	 * serviceCode - A difference causes a possible non-match
-	 * areaCode - A difference causes a possible non-match
-	 * subscriberNumber - A difference causes a very strong non-match
-	 * extension - A difference causes a minor non-match
-	  
-	 Returns non-negative integer describing the percentage quality of the match. 100 means 
-	 a very strong match (100%), and lower numbers are less and less strong, down to 0 
-	 meaning not at all a match.
+	    Compares the passed-in phone number with the current one in a
+	    locale-sensitive manner to see if they possibly reference the same
+	    number. The return value is a non-negative integer describing the
+	    percentage quality of the match. 100 means a very strong match (100%),
+	    while lower numbers reflect progressively weaker matches, down to 0,
+	    which indicates that the two numbers do not match at all.
+
+	    * other (Object): A second phone number to compare this one to
+
+	    In many places, there are multiple ways to reach the same phone number.
+	    In North America, for example, you might have a number with the trunk
+	    access code of "1" and another without, both of which reference the
+	    exact same phone number. This is considered a strong match. For a
+	    different pair of numbers, one may be a local number and the other a
+	    full phone number with area code, which may reference the same phone
+	    number if the local number happens to be located in that same area code.
+	    However, you cannot say for sure if that is the case, so the match is
+	    regarded as being somewhat weaker.
+
+	    Similarly, in other countries, there are sometimes different ways of 
+	    reaching the same destination, and the way that numbers match depends on
+	    the locale.
+
+	    The various phone number fields are handled differently for matches.
+	    There are various fields that do not need to match at all. For example,
+	    you may enter either "00" or "+" into your phone to start international
+	    direct dialing, so the _iddPrefix_ field does not need to match at all.
+
+	    Typically, fields that require matches need to match exactly if both
+	    sides have a value for that field. If both sides specify a value and
+	    those values differ, that is a strong non-match. If one side does not
+	    have a value and the other does, the result is a partial match, because
+	    the number with the missing field may possibly have an implied value
+	    that matches the other number. For example, the numbers "650-555-1234"
+	    and "555-1234" have a partial match, as the local number "555-1234"
+	    might possibly have the same 650 area code as the first number, and
+	    might possibly not. If both sides do not specify a value for a
+	    particular field, that field is considered to be matching.
+
+	    The values of following fields are ignored when performing matches:
+
+	    * vsc
+	    * iddPrefix
+	    * cic
+	    * trunkAccess
+
+	    The values of the following fields matter if they do not match:
+
+	    * countryCode: A difference causes a moderately strong problem, except
+	        in countries where the same subscriber may be accessed via IDD and
+	        via intranetwork dialing.
+
+	    * mobilePrefix: A difference causes a possible non-match.
+
+	    * serviceCode: A difference causes a possible non-match.
+
+	    * areaCode: A difference causes a possible non-match.
+
+	    * subscriberNumber: A difference causes a very strong non-match.
+
+	    * extension: A difference causes a minor non-match.
 	 */
 	compare: function (other) {
 		var match = 100,
@@ -475,14 +515,16 @@ enyo.g11n.PhoneNumber.prototype = {
 	},
 	
 	/**
-	 Determine whether or not the other phone number is exactly equal to the current one.
-	  
-	 The difference between the compare method and the equals method is that the compare 
-	 method compares normalized numbers with each other and returns the degree of match,
-	 whereas the equals operator returns true iff the two numbers contain the same fields
-	 and the fields are exactly the same. Functions and other non-phone number properties
-	 are not compared.
-	 */
+	    Determines whether the passed-in phone number is exactly equal to the
+	    current one.
+
+	    The difference between the _compare_ method and the _equals_ method is
+	    that _compare_ compares normalized numbers with each other and returns
+	    the degree of match, whereas the equals operator returns true if and
+	    only if the two numbers contain the same fields and the field values are
+	    exactly the same. Functions and other non-phone number properties are
+	    not compared.
+	*/
 	equals: function equals(other) {
 		var p;
 		
@@ -526,126 +568,147 @@ enyo.g11n.PhoneNumber.prototype = {
 	},
 
 	/**
-	This function normalizes the current phone number to a canonical format and returns a
-	string with that phone number. If parts are missing, this function attempts to fill in those parts.
-		  
-	* options (Object): an object containing options to help in normalizing. 
-		 
-	The options object contains a set of properties that can possibly help normalize
-	this number by providing "extra" information to the algorithm. The options
-	parameter may be null or an empty object if no hints can be determined before
-	this call is made. If any particular hint is not
-	available, it does not need to be present in the options object.
+	    Normalizes the current phone number to a canonical format, allowing for
+	    direct comparison against other normalized numbers.  Returns the
+	    normalized number as an uninterrupted and unformatted string of dialable
+	    digits 
+
+	    If parts of the phone number are missing, this function attempts to fill
+	    in those parts.
+
+	    * options (Object): An object containing options to help in normalizing 
+
+	    The _options_ object contains a set of properties that can possibly help
+	    in normalizing the phone number by providing "extra" information to the
+	    algorithm. This parameter may be null or an empty object if no hints are
+	    available before the call is made. If any particular hint is not
+	    available, it may be omitted from the _options_ object.
 	
-	The following is a list of hints that the algorithm will look for in the options
-	object:
-	
-	* mcc: the mobile carrier code of the current network upon which this 
-	phone is operating. This is translated into an IDD country code. This is 
-	useful if the number being normalized comes from CNAP (callerid) and the
-	MCC is known.
-	* defaultAreaCode: the area code of the phone number of the current
-	device, if available. Local numbers in a person's contact list are most 
-	probably in this same area code.
-	* country: the name or 2 letter ISO 3166 code of the country if it is
-	known from some other means such as parsing the physical address of the
-	person associated with the phone number, or the from the domain name 
-	of the person's email address
-	* networkType: specifies whether the phone is currently connected to a
-	CDMA network or a UMTS network. Valid values are the strings "cdma" and "umts".
-	If one of those two strings are not specified, or if this property is left off
-	completely, this method will assume UMTS.
-	
-	The following are a list of options that control the behaviour of the normalization:
-	
-	* assistedDialing: if this is set to true, the number will be normalized
-	so that it can dialled directly on the type of network this phone is 
-	currently connected to. This allows customers to dial numbers or use numbers 
-	in their contact list that are specific to their "home" region when they are 
-	roaming and those numbers would not otherwise work with the current roaming 
-	carrier as they are. The home region is 
-	specified as the phoneRegion system preference that is settable in the 
-	regional settings app. With assisted dialling, this method will add or 
-	remove international direct dialling prefixes and country codes, as well as
-	national trunk access codes, as required by the current roaming carrier and the
-	home region in order to dial the number properly. If it is not possible to 
-	construct a full international dialling sequence from the options and hints given,
-	this function will not modify the phone number, and will return "undefined".
-	If assisted dialling is false or not specified, then this method will attempt
-	to add all the information it can to the number so that it is as fully
-	specified as possible. This allows two numbers to be compared more easily when
-	those two numbers were otherwise only partially specified.
-	* sms: set this option to true for the following conditions: 
-	  * assisted dialing is turned on
-	  * the phone number represents the destination of an SMS message
-	  * the phone is UMTS 
-	  * the phone is SIM-locked to its carrier 
-	This enables special international direct dialling codes to route the SMS message to
-	the correct carrier. If assisted dialling is not turned on, this option has no
-	affect.
-	* manualDialing: set this option to true if the user is entering this number on
-	the keypad directly, and false when the number comes from a stored location like a 
-	contact entry or a call log entry. When true, this option causes the normalizer to 
-	not perform any normalization on numbers that look like local numbers in the home 
-	country. If false, all numbers go through normalization. This option only has an effect
-	when the assistedDialing option is true as well, otherwise it is ignored. 
-	
-	If both a set of options and a locale are given, and they offer conflicting
-	information, the options will take precedence. The idea is that the locale
-	tells you the region setting that the user has chosen (probably in 
-	firstuse), whereas the the hints are more current information such as
-	where the phone is currently operating (the MCC). 
-	
-	This function performs the following types of normalizations with assisted
-	dialling turned on:
-	
-	# If the current location of the phone matches the home country, this is a
-	domestic call. 
-	  * Remove any iddPrefix and countryCode fields, as they are not needed
-	  * Add in a trunkAccess field that may be necessary to call a domestic numbers 
-	    in the home country
-	# If the current location of the phone does not match the home country,
-	attempt to form a whole international number.
-	  * Add in the area code if it is missing from the phone number and the area code
-	    of the current phone is available in the hints
-	  * Add the country dialling code for the home country if it is missing from the 
-	    phone number
-	  * Add or replace the iddPrefix with the correct one for the current country. The
-	    phone number will have been parsed with the settings for the home country, so
-	    the iddPrefix may be incorrect for the
-	    current country. The iddPrefix for the current country can be "+" if the phone 
-	    is connected to a UMTS network, and either a "+" or a country-dependent 
-	    sequences of digits for CDMA networks.
-	 
-	This function performs the following types of normalization with assisted
-	dialling turned off:
-	 
-	# Normalize the international direct dialing prefix to be a plus or the
-	international direct dialling access code for the current country, depending
-	on the network type.
-	# If a number is a local number (ie. it is missing its area code), 
-	use a default area code from the hints if available. CDMA phones always know their area 
-	code, and GSM/UMTS phones know their area code in many instances, but not always 
-	(ie. not on Vodaphone or Telcel phones). If the default area code is not available, 
-	do not add it.
-	# In assisted dialling mode, if a number is missing its country code, 
-	use the current MCC number if
-	it is available to figure out the current country code, and prepend that 
-	to the number. If it is not available, leave it off. Also, use that 
-	country's settings to parse the number instead of the current format 
-	locale.
-	# For North American numbers with an area code but no trunk access 
-	code, add in the trunk access code.
-	# For other countries, if the country code is added in step 3, remove the 
-	trunk access code when required by that country's conventions for 
-	international calls. If the country requires a trunk access code for 
-	international calls and it doesn't exist, add one.
-	 
-	This method modifies the given phoneNumber object, and also returns a string 
-	containing the normalized phone number that can be compared directly against
-	other normalized numbers. The canonical format for phone numbers that is 
-	returned from this method is simply an uninterrupted and unformatted string 
-	of dialable digits.
+	    The following is a list of hints that the algorithm will look for in the
+	    _options_ object:
+
+	    * mcc: The mobile carrier code of the current network upon which this 
+	        phone is operating. The MCC is translated into an IDD country code.
+	        This is	useful if the number being normalized comes from CNAP
+	        (callerid) and the MCC is known.
+
+	    * defaultAreaCode: The area code of the phone number of the current
+	        device, if available. Local numbers in a person's contact list are
+	        most likely in the same area code.
+
+	    * country: The name or two-letter ISO 3166 code of the country if it is
+	        known from some other means such as parsing the physical address of
+	        the	person associated with the phone number, or the from the domain
+	        name of the person's email address.
+
+	    * networkType: Specifies whether the phone is currently connected to a
+	        CDMA network or a UMTS network. Valid values are the strings "cdma"
+	        and "umts".	If one of those two strings is not specified, or if the
+	        property is omitted, this method will assume UMTS.
+
+	    The following options govern the behavior of the normalization:
+
+	    * assistedDialing: If set to true, the number will be normalized such
+	        that it can dialed directly on the type of network the phone is
+	        currently connected to. This allows customers to dial numbers or use
+	        numbers from their contact list that are specific to their "home"
+	        region while they are roaming and those numbers would not otherwise
+	        work with the current roaming carrier.  This method adds or removes
+	        international direct dialing prefixes and country codes, as well as
+	        national trunk access codes, as required by the current roaming
+	        carrier and the home region in order to dial the number properly.
+
+	        If it is not possible to construct a full international
+	        dialing sequence from the options and hints given, this function
+	        will not modify the phone number, and will return "undefined".
+
+	        If _assistedDialing_ is false or not specified, this method will
+	        attempt to add all the information it can to the number so that it
+	        is as fully specified as possible. This allows two numbers to be
+	        compared more easily when they are otherwise only partially
+	        specified.
+
+	    * sms: Set this option to true for the following conditions: 
+
+	        * Assisted dialing is turned on
+	        * The phone number represents the destination of an SMS message
+	        * The phone is UMTS 
+	        * The phone is SIM-locked to its carrier 
+
+	        This enables special international direct dialing codes to route the
+	        SMS message to the correct carrier. If assisted dialing is not
+	        turned on, this option has no effect.
+
+	    * manualDialing: Set this option to true if the user is entering this
+	        number on the keypad directly, and false when the number comes from
+	        a stored location like a contact entry or call log entry. When true,
+	        this option causes the normalizer to not perform any normalization
+	        on numbers that look like local numbers in the home country. If
+	        false, all numbers go through normalization. This option only has an
+	        effect when the _assistedDialing_ option is true as well; otherwise,
+	        it is ignored.
+
+	    If both a set of options and a locale are given, and they offer
+	    conflicting	information, the options will take precedence. The idea is
+	    that the locale	tells you the region setting that the user has chosen
+	    (probably during initial device setup), whereas the the hints are likely
+	    to provide more current information, such as where the phone is
+	    currently operating (the MCC).
+
+	    This function performs the following types of normalizations with
+	    assisted dialing turned on:
+
+	    * If the current location of the phone matches the home country, this is
+	        a domestic call.
+ 
+	        * Remove any _iddPrefix_ and _countryCode_ fields, as they are not
+	            needed.
+
+	        * Add a _trunkAccess_ field, which may be necessary to call domestic
+	            numbers in the home country.
+
+	    * If the current location of the phone does not match the home country,
+            attempt to form a whole international number.
+
+	        * Add in the area code if it is missing from the phone number and
+	            the area code of the current phone is available in the hints.
+
+	        * Add the country dialing code for the home country if it is missing
+	            from the phone number.
+
+	        * Add or replace the _iddPrefix_ with the correct one for the
+	            current country. The phone number will have been parsed with the
+	            settings for the home country, so the _iddPrefix_ may be
+	            incorrect for the current country. The _iddPrefix_ for the
+	            current country can be "+" if the phone is connected to a UMTS
+	            network, and either a "+" or a country-dependent sequence of
+	            digits for CDMA networks.
+
+	    This function performs the following types of normalizations with
+	    assisted dialing turned off:
+
+	    * Normalize the international direct dialing prefix to be a plus or the
+	        international direct dialing access code for the current country,
+	        depending on the network type.
+
+	    * If a number is a local number (i.e., it is missing its area code), use
+	        a default area code from the hints if available. CDMA phones always
+	        know their area code, and GSM/UMTS phones know their area code in
+	        many instances, but not always (i.e., not on Vodaphone or Telcel
+	        phones). If the default area code is not available, do not add it.
+
+	    * In assisted dialing mode, if a number is missing its country code, use
+	        the current MCC number (if available) to figure out the current
+	        country code, and prepend that to the number. If it is not
+	        available, leave it off. Also, use that country's settings to parse
+	        the number instead of the current format locale.
+
+	    * For North American numbers with an area code but no trunk access code,
+	        add in the trunk access code. For other countries, if the country
+	        code was added in the previous step, remove the	trunk access code
+	        when required by that country's conventions for	international calls.
+	        If the country requires a trunk access code for international calls
+	        and it doesn't exist, add one.
 	 */
 	normalize: function(options) {
 		var currentPlan,
