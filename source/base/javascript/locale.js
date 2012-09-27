@@ -2,47 +2,41 @@
  * @name locale.js
  * @fileOverview basic locale handling routines used by the whole g11n package.
  * 
- * 
  */
 
 /*globals enyo  root document */
 
 //* @public
 /**
-Create a new locale instance. 
+    Creates and returns a new Locale instance. 
 
-The specifier parameter (spec) has the following format:
+    The specifier parameter (spec) has the format:
 
-[language]\_[region][\_variant]
+        [language]\_[region][\_variant]
 
-That is, the language, region, and variant are optional parts
-separated by underscores. The language is given by the 2-letter
-ISO 639 language code, and the region is given by the 2-letter 
-ISO 3166 country code, lower-cased. The variant can be any string 
-that contains any ASCII letter characters and no spaces or underscores.
+    That is, the language, region, and variant are optional parts separated by
+    underscores. The language is given by the 2-letter ISO 639 language code,
+    and the region is given by the 2-letter ISO 3166 country code, lower-cased.
+    The variant can be any string that contains any ASCII letter characters and
+    no spaces or underscores.
 
-In WebOS, the region is specified with a lower-case code for
-historical reasons. Certain parts of WebOS that have since been
-fixed did not support upper-case characters in file names and the locale
-was used to form file names. For backwards compatibility, we continue to
-use the lower-case codes, but the locale specifier argument to the
-constructor can accept the upper-case ISO-compliant codes as well.  
+    The region is specified with a lower-case code for historical reasons
+    specific to webOS. We continue to use the lower-case codes, but the locale
+    specifier argument to the constructor can accept the upper-case
+    ISO-compliant codes as well.  
 
-If only one part of the spec is given, such as "fr", then that part refers to
-the language only, in this case "French". For certain international functions, 
-such as number or phone number formatting, the region is used to find the
-proper format, so specifying only the language "fr" might not do what you 
-think. It is better to fully specify the locale when constructing an instance 
-of this class.
+    If only one part of the spec is given, such as "fr", then that part refers
+    to the language only, in this case "French". For certain international
+    functions, such as number or phone number formatting, the region is used to
+    find the proper format, so specifying only the language "fr" might not do
+    what you expect. It is better to fully specify the locale when constructing
+    an instance of enyo.g11n.Locale--for example, use "fr_fr" instead of just
+    "fr" for French/France.
 
-Example: use "fr_fr" instead of just "fr" for France/French.
-
-If you would like to construct a locale with only a region and no 
-language, then the specifier must include an underscore to differentiate it 
-from a language-only spec. 
-
-Example: "_es" is a locale spec for the region "Spain"
-
+    If you want to construct a locale with a region but no language, then the
+    specifier must include an underscore to differentiate it from a
+    language-only spec. For example, "_es" is a locale spec for the region
+    "Spain".
 */
 enyo.g11n.Locale = function Locale(spec){
 	var parts = spec ? spec.split(/_/) : [];
@@ -56,35 +50,35 @@ enyo.g11n.Locale = function Locale(spec){
 };
 
 /**
-Return the entire locale spec for the current locale.
+    Returns the entire locale spec for the current locale.
 */
 enyo.g11n.Locale.prototype.getLocale = function(){
 	return this.locale;
 };
 
 /**
-Return the language of this locale.
+    Returns the language of the current locale.
 */
 enyo.g11n.Locale.prototype.getLanguage = function(){
 	return this.language;
 };
 
 /**
-Return the region of this locale.
+    Returns the region of the current locale.
 */
 enyo.g11n.Locale.prototype.getRegion = function(){
 	return this.region;
 };
 
 /**
-Return the variant of this locale, if any.
+    Returns the variant of the current locale, if any.
 */
 enyo.g11n.Locale.prototype.getVariant = function(){
 	return this.variant;
 };
 
 /**
-Returns the locale spec.
+    Returns the locale spec for the current locale.
 */
 enyo.g11n.Locale.prototype.toString = function () {
 	if (!this.locale) {
@@ -97,9 +91,9 @@ enyo.g11n.Locale.prototype.toString = function () {
 };
 
 /**
-Returns the locale, but specified the region and variant upper-cased to conform
-to the ISO standards. The spec returned from this function can then
-be used with other libraries of international routrines such as ICU.
+    Returns the locale, but with the region and variant upper-cased to conform
+    to the ISO standards. The spec returned from this function can then be used
+    with other libraries of international routines, such as ICU.
 */
 enyo.g11n.Locale.prototype.toISOString = function () {
 	var ret = this.language || ""; 
@@ -113,9 +107,9 @@ enyo.g11n.Locale.prototype.toISOString = function () {
 };
 
 /**
-Return whether or not the current locale is compatible with the other locale. To
-be compatible means that one locale can substitute for the other for translations
-and localized files.
+    Returns a Boolean indicating whether the current locale is compatible with
+    the passed-in locale. To be compatible means that one locale can substitute
+    for the other for translations and localized files.
 */
 enyo.g11n.Locale.prototype.isMatch = function (otherLocale) {
 	if (otherLocale.language && otherLocale.region) {
@@ -130,9 +124,9 @@ enyo.g11n.Locale.prototype.isMatch = function (otherLocale) {
 };
 
 /**
-Return true if this locale exactly matches the other locale. Locales that are
-equal necessarily match (ie are compatible), but locales that are compatible
-aren't necessarily equal.
+    Returns true if this locale exactly matches the other locale; otherwise,
+    false. Locales that are equal necessarily match (i.e., are compatible), but
+    locales that are compatible aren't necessarily equal.
 */
 enyo.g11n.Locale.prototype.equals = function (otherLocale) {
 	return (this.language === otherLocale.language &&
@@ -141,11 +135,13 @@ enyo.g11n.Locale.prototype.equals = function (otherLocale) {
 };
 
 /**
-If the current locale includes a region but no language, this function causes
-the locale to fill itself out with the default language for that region. For
-each region, one language is picked as the default. If the region does not
-have a default, the language of the current UI locale is used, and if that
-cannot be found, English is used. 
+    If the current locale includes a region but no language, this function
+    causes the locale to fill itself out with the default language for its
+    region.
+    
+    For each region, one language is picked as the default. If the region does
+    not have a default, the language of the current UI locale is used; if that
+    cannot be found, English is used.
 */
 enyo.g11n.Locale.prototype.useDefaultLang = function () {
 	var defLangs, language, uiLoc;

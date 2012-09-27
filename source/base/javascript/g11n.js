@@ -1,8 +1,7 @@
 /*$
  * @name g11n.js
  * @fileOverview g11n namespace
- * 
- * 
+ *
  */
 
 /*globals G11n:true  window root enyo */
@@ -96,7 +95,8 @@ enyo.g11n.isEnyoAvailable = function isEnyoAvailable(){
 
 //* @public
 /**
-Return a enyo.g11n.Locale instance containing the current device locale for the user interface. 
+    Returns an _enyo.g11n.Locale_ instance containing the current locale for the
+    user interface.. 
 */
 enyo.g11n.currentLocale = function currentLocale(){
 	if (!enyo.g11n._locale){
@@ -106,13 +106,13 @@ enyo.g11n.currentLocale = function currentLocale(){
 };
 
 /**
-Return an enyo.g11n.Locale instance containing the current device locale used while formatting the following items:
+    Returns an _enyo.g11n.Locale_ instance containing the current device locale,
+    for use while formatting the following items:
 
-* dates and times
-* numbers, percentage, and currency
-* names
-* addresses
-
+    * dates and times
+    * numbers, percentages, and currency
+    * names
+    * addresses
 */
 enyo.g11n.formatLocale = function formatLocale(){
 	if (!enyo.g11n._formatLocale){
@@ -122,9 +122,10 @@ enyo.g11n.formatLocale = function formatLocale(){
 };
 
 /**
-Return an enyo.g11n.Locale instance containing the current device phone locale. The phone locale acts like a "home" locale
-for parsing and formatting phone numbers that do not have an explicit country code in them. The phone number of this device 
-should be issued by a carrier in this locale. 
+    Returns an _enyo.g11n.Locale_ instance containing the current phone locale.
+    The phone locale acts as a "home" locale for parsing and formatting phone
+    numbers that do not contain an explicit country code. The phone number of
+    the current device should be issued by a carrier in this locale.
 */
 enyo.g11n.phoneLocale = function phoneLocale(){
 	if (!enyo.g11n._phoneLocale){
@@ -143,15 +144,16 @@ enyo.g11n.sourceLocale = function sourceLocale(){
 
 //* @public
 /**
-Set the framework's idea of the various current locales
- 
-The params object can contain one or more of the following properties:
-  
-* *uiLocale* - locale specifier for the UI locale
-* *formatLocale* - locale specifier for the format locale
-* *phoneLocale* - locale specifier for the phone locale
- 
-Each property should be set to a string that is the specifier for that locale.
+    Sets the framework's record of the currently active locales.
+
+    The params object may contain one or more of the following properties:
+
+    * uiLocale: Locale specifier for the UI locale
+    * formatLocal: Locale specifier for the format locale
+    * phoneLocale: Locale specifier for the phone locale
+
+    The value of each property should be a string that is the specifier for that
+    locale.
 */
 enyo.g11n.setLocale = function setLocale(params) {
 	if (params) {
