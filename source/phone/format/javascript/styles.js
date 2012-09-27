@@ -2,16 +2,14 @@
  * @name style.js
  * @fileOverview This file has the implementation of the FmtRegion object that gives the phone format styles for a given region
  * 
- * 
- *
  */
 
 /*globals  G11n PhoneLoc */
 
 //* @public
 /**
-Create a new format styles object. This object documents the styles available
-for the given enyo.g11n.Locale instance. 
+    Creates and returns a new format styles object. This object documents the
+    styles available for the given enyo.g11n.Locale instance. 
 */
 enyo.g11n.FmtStyles = function(locale) {
 	this.locale = locale || enyo.g11n.phoneLocale();
@@ -35,30 +33,30 @@ enyo.g11n.FmtStyles = function(locale) {
 
 enyo.g11n.FmtStyles.prototype = {
 	/**
-	Returns the style with the given name, or the default style if there
-	is no style with that name.
+	    Returns the style with the passed-in name, or the default style if there
+	    is no style matching that name.
 	*/
 	getStyle: function getStyle(name) {
 		return this.styles[name] || this.styles["default"];
 	},
 
 	/**
-	Returns true if this locale contains the named style, and false otherwise.
+	    Returns true if this locale contains a style with the passed-in name;
+	    otherwise, false.
 	*/
 	hasStyle: function hasStyle(name) {
 		return this.styles[name] !== undefined;
 	},
 	
 	/**
-	 Return an array of phone number formatting styles, plus examples
-	 of each. Each element of the array has a key and a value. The key 
-	 is the name of the style used with enyo.g11n.PhoneFmt,
-	 and the value is an example number formatted in that style. 
-	 The intention is that these
-	 examples can be shown in a preference UI to allow the user to
-	 choose the formatting style they prefer.
-	 
-	 The style name string will already be localized for the format region.
+	    Returns an array of phone number formatting styles, plus examples of
+	    each. Each element of the array has a key and a value. The key is the
+	    name of the style used with enyo.g11n.PhoneFmt, and the value is an
+	    example number formatted in that style. These examples are intended for
+	    display in a preference UI to allow users to choose the formatting style
+	    they prefer.
+
+	    The style name string will already be localized for the format region.
 	 */
 	getExamples: function getExamples() {
 		var ret, style;
@@ -82,10 +80,11 @@ enyo.g11n.FmtStyles.prototype = {
 
 
 /**
-Return an array of regions supported by this phone formatter. Each
-item in the array has a lower-cased ISO "countryCode" and a "countryName" property.
+    Returns an array of regions supported by the current phone formatter. Each
+    item in the array has a lower-cased ISO _countryCode_, as well as a
+    _countryName_ property.
 
-The countryName property is in English, not localized.
+    The value of _countryName_ is in English, not localized.
 */
 enyo.g11n.FmtStyles.getRegions = function getRegions() {
 	return [
@@ -108,4 +107,3 @@ enyo.g11n.FmtStyles.getRegions = function getRegions() {
 		{countryCode: "gb", countryName: "United Kingdom"}
 	];
 };
-

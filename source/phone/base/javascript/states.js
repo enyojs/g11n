@@ -1,6 +1,6 @@
 /*$
  * @name states.js
- * @fileOverview This file has the implementation of the StatesData object which gives information about the states in a finite state machine used to 
+ * @fileOverview This file has the implementation of the StatesData object, which gives information about the states in a finite state machine used to 
  * parse the phone numbers
  * 
  * 
@@ -11,9 +11,9 @@
 
 //* @protected
 /**
-Return info about the FSM states for parsing numbers
+    Returns info about the FSM states for parsing numbers.
 
-It is up to the callers to release the json files.
+    It is up to the callers to release the JSON files from the cache.
 */
 enyo.g11n.StatesData = function(params) {
 	this.root = (params && params.root) || enyo.g11n.Utils._getEnyoRoot("../");
