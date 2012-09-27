@@ -2,7 +2,7 @@ enyo.kind({
 	name:"g11n.sample.DurationSample",
 	kind: "FittableRows",
 	components: [
-		{kind: "onyx.Toolbar", content:$L("G11N Example")},
+		{kind: "onyx.Toolbar", content:$L("Duration")},
 		{kind: "FittableColumns", components:[
 			{components: [
 				{content:$L("Pick a Locale to use:")},		
