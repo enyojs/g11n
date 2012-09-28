@@ -17,25 +17,29 @@ Copyright 2010 HP, Inc.  All rights reserved.
 
     * params (Object): Parameters controlling the behavior of the parser
 
-        The params object's locale property specifies the locate to use when
-        parsing the address. If no value is specified, this function will use
-        the current locale.
+        The _params_ object's _locale_ property specifies the locale to use when
+        parsing the address. If no value is specified, the current locale is
+        used.
 
     The returned JavaScript object may contain the following properties:
 
     * streetAddress: The street address, including house number
+
     * locality: The locality of the address (usually a city or town) 
+
     * region: The region where the locality is located. In the U.S., this
         corresponds to the state.
-    * postalCode: Country-specific code for expediting mail. In the U.S., this
-        is the zip code.
+
+    * postalCode: The country-specific code for expediting mail. In the U.S.,
+        this is the zip code.
+
     * country: The country of the address 
 
     For any individual property, if the address does not contain that property,
     it is left out of the returned object.
 
-    When an address cannot be parsed properly, the entire address will be placed
-    into the streetAddress property.
+    When an address cannot be parsed properly, the entire address is placed into
+    the _streetAddress_ property.
 */
 enyo.g11n.Address = function (freeformAddress, params) {
 	var addressInfo,

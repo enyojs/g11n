@@ -15,7 +15,7 @@
     its $L method.
 
     If the string does not have a translation in the current language, the
-    argument is returned unmodified.
+    passed-in argument is returned unmodified.
 */
 $L = function(inText) {
 	if (!$L._resources) {
@@ -31,13 +31,13 @@ $L._resources = null;
 /**
     Creates a new bundle of resource strings.
     
-    The passed-in params object may contain the following properties:
+    The passed-in _params_ object may contain the following properties:
 
     * root: The path to the root of the current component. For libraries and
         packages, this should be the absolute path to the directory containing
         the resources directory that contains the translations for the component.
 
-    * locale: a Locale instance, or a locale spec string, specifying the locale
+    * locale: A Locale instance, or a locale spec string, specifying the locale
         of the resources to load. If no value is specified, the resources for
         the current UI locale are loaded.
 */
@@ -70,8 +70,7 @@ enyo.g11n.Resources = function(params){
     * path (String): The path, relative to a locale directory, to the file to load
 
     This method will search the resources directory looking for the localized
-    version of the file.  The sequence of places that it looks for the file is
-    as follows:
+    version of the file.  The sequence of places where it looks is as follows:
 
     1. The variant directory, if there is one (e.g., "resources/fr/fr/sfr/path")
     2. The region directory, if there is one (e.g., "resources/fr/fr/path")
@@ -184,7 +183,7 @@ enyo.g11n.Resources.prototype._pseudo = function(stringToLocalize){
 		return "";
 	}
 	
-	// psuedo translation for debugging g11n issues
+	// pseudo translation for debugging g11n issues
 	value = "";
 	for (i = 0; i < stringToLocalize.length; i++) {
 		if (stringToLocalize.charAt(i) === '#' && i+1 < stringToLocalize.length && stringToLocalize.charAt(i+1) === '{') {

@@ -11,7 +11,7 @@
     Creates and returns an instance of a formats information object.  The
     instance contains various pieces of information about the given locale.
 
-    * params: Currently, the only parameter used is "locale". Leave this
+    * params: Currently, the only parameter used is _locale_. Leave this
         argument undefined to cause this instance to use the current device
         formats locale. 
 */
@@ -57,8 +57,8 @@ enyo.g11n.Fmts = function Fmts(params){
 
 //* @public
 /**
-    Returns true if a 12-hour clock is currently in use; false if 24-hour clock
-    is in use.
+    Returns true if a 12-hour clock is currently in use; false if a 24-hour
+    clock is in use.
 */
 enyo.g11n.Fmts.prototype.isAmPm = function(){
 	if (typeof(this.twelveHourFormat) === 'undefined') {
@@ -82,10 +82,13 @@ enyo.g11n.Fmts.prototype.isAmPmDefault = function(){
     Returns an integer representing the first day of the week in the current
     locale. The numbers correspond to the days of the week as follows:
 
-    * 0 - Sunday
-    * 1 - Monday
-    * 2 - Tuesday
-    * etc.
+    * 0: Sunday
+    * 1: Monday
+    * 2: Tuesday
+    * 3: Wednesday
+    * 4: Thursday
+    * 5: Friday
+    * 6: Saturday
 */
 enyo.g11n.Fmts.prototype.getFirstDayOfWeek = function(){
 	return this.dateTimeFormatHash.firstDayOfWeek;
@@ -112,7 +115,8 @@ enyo.g11n.Fmts.prototype.getDateFieldOrder = function(){
     This function returns an array of three strings--with the values "minute",
     "hour", and "ampm"--arranged in the proper order for the locale.
 
-    "ampm" indicates where the AM or PM marker should go for 12-hour clocks.
+    The position of "ampm" in the array indicates where the AM or PM marker
+    should go for 12-hour clocks.
 */
 enyo.g11n.Fmts.prototype.getTimeFieldOrder = function(){
 
@@ -127,8 +131,8 @@ enyo.g11n.Fmts.prototype.getTimeFieldOrder = function(){
 //* @public
 /**
     Returns an array of the medium-sized abbreviations for the month names in
-    this locale.  In most cases, these will be the 3-letter abbreviations of the
-    month names.
+    this locale.  In most cases, these will be the three-letter abbreviations of
+    the month names.
 */
 enyo.g11n.Fmts.prototype.getMonthFields = function(){
 	if (this.dateTimeHash){
@@ -175,7 +179,7 @@ enyo.g11n.Fmts.prototype.getMeasurementSystem = function(){
 
 /**
     Returns the default paper size for printers in the current locale. The
-    possible values are "letter" (ie. 8½" x 11") and "A4" (210mm × 297mm).
+    possible values are "letter" (i.e., 8.5" x 11") and "A4" (210mm × 297mm).
     Defaults to "A4" if not otherwise specified in the formats config file.
 */
 enyo.g11n.Fmts.prototype.getDefaultPaperSize = function(){
@@ -184,7 +188,7 @@ enyo.g11n.Fmts.prototype.getDefaultPaperSize = function(){
 
 /**
     Returns the default photo size for printers in the current locale. The
-    possible values are "10X15CM" (ie. 10 by 15 cm), "4x6" (4 x 6 inches), and
+    possible values are "10X15CM" (i.e., 10 by 15 cm), "4x6" (4 x 6 inches), and
     "L" (roughly 9 × 13 cm). Defaults to "10X15CM" if not otherwise specified in
     the formats config file.
 */

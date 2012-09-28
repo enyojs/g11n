@@ -14,26 +14,26 @@
     * params (String/Object): Parameters that control the output format
 
         If _params_ is passed as a string, then the string should specify the
-        custom date format to use. If the params are specified as an object,
-        the object may contain the following properties:
+        custom date format to use. If _params_ is an object, the object may
+        contain the following properties:
 
         * locale: Locale to use to format the date. If not specified, the locale
             used will be the current locale of the device.
 
         * date: The verbosity level of the date when formatted according to the
             locale's standard rules. Valid values are 'short', 'medium', 'long',
-            and 'full'; you may also specify a custom date format string.
+            and 'full'; you may also specify your own custom date format string.
             Defaults to "long" if no value is specified.
 
         * time: The verbosity level of the time when formatted according to the
             locale's standard rules. Valid values are 'short', 'medium', 'long',
-            and 'full'; you may also specify a custom time format string.
+            and 'full'; you may also specify your own custom time format string.
             Defaults to "long" if no value is specified.
 
         * format: The verbosity level of the date and time when formatted
             together according to the locale's standard rules. Valid values are
-            'short', 'medium', 'long', and 'full'; you may also specify a custom
-            date/time format string.
+            'short', 'medium', 'long', and 'full'; you may also specify your own
+            custom date/time format string.
 
         * dateComponents: Formats a date with only certain components in it,
             using the locale's standard format for those components. Valid
@@ -57,10 +57,10 @@
 
         * weekday: If true, the formatted date is returned with the day of the
             week included. If the value is 'short', 'medium', 'long', or 'full',
-            the day of the week is included at the given level of verbosity. If
-            no value is specified, the default is that no day of the week will
-            be included in the format for the short, medium, or long styles. The
-            full style always includes the day of the week.
+            the day of the week is included at the appropriate level of
+            verbosity. If no value is specified, the default is that no day of
+            the week will be included in the format for the short, medium, or
+            long styles. The full style always includes the day of the week.
 
         * TZ: Uses the given time zone. If no value is specified, the current
             device time zone is used.
@@ -431,11 +431,14 @@ enyo.g11n.DateFmt.prototype.isAmPmDefault = function(){
 /**
     Returns the day of the week that represents the first day of the week in the
     current locale. The numbers represent the days of the week as follows:
- 
-    * 0 - Sunday
-    * 1 - Monday
-    * 2 - Tuesday
-    * etc.
+
+    * 0: Sunday
+    * 1: Monday
+    * 2: Tuesday
+    * 3: Wednesday
+    * 4: Thursday
+    * 5: Friday
+    * 6: Saturday
 */
 enyo.g11n.DateFmt.prototype.getFirstDayOfWeek = function(){
 	return this.dateTimeHash.firstDayOfWeek;
@@ -614,7 +617,7 @@ enyo.g11n.DateFmt.prototype._format = function(date, parsedArray) {
     Returns a string with the date formatted according to the format specified
     in the constructor for this formatter instance.
 
-    * date (Object): A standard javascript date instance to format as a string
+    * date (Object): A standard JavaScript date instance to format as a string
 */
 enyo.g11n.DateFmt.prototype.format = function(date) {
     //var startTime = new Date();
@@ -734,28 +737,27 @@ enyo.g11n.DateFmt.prototype.formatRelativeDate = function(date, options) {
 
     The format of the output string is determined as follows:
 
-        * If the dates are on the same calendar day, the format is a time range
-            of the form _(starttime_to_endtime, month+date)_.
+    * If the dates are on the same calendar day, the format is a time range of
+        the form *(starttime_to_endtime, month+date)*.
 
-        * If the dates are on different calendar days, but are in the same
-            calendar month, the format is a date range of the form
-            _(month date_to_date, year)_.
+    * If the dates are on different calendar days, but are in the same calendar
+        month, the format is a date range of the form
+        *(month date_to_date, year)*.
 
-        * If the dates are on different calendar days and in different calendar
-            months, but the same calendar year, the format is a date range of
-            the form _(month+date to month+date, year)_.
+    * If the dates are on different calendar days and in different calendar
+        months, but the same calendar year, the format is a date range of the
+        form _(month+date to month+date, year)_.
 
-        * If the dates are in different, but consecutive, calendar years, the
-            format is a date range of the form
-            _(month+date+year to month+date+year)_.
+    * If the dates are in different, but consecutive, calendar years, the format
+        is a date range of the form _(month+date+year to month+date+year)_.
 
-        * If the dates are more than 2 years apart, the format is a date range
-            of the form _(year to year)_.
+    * If the dates are more than two years apart, the format is a date range of
+        the form _(year to year)_.
 
     The order of the month, date, and year in the above formats is
-    locale-dependent, as is the text of the separators. For example, if the
-    start date is September 2, 2011, and the end date is September 5, 2011, the
-    ranges would be:
+    locale-dependent, as are the separator characters. For example, if the start
+    date is September 2, 2011, and the end date is September 5, 2011, the ranges
+    would be:
 
     * US English: "Sept 2-5, 2011"
     * British English: "2-5 Sept, 2011"

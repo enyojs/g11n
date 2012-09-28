@@ -2,7 +2,6 @@
  * @name duration.js
  * @fileOverview date and time formatting routine for time durations rather than fixed dates
  * 
- * 
  */
 
 /*globals  enyo*/
@@ -14,7 +13,7 @@
 
     * params (String/Object): Parameters that control the output format
 
-        The params may contain the following properties:
+        The _params_ object may contain the following properties:
 
         * locale: Locale to use to format the date. If not specified, the
             current format locale is used.
@@ -136,7 +135,7 @@ enyo.g11n.DurationFmt = function(params) {
     * duration (Object): A JavaScript object containing fields to format as a
         string
 
-        The duration object may contain any or all of these properties:
+        The _duration_ object may contain any or all of the following properties:
 
         * years
         * months
@@ -149,7 +148,7 @@ enyo.g11n.DurationFmt = function(params) {
         Each property should either have an integer value or be omitted from the
         object.
 
-    Any property that is left out of the duration object or has a value of 0
+    Any property that is left out of the _duration_ object or has a value of 0
     will not be included in the formatted string output. The only exceptions are
     _0 minutes_ or _0 seconds_ in the short and medium formats. In these cases,
     double zeroes are included in order to make the time correct.
@@ -162,9 +161,9 @@ enyo.g11n.DurationFmt = function(params) {
     * full: 14 hours
 
     If any property contains a number that is too big for the field, the
-    formatter will NOT recalculate. It is up to the caller to make sure the
+    formatter will NOT recalculate. It is up to the caller to make sure that the
     elements are in the desired range. In addition, the formatter will not
-    truncate any propeties to approximate a time interval. If an approximate
+    truncate any properties to approximate a time interval. If an approximate
     time interval is desired, it is up to the caller to omit fields in the
     duration parameter.
 

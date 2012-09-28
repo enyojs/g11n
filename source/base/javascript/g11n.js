@@ -149,7 +149,7 @@ enyo.g11n.sourceLocale = function sourceLocale(){
     The _params_ object may contain one or more of the following properties:
 
     * uiLocale: Locale specifier for the UI locale
-    * formatLocal: Locale specifier for the format locale
+    * formatLocale: Locale specifier for the format locale
     * phoneLocale: Locale specifier for the phone locale
 
     The value of each property should be a string that is the specifier for that

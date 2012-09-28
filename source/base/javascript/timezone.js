@@ -11,9 +11,9 @@ enyo.g11n._TZ = enyo.g11n._TZ || {};
 
 //* @public
 /**
-    Creates and returns a new timezone formatter instance.
+    Creates and returns a new timezone formatter (_TzFmt_) instance.
 
-    The params argument is a string that is a timezone id specifier. The
+    The _params_ argument is a string that is a timezone id specifier. The
     specifier has the format:
 
         Zone name (see man tzfile), daylight savings supported, offset from UTC.
@@ -47,11 +47,11 @@ enyo.g11n.TzFmt.prototype = {
 	},
 
 	/**
-	     This set of functions caches the current timezone name (e.g. "PST").
-	     The subscribe property defaults to false, since the timezone is not
+	     This set of functions caches the current timezone name (e.g., "PST").
+	     The _subscribe_ property defaults to false, since the timezone is not
 	     likely to change frequently. 
 	 
-	     This is for use by DateFmt() in the globalization framework, which
+	     This is for use by _DateFmt_ in the globalization framework, which
 	     needs the current timezone for the 'zzz' specifier.
 	 */
 	setTZ: function() {

@@ -16,7 +16,7 @@
     optional:
 
     * locale: The locale to use to format this address. If no value is
-        specified, the formatsLocale is used.
+        specified, the _formatLocale_ is used.
 
     * style: The style of this address. The default style for each country
         usually includes all valid fields for that country.
@@ -60,9 +60,9 @@ enyo.g11n.AddressFmt = function(params) {
 };
 
 /**
-    Formats a physical address (an enyo.g11n.Address instance) for display and
-    returns the formatted address as a String. Whitespace is trimmed from the
-    beginning and end of the final resulting string, and multiple consecutive
+    Formats a physical address (an _enyo.g11n.Address instance_) for display and
+    returns the formatted address as a string. Whitespace is trimmed from the
+    beginning and end of the final result string, and multiple consecutive
     whitespace characters in the middle of the string are compressed down to one
     space character.
 
@@ -75,8 +75,9 @@ enyo.g11n.AddressFmt = function(params) {
     For example, if a mailing address for a location in China is formatted for
     the U.S., it might produce the words "People's Republic of China" in English
     as the last line of the address, while the Chinese-style address appears in
-    the first line of the address. In the U.S., the country is placed on the
-    last line, but in China, the country is typically on the first line.
+    the first line of the address. This happens because, in the U.S., the
+    country is placed on the last line, whereas in China, the country is
+    typically on the first line.
 */
 enyo.g11n.AddressFmt.prototype.format = function (address) {
 	var ret, template, other, format;

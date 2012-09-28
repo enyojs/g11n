@@ -98,7 +98,7 @@ enyo.g11n.Utils._loadFile = function _loadFile(path) {
 
     * params (Object): Parameters controlling the loading of the file
 
-        The params object may contain the following properties:
+        The _params_ object may contain the following properties:
 
         * root: Absolute path to which the path section is relative
         * path: Relative path to the JSON file from the root, including the file name
@@ -157,21 +157,27 @@ enyo.g11n.Utils.getNonLocaleFile = function getNonLocaleFile(params) {
 
     * params (Object): Parameters controlling the loading of the file
 
-        The params object may contain the following properties:
+        The _params_ object may contain the following properties:
 
         * root: Root of the package, app, or library where the JSON files can
             be found.
+
         * path: Path relative to the root, underneath which the resources dir
             can be found.
+
         * locale: A locale instance that names which locale to load the JSON
             file for.
+
         * prefix: An optional prefix for the file name. File names are
             constructed as _prefix + locale name + ".json"_.
+
         * cache: If set to false, the resulting JSON is not cached. Default is
             true to cache the JSON.
+
         * merge: If set to true, the variant, region and language JSON files are
             merged according to rules defined in (define rules). Default is
             false.
+
         * type: One of "language", "region", or "either". This loads files
             specific to the language name, the region name, or either one if
             available. Default is "either".
@@ -278,16 +284,16 @@ enyo.g11n.Utils._merge = function _merge(tables) {
 };
 
 /**
-    Expires and purges all JSON files from the cache that are older than the
+    Expires and purges from the cache all JSON files that are older than the
     passed-in timeout limit, returning the number of items removed.
 
-    * timeout (Number) - Only files that are older than this number of
+    * timeout (Number): Only files that are older than this number of
         milliseconds are expired and purged. If this parameter is not given, the
         default is 60000ms (i.e., 1 minute).
 
-    * all (Boolean) - If true, all files are purged; if false or undefined,
-        files that belong to any of the current locales will be kept in memory,
-        as they are likely to be used again soon.
+    * all (Boolean): If true, all files are purged; if false or undefined, files
+        that belong to any of the current locales will be kept in memory, as
+        they are likely to be used again soon.
 
     Caching guarantees that at least one reference to an object will exist in
     memory for the length of the timeout period, so that the garbage collector
