@@ -11,9 +11,11 @@
     Creates and returns a new phone number formatter object, which formats
     numbers according to the passed-in parameters.
 
-    The params object may contain zero or more of the following properties:
+    * params (Object): Parameters controlling the formatting
 
-    * locale (String): Locale to use to format this number. If undefined, the
+    The _params_ object may contain zero or more of the following properties:
+
+    * locale (String): The locale to use to format this number. If undefined,
         the default locale is used.
 
     * style (String): The name of style to use to format this number. If
@@ -23,14 +25,14 @@
         number and the country code is not known
 
     Some regions have more than one style of formatting, with the style
-    parameter reflects the style that the user prefers. The style names may be
-    obtained by calling FmtStyles.getExamples().
+    parameter reflecting the style that the user prefers. The style names may be
+    obtained by calling _FmtStyles.getExamples()_.
 
     If the MCC is given, numbers will be formatted after the manner of the
     country specified by the MCC. If it is not given, but the locale is, the
     manner of the country in the locale is followed. If neither the MCC nor the
     locale is given, the formatter follows the manner of the country of the
-    device's phoneLocale.
+    device's _phoneLocale_.
 */
 enyo.g11n.PhoneFmt = function(params) {
 	this.locale = new enyo.g11n.PhoneLoc(params);
@@ -98,14 +100,14 @@ enyo.g11n.PhoneFmt.prototype = {
 
 	    * params (Object): Parameters controlling the formatting
 	    
-	    The params object may contain the _partial_ property, a Boolean
+	    The _params_ object may contain the _partial_ property, a Boolean
 	    indicating whether or not the passed-in phone number represents a
 	    partial number. The default is false, meaning that the number
 	    represents a whole number.
 
-	    This property exists because certain phone numbers--in particular, SMS
-	    short codes--should be formatted differently depending on whether or not
-	    they represent whole numbers.
+	    The _partial_ property exists because certain phone numbers--in
+	    particular, SMS short codes--should be formatted differently depending
+	    on whether or not they represent whole numbers.
 
 	    For example, a subscriber number of "48773" in the U.S. would be
 	    formatted as:
@@ -115,11 +117,11 @@ enyo.g11n.PhoneFmt.prototype = {
 
 	    * whole:   48773   (SMS short code)
 
-	    Any place in the UI where the user types in phone numbers, such as the
-	    keypad in the phone app, should pass in _partial: true_ to this
-	    formatter. All other places, such as the call log in the phone app,
-	    should pass in _partial: false_, or else leave the partial flag out of
-	    the params object entirely.
+	    Any place in the UI where the user types in phone numbers (e.g., the
+	    keypad in the phone app) should pass in _partial: true_ to this
+	    formatter. All other places (e.g., the call log in the phone app) should
+	    pass in _partial: false_, or else leave the _partial_ flag out of the
+	    _params_ object entirely.
 	 */
 	format: function format(number, params) {
 		var temp, 
@@ -240,10 +242,10 @@ enyo.g11n.PhoneFmt.prototype = {
 	    If so, the function will not attempt to reformat the number (which
 	    would just be invalid) and will just return the original string.
 
-	    The _params_ object is passed to the enyo.g11n.PhoneNumber() constructor 
-	    function, so it should contain the properties expected by that function.
-	    Please see the documentation for PhoneNumber for more details on the
-	    expected properties.
+	    The _params_ object is passed to the _enyo.g11n.PhoneNumber()_
+	    constructor function, so it should contain the properties expected by
+	    that function. Please see the documentation for _PhoneNumber_ for more
+	    details on the expected properties.
 	*/
 	reformat: function (phoneNumber, params) {
 		var ret = "",

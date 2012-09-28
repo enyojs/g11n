@@ -9,7 +9,7 @@
 //* @public
 /**
     Creates and returns a new format styles object. This object documents the
-    styles available for the given enyo.g11n.Locale instance. 
+    styles available for the passed-in _enyo.g11n.Locale_ instance. 
 */
 enyo.g11n.FmtStyles = function(locale) {
 	this.locale = locale || enyo.g11n.phoneLocale();
@@ -51,10 +51,10 @@ enyo.g11n.FmtStyles.prototype = {
 	/**
 	    Returns an array of phone number formatting styles, plus examples of
 	    each. Each element of the array has a key and a value. The key is the
-	    name of the style used with enyo.g11n.PhoneFmt, and the value is an
+	    name of the style used with _enyo.g11n.PhoneFmt_, and the value is an
 	    example number formatted in that style. These examples are intended for
-	    display in a preference UI to allow users to choose the formatting style
-	    they prefer.
+	    display in a preferences UI that allows users to choose the formatting
+	    style they prefer.
 
 	    The style name string will already be localized for the format region.
 	 */

@@ -7,7 +7,7 @@
 //* @public
 
 /**
-    Creates a new geo locator instance that behaves according to the given
+    Creates a new GeoLocator instance that behaves according to the given
     parameters.
 
     The _params_ object may contain zero or more of the following properties:
@@ -17,11 +17,9 @@
     * mcc: MCC of the carrier the device is currently connected to, which
         specifies the locale
 
-    If the MCC is not available, this method will fall back on the passed-in
-    _locale_ parameter if it is available.
-
-    If the _locale_ parameter is also not available, this method will use the
-    default phone region of the device.
+    If the MCC is not available, this method will fall back to the passed-in
+    _locale_ parameter. If the _locale_ parameter is also not available, this
+    method will use the default phone region of the device.
 */
 enyo.g11n.GeoLocator = function(params) {
 	this.locale = new enyo.g11n.PhoneLoc(params);
@@ -164,8 +162,8 @@ enyo.g11n.GeoLocator.prototype = {
 	/**
 	    Returns the location of the passed-in phone number, if known. 
 
-	    * number (String): An enyo.g11n.PhoneNumber instance containing a phone
-	        number to locate
+	    * number (String): An _enyo.g11n.PhoneNumber_ instance containing a
+	        phone number to locate
 
 	    The returned object has two properties, each of which has an _sn_ (short
 	    name) and an _ln_ (long name) string. Additionally, the country code, if
@@ -185,7 +183,7 @@ enyo.g11n.GeoLocator.prototype = {
 	        }
 
 	    The location name is subject to the following rules:
-	 
+
 	    * If the _areaCode_ property is undefined or empty, or if the number
 	        specifies a country code for which we do not have information, then
 	        the _area_ property may be missing from the returned object. In this
@@ -208,7 +206,7 @@ enyo.g11n.GeoLocator.prototype = {
 	        numbers, and a particular number exceeds that length, then the area
 	        code will not be given, on the assumption that the number has
 	        problems in the first place and we cannot guess correctly.
-	 
+
 	    * The returned _area_ property varies in specificity according to the
 	        locale. In North America, the area is no finer than large parts of
 	        states or provinces. In Germany and the U.K., the area can be as
@@ -216,7 +214,7 @@ enyo.g11n.GeoLocator.prototype = {
 
 	    * The strings returned from this function are already localized for the
 	        given locale, and thus are ready for display to the user.
-	 
+
 	    * If the number passed in is invalid, an empty object is returned. If
 	        the location information about the country where the phone number is
 	        located is not available, then the area information will be missing
@@ -437,7 +435,7 @@ enyo.g11n.GeoLocator.prototype = {
 	    Returns a string that describes the ISO-3166-2 country code of the given
 	    phone number. 
 
-	    * number (Object): An enyo.g11n.PhoneNumber instance
+	    * number (Object): An _enyo.g11n.PhoneNumber_ instance
 
 	    If the phone number is a local phone number and does not contain any
 	    country information, this function will return the region for the

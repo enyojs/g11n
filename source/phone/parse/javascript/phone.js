@@ -95,8 +95,8 @@
 
     * If a country code is provided as an argument to the function call, use
         that country's parsing rules for the number. This is intended for apps
-        like Contacts that know what the country is for the person that owns the
-        phone number and can pass that on as a hint.
+        (like Contacts) that know what the country is for the person who owns
+        the phone number and can pass that on as a hint.
 
     * If the appropriate locale cannot be easily determined, default to using
         the rules for the current user's region.
@@ -111,13 +111,13 @@
             subscriberNumber: "345345",
             extension: "78"
         }
- 
-    Note that, in this example, because international direct dialing is
-    explicitly used in the number, the part of the number after the IDD prefix
-    and country code will be parsed exactly the same way in all locales with
-    German rules (country code 49).
 
-    The regions currently supported are:
+    Note that, because international direct dialing is explicitly used in the
+    number, the part of the number after the IDD prefix and country code will be
+    parsed exactly the same way in all locales following German rules (country
+    code 49).
+
+    The following regions are currently supported:
  
     * NANP (North American Numbering Plan) countries: USA, Canada, Bermuda,
         various Caribbean nations
@@ -343,38 +343,38 @@ enyo.g11n.PhoneNumber.prototype = {
 	    Compares the passed-in phone number with the current one in a
 	    locale-sensitive manner to see if they possibly reference the same
 	    number. The return value is a non-negative integer describing the
-	    percentage quality of the match. 100 means a very strong match (100%),
+	    percentage quality of the match. 100 denotes a very strong match (100%),
 	    while lower numbers reflect progressively weaker matches, down to 0,
 	    which indicates that the two numbers do not match at all.
 
 	    * other (Object): A second phone number to compare this one to
 
 	    In many places, there are multiple ways to reach the same phone number.
-	    In North America, for example, you might have a number with the trunk
-	    access code of "1" and another without, both of which reference the
-	    exact same phone number. This is considered a strong match. For a
-	    different pair of numbers, one may be a local number and the other a
-	    full phone number with area code, which may reference the same phone
-	    number if the local number happens to be located in that same area code.
-	    However, you cannot say for sure if that is the case, so the match is
-	    regarded as being somewhat weaker.
+	    In North America, for example, you might have one number that includes
+	    the trunk access code of "1" and a second that does not, both of which
+	    reference the exact same phone number. This is considered a strong match.
+	    For a different pair of numbers, one may be a local number and the other
+	    a full phone number with area code, which would reference the same phone
+	    number if the local number happens to be in the same area code. However,
+	    you cannot say for sure if that is the case, so the match is considered
+	    to be somewhat weaker.
 
 	    Similarly, in other countries, there are sometimes different ways of 
-	    reaching the same destination, and the way that numbers match depends on
-	    the locale.
+	    reaching the same destination, so the way in which numbers are matched
+	    depends on the locale.
 
 	    The various phone number fields are handled differently for matches.
 	    There are various fields that do not need to match at all. For example,
 	    you may enter either "00" or "+" into your phone to start international
 	    direct dialing, so the _iddPrefix_ field does not need to match at all.
 
-	    Typically, fields that require matches need to match exactly if both
-	    sides have a value for that field. If both sides specify a value and
+	    Typically, a field that requires a match needs to match exactly if both
+	    sides specify a value for that field. If both sides have a value and
 	    those values differ, that is a strong non-match. If one side does not
 	    have a value and the other does, the result is a partial match, because
 	    the number with the missing field may possibly have an implied value
 	    that matches the other number. For example, the numbers "650-555-1234"
-	    and "555-1234" have a partial match, as the local number "555-1234"
+	    and "555-1234" have a partial match, since the local number "555-1234"
 	    might possibly have the same 650 area code as the first number, and
 	    might possibly not. If both sides do not specify a value for a
 	    particular field, that field is considered to be matching.
@@ -520,10 +520,10 @@ enyo.g11n.PhoneNumber.prototype = {
 
 	    The difference between the _compare_ method and the _equals_ method is
 	    that _compare_ compares normalized numbers with each other and returns
-	    the degree of match, whereas the equals operator returns true if and
-	    only if the two numbers contain the same fields and the field values are
-	    exactly the same. Functions and other non-phone number properties are
-	    not compared.
+	    the degree of matching, whereas the _equals_ operator returns true if
+	    and only if the two numbers contain the same fields and the field values
+	    are exactly the same. Functions and other non-phone number properties
+	    are not compared.
 	*/
 	equals: function equals(other) {
 		var p;
@@ -576,7 +576,8 @@ enyo.g11n.PhoneNumber.prototype = {
 	    If parts of the phone number are missing, this function attempts to fill
 	    in those parts.
 
-	    * options (Object): An object containing options to help in normalizing 
+	    * options (Object): An object containing options to help in
+	        normalization 
 
 	    The _options_ object contains a set of properties that can possibly help
 	    in normalizing the phone number by providing "extra" information to the
@@ -584,11 +585,11 @@ enyo.g11n.PhoneNumber.prototype = {
 	    available before the call is made. If any particular hint is not
 	    available, it may be omitted from the _options_ object.
 	
-	    The following is a list of hints that the algorithm will look for in the
-	    _options_ object:
+	    The following is a list of hints that the normalization algorithm will
+	    look for in the  _options_ object:
 
-	    * mcc: The mobile carrier code of the current network upon which this 
-	        phone is operating. The MCC is translated into an IDD country code.
+	    * mcc: The mobile carrier code of the network on which this phone is
+	        currently operating. The MCC is translated into an IDD country code.
 	        This is	useful if the number being normalized comes from CNAP
 	        (callerid) and the MCC is known.
 
@@ -603,13 +604,13 @@ enyo.g11n.PhoneNumber.prototype = {
 
 	    * networkType: Specifies whether the phone is currently connected to a
 	        CDMA network or a UMTS network. Valid values are the strings "cdma"
-	        and "umts".	If one of those two strings is not specified, or if the
-	        property is omitted, this method will assume UMTS.
+	        and "umts".	If neither of those two strings is specified, or if the
+	        property is omitted altogether, this method will assume UMTS.
 
 	    The following options govern the behavior of the normalization:
 
 	    * assistedDialing: If set to true, the number will be normalized such
-	        that it can dialed directly on the type of network the phone is
+	        that it can be dialed directly on the type of network the phone is
 	        currently connected to. This allows customers to dial numbers or use
 	        numbers from their contact list that are specific to their "home"
 	        region while they are roaming and those numbers would not otherwise
@@ -640,13 +641,14 @@ enyo.g11n.PhoneNumber.prototype = {
 	        turned on, this option has no effect.
 
 	    * manualDialing: Set this option to true if the user is entering this
-	        number on the keypad directly, and false when the number comes from
-	        a stored location like a contact entry or call log entry. When true,
+	        number on the keypad directly, and false if the number comes from a
+	        stored location like a contact entry or call log entry. When true,
 	        this option causes the normalizer to not perform any normalization
 	        on numbers that look like local numbers in the home country. If
-	        false, all numbers go through normalization. This option only has an
-	        effect when the _assistedDialing_ option is true as well; otherwise,
-	        it is ignored.
+	        false, all numbers go through normalization.
+
+	        Like _sms_, this option only has an effect if the _assistedDialing_
+	        option is true; otherwise, it is ignored.
 
 	    If both a set of options and a locale are given, and they offer
 	    conflicting	information, the options will take precedence. The idea is
@@ -687,14 +689,14 @@ enyo.g11n.PhoneNumber.prototype = {
 	    This function performs the following types of normalizations with
 	    assisted dialing turned off:
 
-	    * Normalize the international direct dialing prefix to be a plus or the
-	        international direct dialing access code for the current country,
-	        depending on the network type.
+	    * Normalize the international direct dialing prefix to be a plus sign
+	        ("+") or the international direct dialing access code for the
+	        current country, depending on the network type.
 
-	    * If a number is a local number (i.e., it is missing its area code), use
-	        a default area code from the hints if available. CDMA phones always
+	    * If a number is a local number (i.e., the area code is missing), use a
+	        default area code from the hints, if available. CDMA phones always
 	        know their area code, and GSM/UMTS phones know their area code in
-	        many instances, but not always (i.e., not on Vodaphone or Telcel
+	        many instances, though not always (i.e., not on Vodaphone or Telcel
 	        phones). If the default area code is not available, do not add it.
 
 	    * In assisted dialing mode, if a number is missing its country code, use
@@ -704,11 +706,12 @@ enyo.g11n.PhoneNumber.prototype = {
 	        the number instead of the current format locale.
 
 	    * For North American numbers with an area code but no trunk access code,
-	        add in the trunk access code. For other countries, if the country
-	        code was added in the previous step, remove the	trunk access code
-	        when required by that country's conventions for	international calls.
-	        If the country requires a trunk access code for international calls
-	        and it doesn't exist, add one.
+	        add in the trunk access code.
+
+	    * For other countries, if the country code was added by consulting the
+	        MCC, remove the trunk access code when required by that country's
+	        conventions for international calls. If the country requires a trunk
+	        access code for international calls and it doesn't exist, add it.
 	 */
 	normalize: function(options) {
 		var currentPlan,
