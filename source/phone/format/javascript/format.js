@@ -1,32 +1,38 @@
 /*$
  * @name name.js
- * @fileOverview This file has the implementation of the Name formatter object
+ * @fileOverview This file has the implementation of the Phone Number formatter object
  * 
- * 
- *
  */
 
 /*globals  G11n PhoneLoc NumPlan new enyo.g11n.FmtStyles PhoneUtils */
 
 //* @public
 /**
-Create a new phone number formatter object that formats numbers according to the parameters.
+    Creates and returns a new phone number formatter object, which formats
+    numbers according to the passed-in parameters.
 
-The params object can contain zero or more of the following parameters
+    * params (Object): Parameters controlling the formatting
 
-* locale (String): locale to use to format this number, or undefined to use the default locale (optional)
-* style (String): the name of style to use to format this number, or undefined to use the default style (optional)
-* mcc (String): the MCC of the country to use if the number is a local number and the country code is not known (optional)
+    The _params_ object may contain zero or more of the following properties:
 
-Some regions have more than one style of formatting, and the style parameter
-selects which style the user prefers. The style names can be found by calling 
-FmtStyles.getExamples().
+    * locale (String): The locale to use to format this number. If undefined,
+        the default locale is used.
 
-If the MCC is given, numbers will be formatted in the manner of the country
-specified by the MCC. If it is not given, but the locale is, the manner of
-the country in the locale will be used. If neither the locale or MCC are not given,
-then the country of the phone locale for the device is used. 
+    * style (String): The name of style to use to format this number. If
+        undefined, the default style is used.
 
+    * mcc (String): The MCC of the country to use if the number is a local
+        number and the country code is not known
+
+    Some regions have more than one style of formatting, with the style
+    parameter reflecting the style that the user prefers. The style names may be
+    obtained by calling _FmtStyles.getExamples()_.
+
+    If the MCC is given, numbers will be formatted after the manner of the
+    country specified by the MCC. If it is not given, but the locale is, the
+    manner of the country in the locale is followed. If neither the MCC nor the
+    locale is given, the formatter follows the manner of the country of the
+    device's _phoneLocale_.
 */
 enyo.g11n.PhoneFmt = function(params) {
 	this.locale = new enyo.g11n.PhoneLoc(params);
@@ -86,33 +92,36 @@ enyo.g11n.PhoneFmt.prototype = {
 	
 	//* @public
 	/**
-	 Format the parts of a phone number appropriately according to the settings in 
-	 this formatter instance.
-	  
-	 number (Object): object containing the phone number to format
-	 
-	 params (Object): The params can contain zero or more of these properties:
-	 
-	 * partial (Boolean): whether or not this phone number represents a partial number. 
-	 The default is false, which means the number represents a whole number
-	      
-	 The partial parameter specifies whether or not the phone number model contains
-	 a partial phone number or if the caller thinks it is a whole phone number. The
-	 reason is that for certain phone numbers, they should be formatted differently
-	 depending on whether or not it represents a whole number. Specifically, SMS
-	 short codes are formatted differently. 
-	 
-	 Example: a subscriber number of "48773" in the US would get formatted as:
-	 
-	 * partial: 487-73  (perhaps the user is on the way to typing a whole phone number such as 487-7379)
-	 * whole:   48773   (SMS short code)
-	 
-	 Any place in the UI where the user types in phone numbers, such as the keypad in the phone app, should
-	 pass in partial: true to this formatting routine. All other places, such as the call log in
-	 the phone app, should pass in partial: false, or leave the partial flag out of the parameters
-	 entirely. 
-	 
-	 Returns the formatted phone number as a string.
+	    Formats the parts of a phone number according to the settings in the
+	    current formatter instance.  The formatted number is returned as a
+	    string.
+
+	    * number (Object): Object containing the phone number to format
+
+	    * params (Object): Parameters controlling the formatting
+	    
+	    The _params_ object may contain the _partial_ property, a Boolean
+	    indicating whether or not the passed-in phone number represents a
+	    partial number. The default is false, meaning that the number
+	    represents a whole number.
+
+	    The _partial_ property exists because certain phone numbers--in
+	    particular, SMS short codes--should be formatted differently depending
+	    on whether or not they represent whole numbers.
+
+	    For example, a subscriber number of "48773" in the U.S. would be
+	    formatted as:
+
+	    * partial: 487-73  (Perhaps the user is in the middle of typing a whole
+	        phone number, such as "487-7379")
+
+	    * whole:   48773   (SMS short code)
+
+	    Any place in the UI where the user types in phone numbers (e.g., the
+	    keypad in the phone app) should pass in _partial: true_ to this
+	    formatter. All other places (e.g., the call log in the phone app) should
+	    pass in _partial: false_, or else leave the _partial_ flag out of the
+	    _params_ object entirely.
 	 */
 	format: function format(number, params) {
 		var temp, 
@@ -213,31 +222,31 @@ enyo.g11n.PhoneFmt.prototype = {
 	},
 	
 	/**
-	 This function evaluates whether reformatting is possible, and if so returns the 
-	 same phone number, but reformatted to the standard format. If it is not possible, 
-	 the original string is returned unchanged.
-	 
-	 * phoneNumber (String): a string that probably contains a phone number
-	 * params (Object, optional): parameters for use in parsing and reformatting
-	 
-	 The function first does a character count of the string to determine if there are
-	 enough digits for a phone number, and whether or not there are too many non-dialable
-	 characters. If it looks like it is just some text rather than a phone number, the 
-	 original string is returned instead.
-	 
-	 Another reason it may not be possible to reformat is if the digits in the phone
-	 number itself form an invalid number in the numbering plan. If so, this function 
-	 will not attempt to reformat the number (which would turn out incorrect) and 
-	 just return the original string.
-	 
-	 The params object is passed to the enyo.g11n.PhoneNumber() constructor 
-	 function, so it should contain the same properties as the one expected
-	 by that function. Please see the documentation for PhoneNumber for more
-	 details on the expected properties.
-	 
-	 Returns a string containing the given phone number reformatted to the 
-	 standard format if possible, or the original string if not.
-	 */
+	    Evaluates whether the passed-in string can be reformatted as a phone
+	    number. If so, the formatted number is returned; if not, the original
+	    string is returned unmodified.
+
+	    * phoneNumber (String): A string that probably contains a phone number
+
+	    * params (Object): Parameters for use in parsing and reformatting
+	        (optional)
+
+	    The function does a character count to determine whether the string
+	    contains enough digits for a phone number, also checking for the
+	    presence of too many non-dialable characters. If it looks like the
+	    string is just some text rather than a phone number, the original string
+	    is returned.
+
+	    Another reason why it may not be possible to reformat is if the digits
+	    in the phone number form an invalid number in the active numbering plan.
+	    If so, the function will not attempt to reformat the number (which
+	    would just be invalid) and will just return the original string.
+
+	    The _params_ object is passed to the _enyo.g11n.PhoneNumber()_
+	    constructor function, so it should contain the properties expected by
+	    that function. Please see the documentation for _PhoneNumber_ for more
+	    details on the expected properties.
+	*/
 	reformat: function (phoneNumber, params) {
 		var ret = "",
 			i,
@@ -297,4 +306,3 @@ enyo.g11n.PhoneFmt.prototype = {
 		return this.format(temp, params);
 	}
 };
-

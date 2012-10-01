@@ -7,19 +7,19 @@
 //* @public
 
 /**
-Create a new geo locator instance that behaves according to the given parameters.
+    Creates a new GeoLocator instance that behaves according to the given
+    parameters.
 
-The params object can contain zero or more of the following properties:
+    The _params_ object may contain zero or more of the following properties:
 
-* locale: locale to use for geolocation
-* mcc: mcc of the carrier the device is currently connected to, which specifies the locale
+    * locale: Locale to use for geolocation
 
-If the MCC is also not available, this method will fall back on the passed-in 
-locale parameter if it is available. 
+    * mcc: MCC of the carrier the device is currently connected to, which
+        specifies the locale
 
-If the locale parameter is also not available, this method relies on the default 
-phone region of the device.
-
+    If the MCC is not available, this method will fall back to the passed-in
+    _locale_ parameter. If the _locale_ parameter is also not available, this
+    method will use the default phone region of the device.
 */
 enyo.g11n.GeoLocator = function(params) {
 	this.locale = new enyo.g11n.PhoneLoc(params);
@@ -160,58 +160,65 @@ enyo.g11n.GeoLocator.prototype = {
 	
 	//* @public
 	/**
-	 * Returns a the location of the given phone number, if known. 
-	  
-	 * number (String): A enyo.g11n.PhoneNumber instance containing a phone number to locate
-	  
-	 The returned object has 2 properties, each of which has an sn (short name) 
-	 and an ln (long name) string. Additionally, the country code, if given,
-	 includes the 2 letter ISO code for the recognized country.
+	    Returns the location of the passed-in phone number, if known. 
+
+	    * number (String): An _enyo.g11n.PhoneNumber_ instance containing a
+	        phone number to locate
+
+	    The returned object has two properties, each of which has an _sn_ (short
+	    name) and an _ln_ (long name) string. Additionally, the country code, if
+	    given, includes the two-letter ISO code for the recognized country.  For
+	    example:
+
+	        {
+	            "country": {
+	                "sn": "North America",
+	                "ln": "North America and the Caribbean Islands",
+	                "code": "us"
+	            },
+	            "area": {
+	                "sn": "California",
+	                "ln": "Central California: San Jose, Los Gatos, Milpitas, Sunnyvale, Cupertino, Gilroy"
+	            }
+	        }
+
+	    The location name is subject to the following rules:
+
+	    * If the _areaCode_ property is undefined or empty, or if the number
+	        specifies a country code for which we do not have information, then
+	        the _area_ property may be missing from the returned object. In this
+	        case, only the _country_ object will be returned.
+
+	    * If there is no area code, but there is a mobile prefix, service code,
+	        or emergency code, then a fixed string indicating the type of number
+	        will be returned.
 	 
-	     {
-	          "country": {
-	              "sn": "North America",
-	              "ln": "North America and the Caribbean Islands",
-	              "code": "us"
-	          },
-	          "area": {
-	              "sn": "California",
-	              "ln": "Central California: San Jose, Los Gatos, Milpitas, Sunnyvale, Cupertino, Gilroy"
-	          }
-	     }
-	 
-	 The location name is subject to the following rules:
-	 
-	 If the areaCode property is undefined or empty, or if the number specifies a 
-	 country code for which we do not have information, then the area property may be 
-	 missing from the returned object. In this case, only the country object will be returned.
-	 
-	 If there is no area code, but there is a mobile prefix, service code, or emergency 
-	 code, then a fixed string indicating the type of number will be returned.
-	 
-	 The country object is filled out according to the countryCode property of the phone
-	 number. 
-	 
-	 If the phone number does not have an explicit country code, the MCC will be used if
-	 it is available. The country code can be gleaned directly from the MCC. If the MCC 
-	 of the carrier to which the phone is currently connected is available, it should be 
-	 passed in so that local phone numbers will look correct.
-	 
-	 If the country's dialling plan mandates a fixed length for phone numbers, and a 
-	 particular number exceeds that length, then the area code will not be given on the
-	 assumption that the number has problems in the first place and we cannot guess
-	 correctly.
-	 
-	 The returned area property varies in specificity according
-	 to the locale. In North America, the area is no finer than large parts of states
-	 or provinces. In Germany and the UK, the area can be as fine as small towns.
-	 
-	 The strings returned from this function are already localized to the 
-	 given locale, and thus are ready for display to the user.
-	 
-	 If the number passed in is invalid, an empty object is returned. If the location
-	 information about the country where the phone number is located is not available,
-	 then the area information will be missing and only the country will be returned.
+	    * The _country_ object is filled out according to the _countryCode_
+	        property of the phone number.
+
+	    * If the phone number does not have an explicit country code, the MCC
+	        will be used if it is available. The country code can be gleaned
+	        directly from the MCC. If the MCC of the carrier to which the phone
+	        is currently connected is available, it should be passed in so that
+	        local phone numbers will look correct.
+
+	    * If the country's dialing plan mandates a fixed length for phone
+	        numbers, and a particular number exceeds that length, then the area
+	        code will not be given, on the assumption that the number has
+	        problems in the first place and we cannot guess correctly.
+
+	    * The returned _area_ property varies in specificity according to the
+	        locale. In North America, the area is no finer than large parts of
+	        states or provinces. In Germany and the U.K., the area can be as
+	        specific as small towns.
+
+	    * The strings returned from this function are already localized for the
+	        given locale, and thus are ready for display to the user.
+
+	    * If the number passed in is invalid, an empty object is returned. If
+	        the location information about the country where the phone number is
+	        located is not available, then the area information will be missing
+	        and only the country will be returned.
 	 */
 	locate: function (number) {
 		var ret = {}, 
@@ -425,14 +432,14 @@ enyo.g11n.GeoLocator.prototype = {
 	},
 	
 	/**
-	 Returns a string that describes the ISO-3166-2 country code of the given phone
-	 number. 
-	 
-	 * number (Object): An enyo.g11n.PhoneNumber instance
-	  
-	 If the phone number is a local phone number and does not contain
-	 any country information, this routine will return the region for the current
-	 formatter instance.
+	    Returns a string that describes the ISO-3166-2 country code of the given
+	    phone number. 
+
+	    * number (Object): An _enyo.g11n.PhoneNumber_ instance
+
+	    If the phone number is a local phone number and does not contain any
+	    country information, this function will return the region for the
+	    current formatter instance.
 	 */
 	country: function(number) {
 		var countryCode, region;
@@ -457,4 +464,3 @@ enyo.g11n.GeoLocator.prototype = {
 		return region;
 	}
 };
-

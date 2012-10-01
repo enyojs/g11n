@@ -10,15 +10,15 @@
 /**
     Creates and returns a new Locale instance. 
 
-    The specifier parameter (spec) has the format:
+    The specifier parameter (_spec_) has the format:
 
         [language]\_[region][\_variant]
 
     That is, the language, region, and variant are optional parts separated by
-    underscores. The language is given by the 2-letter ISO 639 language code,
-    and the region is given by the 2-letter ISO 3166 country code, lower-cased.
-    The variant can be any string that contains any ASCII letter characters and
-    no spaces or underscores.
+    underscores. The language is given by the two-letter ISO 639 language code,
+    and the region is given by the two-letter ISO 3166 country code,
+    lower-cased. The variant can be any string that contains any ASCII letter
+    characters and no spaces or underscores.
 
     The region is specified with a lower-case code for historical reasons
     specific to webOS. We continue to use the lower-case codes, but the locale
@@ -30,7 +30,7 @@
     functions, such as number or phone number formatting, the region is used to
     find the proper format, so specifying only the language "fr" might not do
     what you expect. It is better to fully specify the locale when constructing
-    an instance of enyo.g11n.Locale--for example, use "fr_fr" instead of just
+    an instance of _enyo.g11n.Locale_--for example, use "fr_fr" instead of just
     "fr" for French/France.
 
     If you want to construct a locale with a region but no language, then the
@@ -124,7 +124,7 @@ enyo.g11n.Locale.prototype.isMatch = function (otherLocale) {
 };
 
 /**
-    Returns true if this locale exactly matches the other locale; otherwise,
+    Returns true if this locale exactly matches the passed-in locale; otherwise,
     false. Locales that are equal necessarily match (i.e., are compatible), but
     locales that are compatible aren't necessarily equal.
 */

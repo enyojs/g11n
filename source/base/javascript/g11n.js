@@ -144,12 +144,12 @@ enyo.g11n.sourceLocale = function sourceLocale(){
 
 //* @public
 /**
-    Sets the framework's record of the currently active locales.
+    Sets the framework's understanding of the currently active locales.
 
-    The params object may contain one or more of the following properties:
+    The _params_ object may contain one or more of the following properties:
 
     * uiLocale: Locale specifier for the UI locale
-    * formatLocal: Locale specifier for the format locale
+    * formatLocale: Locale specifier for the format locale
     * phoneLocale: Locale specifier for the phone locale
 
     The value of each property should be a string that is the specifier for that

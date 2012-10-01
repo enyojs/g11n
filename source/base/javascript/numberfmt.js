@@ -9,43 +9,47 @@
 //* @public
 
 /**
-    Creates a formatter object that formats numbers according to the given
-    options. Once the formatter object is created, it is intended to be
-    immutable, so that you can create multiple formatters for different purposes
-    and they will not conflict with each other. 
+    Creates a formatter (_NumberFmt_) object that formats numbers according to
+    the passed-in options. Once the formatter is created, it is intended to be
+    immutable, so you can create multiple formatters for different purposes and
+    they will not conflict with each other. 
 
-    The options object may include any of the following properties:
+    The _options_ object may include any of the following properties:
 
     * locale: The locale of the formatter. If this is not specified, the
-        current formatLocale is used as a default.
+        current _formatLocale_ is used as a default.
 
     * style: One of "number", "percent", or "currency". If this is not
         specified, the default is "number". This formats numbers according to
         the locale's conventions for formatting floating point numbers,
         percentages, and monetary amounts, respectively.
 
-    * currency: The ISO 4217 3-letter code for the currency to format. The
-        currency property affects the currency sign used to identify the
-        currency in the output string. It can interact with the locale in that
+    * currency: The ISO 4217 three-letter code for the currency to format. The
+        _currency_ property affects the currency sign used to identify the
+        currency in the output string. It can interact with the _locale_ in that
         the currency sign may be placed before or after the amount and with or
         without space, depending on the locale. For example, both Germany and
         Ireland use the same currency (the Euro), but in Ireland, amounts are
         written as "€5.34", whereas in Germany, the same amount is written as
-        "5,34 €". If a locale spec is given as the the currency property and the
-        legal currency for the named locale can be determined, then that
-        currency will be used. If the currency property is not specified, then
-        the legal currency for the locale is used as the default. This property
-        only has an effect if the style property is given as "currency".
+        "5,34 €".
+        
+        If a locale spec is given as the value of this property and the legal
+        currency for the named locale can be determined, then that currency will
+        be used as the default.
 
-    * currencyStyle: The value of this property may have one of the following
-        values: "iso" or "common". The "iso" style causes the currency to be
-        formatted using the ISO 4217 code as the currency sign. The "common"
-        style causes the currency to be formatted using the common currency sign
-        for the locale. For example, the "iso" style in the German locale would
-        be "5,34 EUR" whereas the "common" style would be "5,34 €". In Ireland,
-        the "iso" style would be "EUR 5.34" and the "common" style would be
-        "€5.34". If this property is not specified, the default value of
-        "common" is used.
+        Note that this property has no effect unless the _style_ property is set
+        to "currency".
+
+    * currencyStyle: This property may have one of the following values: "iso"
+        or "common". The "iso" style causes the currency to be formatted using
+        the ISO 4217 code as the currency sign. The "common" style causes the
+        currency to be formatted using the common currency sign for the locale.
+        For example, the "iso" style in the German locale would be "5,34 EUR",
+        while the "common" style would be "5,34 €". In Ireland, the "iso" style
+        would be "EUR 5.34" and the "common" style would be "€5.34".
+        
+        If no value is specified for this property, "common" is used as the
+        default.
 
     * fractionDigits: The number of digits to show after the decimal. If this is
         not specified, all digits are shown in the "number" and "percent"
@@ -182,11 +186,11 @@ enyo.g11n.NumberFmt = function(options) {
 };
 
 /**
-    Converts a passed-in number into a string, using the proper locale-based
+    Converts a passed-in number to a string, using the proper locale-based
     format for numbers. If the parameter is passed in as a string containing a
-    number, it will be parsed into a number first before being formatted back
-    into a string and returned. If the parameter is neither a number nor a
-    string containing a valid number, the value "undefined" is returned.
+    number, it is first parsed into a number before being reformatted as a
+    string and returned. If the parameter is neither a number nor a string
+    containing a valid number, the value "undefined" is returned.
 */
 enyo.g11n.NumberFmt.prototype.format = function(number) {
 	try {

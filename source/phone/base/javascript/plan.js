@@ -1,8 +1,6 @@
 /*$
  * @name plan.js
- * @fileOverview This file has the implementation of the Numbering Plan object which gives information about a particular country's numbering plan
- * 
- * 
+ * @fileOverview This file has the implementation of the Numbering Plan object, which gives information about a particular country's numbering plan.
  *
  */
 
@@ -10,9 +8,9 @@
 
 //* @public
 /**
-Return info about the dialing/numbering plan of a particular locale.
+    Returns info about the dialing/numbering plan of a particular locale.
 
-It is up to the callers to release the json files from the cache.
+    It is up to the callers to release the JSON files from the cache.
 */
 enyo.g11n.NumPlan = function(params) {
 	

@@ -2,15 +2,13 @@
  * @name utils.js
  * @fileOverview Utility functions for the entire phone library
  * 
- * 
- *
  */
 
 /*globals  G11n PhoneLoc enyo*/
 
 //* @protected
 enyo.g11n.PhoneUtils = {
-	// what order should fields of the parsed phone model be formatted?
+	// in what order should fields of the parsed phone model be formatted?
 	fieldOrder: [
 		"vsc",
 		"iddPrefix",
@@ -69,8 +67,8 @@ enyo.g11n.PhoneUtils = {
 	},
 	
 	/*
-	 * Return the region that controls the dialing plan in the given
-	 * region. (ie. the "normalized phone region".)
+	 * Returns the region that controls the dialing plan in the given region
+	 * (i.e., the "normalized phone region").
 	 */
 	normPhoneReg: function (region) {
 		var norm;
@@ -134,7 +132,7 @@ enyo.g11n.PhoneUtils = {
 	
 	//* @public
 	/**
-	Map a mobile carrier code to a country dialing code.
+	    Maps a passed-in mobile carrier code to a country dialing code.
 	*/
 	mapMCCtoCC: function (mcc) {
 		if (!mcc) {
@@ -149,9 +147,9 @@ enyo.g11n.PhoneUtils = {
 		
 		return enyo.g11n.PhoneUtils.mcc2cc[mcc];
 	},
-	
+
 	/**
-	Map a mobile carrier code to a region code.
+	    Maps a passed-in mobile carrier code to a region code.
 	*/
 	mapMCCtoRegion: function (mcc) {
 		if (!mcc) {
@@ -168,7 +166,7 @@ enyo.g11n.PhoneUtils = {
 	},
 	
 	/**
-	Map a country dialing code to a region code.
+	    Maps a passed-in country dialing code to a region code.
 	*/
 	mapCCtoRegion: function (cc) {
 		if (!cc) {
@@ -185,7 +183,7 @@ enyo.g11n.PhoneUtils = {
 	},
 	
 	/**
-	Map a region code to a country dialing code.
+	    Maps a passed-in region code to a country dialing code.
 	*/
 	mapRegiontoCC: function(region) {
 
@@ -203,11 +201,10 @@ enyo.g11n.PhoneUtils = {
 	},
 
 	/**
-	Map an area code within a dialing plan (cc) to a region code.
-	Some dialing plans (notably the North American Numbering Plan)
-	encompass multiple countries, and have particular area codes 
-	assigned to those countries. This maps back to the actual
-	country code.
+	    Maps an area code within a dialing plan (cc) to a region code. Some
+	    dialing plans (notably the North American Numbering Plan) encompass
+	    multiple countries, and have particular area codes assigned to those
+	    countries. This function maps back to the actual country code.
 	*/
 	mapAreaToRegion: function (cc, area) {
 		if (!cc) {
@@ -228,7 +225,7 @@ enyo.g11n.PhoneUtils = {
 	},
 	
 	//* @protected
-	// return a code for each dialable digit in a phone number
+	// Returns a code for each dialable digit in a phone number.
 	_getCharacterCode: function _getCharacterCode(ch) {
 		if (ch >= '0' && ch <= '9') {
 			return ch - '0';
@@ -258,17 +255,17 @@ enyo.g11n.PhoneUtils = {
 	
 	//* @public
 	/**
-	 Takes an IMSI number as a string, parses out the parts and returns them
-	  
-	 This function takes an IMSI number as a string, and returns its parts.
-	 The parts are:
+	    Takes an IMSI number as a string, parses out the parts, and returns them
+	    as fields of a JavaScript object.
+	
+	    The parts are:
+
+	    * mcc: The Mobile Country Code
+	    * mnc: The Mobile Network Code (identifies the carrier)
+	    * msin: The Mobile Service Identification Number (usually the person's
+	        subscriber number)
 	 
-	 *- *mcc*: the Mobile Country Code
-	 * *mnc*: the Mobile Network Code (identifies the carrier)
-	 * *msin*: the Mobile Service Identification Number (usually the person's subscriber number)
-	 
-	 Returns an object containing the the parsed imsi, or undefined if the imsi
-	 could not be parsed. 
+	    Returns undefined if the IMSI cannot be parsed. 
 	 */
 	parseImsi: function(imsi) {
 		var ch, 

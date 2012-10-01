@@ -2,8 +2,6 @@
  * @name name.js
  * @fileOverview This file has the implementation of the Name object
  * 
- * 
- *
  */
 
 /*globals  G11n */
@@ -11,8 +9,8 @@
 //* @protected
 enyo.g11n.NamePriv = {
 	/*$ private 
-	 * Return the auxillary words found at the beginning of the name string 
-	 * as an array.
+	    Returns an array of the auxiliary words found at the beginning of the
+	    name string.
 	 */
 	_findPrefix: function _findPrefix(parts, hash, isAsian) {
 		var prefix, prefixLower, prefixArray, aux = [], i;
@@ -40,8 +38,8 @@ enyo.g11n.NamePriv = {
 	},
 
 	/*$ private
-	 * Return true if any Latin letters are found in the string. Return
-	 * false if all the characters are non-Latin.
+	 * Returns true if any Latin letters are found in the string. Returns false
+	 * if all the characters are non-Latin.
 	 */
 	_isEuroName: function _isEuroName(name) {
 		var c, i;
@@ -115,74 +113,64 @@ enyo.g11n.NamePriv = {
 
 //* @public
 /**
-Parse a personal name written in a free-form string.
+    Parses a personal name written in a free-form string. Returns a JavaScript
+    object with extracted name data in its properties.
 
-* name (String): name of a person to parse
-* params (Object): parameters controlling the parsing of the name
+    * name (String): Name of a person to parse
+
+    * params (Object): Parameters controlling the parsing of the name
  
+    The returned object may contain the following properties:
 
-This constructor returns an object with a number of properties from the list below 
-that it may have extracted from that name. Because some properties
-(eg. "middleName")
-may contain multiple names, each property may be a single string with
-spaces and punctuation in the middle of it. 
+    * prefix: Any titles, such as "President" or "Dr.", or honorifics, such as
+        "Don" in Spanish or "Mister" in English, that precede the name.
+    * givenName: The given name(s) of the person, which is often unique to that
+        person within a family or group.
+    * familyName: The family name(s) of a person, which is shared with other
+        family members
+    * middleName: Auxiliary given name(s)
+    * suffix: Any suffixes that are attached to a name, such as "Jr." or "M.D."
+        in English, or honorifics like "-san" in Japanese. 
 
-If any names cannot be assigned to 
-one of these properties, they will be be inserted into the "givenName" property.
+    Some properties (e.g., "middleName") may contain multiple names.  The value
+    of a property with multiple names will be returned as a single string with
+    the original punctuation preserved. For example, if the name is "John Jacob
+    Jingleheimer Schmidt", there are two middle names and they will be returned
+    as the string: "Jacob Jingleheimer".
 
-The following is a list of name properties that the algorithm will return:
+    Suffixes may be optionally appended to names using a comma. If commas appear
+    in the original name, they will be preserved in the output of the suffix
+    property so that they can be reassembled again later by NameFmt.format().
 
-* prefix: Any titles, such as "President" or "Dr.", or honorifics, such as "Don" in Spanish or "Mister" in English that preceed the name
-* givenName: the given name(s) of the person, which is often unique to that person within a family or group
-* familyName: the family name(s) of a person that is shared with other family members
-* middleName: auxilliary given name(s)
-* suffix: any suffixes that are attached to a name, such as "Jr." or "M.D." in English, or honorifics like "-san" in Japanese. 
+    For any titles or honorifics that are considered as whole, the name is
+    returned as a single string. For example, if the name to parse is "The Right
+    Honourable James Clawitter", the honorific would be returned as a prefix
+    with the whole string "The Right Honourable".
 
-For any individual property, if there are multiple names for that property,
-they will be returned as a single string with the original punctuation 
-preserved. For example, if the name
-is "John Jacob Jingleheimer Schmidt", there are two middle names and they 
-will be returned as the string: "Jacob Jingleheimer"
+    When a compound name is found in the name string, the conjunction is placed
+    in the givenName property. For example, "John and Mary Smith" gets parsed
+    into the following output:
 
-Suffixes may be optionally appended to names using a comma. If commas
-appear in the original name, they will be preserved in the output of
-the suffix property so that they can be reassembled again later by
-NameFmt.format() properly.
+        {
+            givenName: "John and Mary",
+            familyName: "Smith"
+        }
 
-For any titles or honorifics that are considered a whole, the name is
-returned as a single string. For example, if the name to
-parse is "The Right Honourable James Clawitter", the honorific would
-be returned as a prefix with the whole string "The Right Honourable".
+    This can be considered to be two names: "John Smith and Mary Smith".
+    Without the compound name rule, the words "and Mary" would be considered
+    middle names of the person "John Smith".
 
-When a compound name is found in the name string, the conjunction is
-placed in the givenName property. 
+    There are a few special cases in which a name will be parsed differently
+    from what the rules of the given locale would imply. If the name is composed
+    entirely of Asian characters, it is parsed as an Asian name, even in
+    non-Asian locales. If the locale is an Asian locale, and the name is 
+    composed entirely of Latin alphabet characters, the name is parsed as a 
+    generic Western name (using US/English rules). This way, Asian and western
+    names can be mixed in the same list, and they will all be parsed reasonably
+    correctly.
 
-Example: "John and Mary Smith"<br>
-output:
-
-    {
-       givenName: "John and Mary",
-       familyName: "Smith"
-    }
-
-
-This can be considered to be two names: "John Smith and Mary Smith". Without 
-conjunctions, the words "and Mary" would have been considered
-middle names of the person "John Smith".
-
-There are a few special cases where the name is parsed differently from
-what the rules of the given locale would imply. If the name is composed 
-entirely of Asian characters, it is parsed as an Asian name, even in 
-non-Asian locales. If the locale is an Asian locale, and the name is 
-composed entirely of Latin alphabet characters, the name is parsed as a 
-generic Western name (using US/English rules). This way, Asian and western
-names can be mixed in the same list, and they will all be parsed 
-reasonably correctly.
-
-When a name cannot be parsed properly, the entire name will be placed
-into the givenName property.
-
-Returns an object with the various properties listed above.
+    When a name cannot be parsed properly, the entire name will be placed
+    into the givenName property.
 */
 enyo.g11n.Name = function(name, params) {
 	var locale, langInfo, nameInfo, langInfoEn, parts = [], 
@@ -609,25 +597,26 @@ enyo.g11n.Name.prototype = {
 	},
 
 	//* @public
-	 /**
-	  * locale (String): locale to use to decide the part to use
-	  
-	  This function returns the portion of a person's family name that should be
-	  used for sorting. In English, we almost always sort by the first letter of
-	  the last name.
-	   
-	  Example: "van der Heyden" would be sorted under "V", so this function would
-	  return the original string back "van der Heyden".
-	  
-	  In other cultures, it is common to sort by the head word of a family name 
-	  that uses auxillaries like "van der". So, using the example above, this
-	  function would return "Heyden" in Dutch. The same strategy goes for German
-	  and other Germanic languages as well.
-	  
-	  If not specified, the locale will default to the locale of this Name instance.
-	  
-	  Returns a string with the part of the name used for sorting.
-	  */
+	/**
+	    Returns the portion of a person's family name that should be used for
+	    sorting.
+
+	    * locale (String): locale to use to decide the part to use
+
+	    In English, we almost always sort by the first letter of the last
+	    name--for example, the name "van der Heyden" would be sorted under "V".
+	    Thus, if this function is called on a Name instance for someone with
+	    that surname, the original string ("van der Heyden") will be returned
+	    unmodified.
+
+	    In other cultures, it is common to sort by the head word of a family
+	    name containing auxiliaries like "van der". Returning to our example,
+	    this function would return "Heyden" for Dutch, German, and other
+	    Germanic languages.
+
+	    If no value is specified, the locale defaults to the locale of the
+	    current Name instance.
+	*/
 	getSortName: function (locale) {
 		var loc,
 			name,
@@ -710,7 +699,7 @@ enyo.g11n.Name.prototype = {
 	
 	//* @protected
 	/**
-	 Return a shallow copy of the current instance.
+	    Returns a shallow copy of the current instance.
 	 */
 	clone: function () {
 		var other = new enyo.g11n.Name();

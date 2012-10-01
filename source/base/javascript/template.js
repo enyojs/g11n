@@ -11,9 +11,8 @@
     Creates and returns a Template object that substitutes the strings into a
     specified string template.
 
-    The template parameter is a string to substitute into. The pattern parameter
-    is an optional parameter that overrides the normal #{foo} substitution
-    format.
+    The _template_ parameter is a string to substitute into. The optional
+    _pattern_ parameter overrides the normal #{foo} substitution format.
 */
 
 enyo.g11n.Template = function(template, pattern) {
@@ -79,7 +78,7 @@ enyo.g11n.Template.prototype._evalHelper = function(template, data) {
 /**
     Substitutes the strings into a specified string template.
 
-    The data parameter is an object giving values to interpolate into the
+    The _data_ parameter is an object giving values to interpolate into the
     template string.
 
         var source = '\\#{zero} #{zero} #{woot.blah}...';
@@ -100,34 +99,32 @@ enyo.g11n.Template.prototype.evaluate = function (data) {
     A choice string is a sequence of choices separated by a vertical bar
     character. Each choice has a value to match, followed by a hash character,
     followed by the string to use if the value matches. The string cannot
-    contain a vertical bar. The strings may contain references to objects in the
-    given model that are use to format that string. The syntax "2>" means
+    contain a vertical bar.
+
+    The strings may contain references (such as #{num}) to objects in the given
+    model that are used to format the final string. The syntax "2>" means
     "greater than 2". Similarly, the syntax "2<" means "less than 2". If the
-    value of the choice is empty, that means to use that choice as the default
+    value of a choice is empty, that means to use that choice as the default
     string.
 
     Here is an example choice string:
 
         0#There are no files|1#There is one file|9>#There are #{num} files.|#There are some files.
 
-    In this example, if the value passed in with the first parameter is 0, then
-    the first string ("There are no files") is used. If the value passed in with
-    the first parameter is 1, then the second string ("There is one file") is
-    used. If the value is greater than 9, the string "There are #{num} files."
-    is used. If no other choices match, then the default string ("There are some
-    files.") is used.
+    Here, if the value passed in with the first parameter is 0, then the first
+    string ("There are no files") is used. If the value passed in with the first
+    parameter is 1, then the second string ("There is one file") is used. If the
+    value is greater than 9, the string "There are #{num} files." is used. If no
+    other choices match, then the default string ("There are some files.") is used.
 
-    The strings may contain references (such as #{num}) to objects in the given
-    model that are used to format the final string.
-
-    When the function is called this way:
+    When the function is called in the following way...
 
         var files = 2185;
         var model = { num: files };
         var template = new enyo.g11n.Template("0#There are no files|1#There is one file|1<#There are #{num} files.");
         var str = template.formatChoice(files, model);
 
-    The result in str would be:
+    ...the result in _str_ will be:
 
         There are 2185 files.
 */
