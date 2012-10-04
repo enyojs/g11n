@@ -5,7 +5,7 @@ enyo.kind({
 		{kind: "onyx.Toolbar", content:$L("Dates")},
 		{kind: "FittableColumns", components:[
 			{components: [
-				{content:$L("Pick a Locale to use:")},		
+				{content:$L("Choose Locale"), classes: "g11n-sample-divider"},		
 				{kind: "onyx.PickerDecorator", style:"padding:10px;", onSelect: "pickerHandler", components: [
 					{content: "Pick One...", style: "width: 200px"},
 					{kind: "onyx.Picker", components: [
@@ -23,31 +23,16 @@ enyo.kind({
 						{content: 'es_us'}																																																								
 					]}
 				]}
-			]},
-			{style:"padding-left:60px;", components:[
-				{name:"currentLocale"},			
-				{name:"language"},
-				{name:"dialect"},
-				{name:"timezone"}				
-			]},					
+			]}				
 		]},
-		{style:"width:100%;height:5px;background-color:black;margin-bottom:5px;"},
-		{caption: "Dates", components: [
-			{name:"dateExample"},
-			
-		//	{content:"In Progress", style:"padding-top:50px;color:red"},
-		//	{kind:"DateTimePicker"}				
+		{kind: "onyx.Groupbox", components: [
+			{kind: "onyx.GroupboxHeader", content: "Date"},
+			{name:"dateExample", style: 'padding: 8px', content: "Current date"},
 		]}
 	],
 	initComponents: function() {
 		this.inherited(arguments);
-				
 		var locale = enyo.g11n.currentLocale().getLocale();
-       	this.$.currentLocale.setContent("System locale = " + locale);
-        this.$.language.setContent("System language = " + locale.language);
-        this.$.dialect.setContent("System region = " + locale.region);
-		this.$.timezone.setContent("System timezone = " + (new enyo.g11n.TzFmt()).getCurrentTimeZone());
-
 		this.format(locale);
 	},
 	pickerHandler: function(inSender, inEvent){

@@ -3,49 +3,20 @@ enyo.kind({
 	kind: "FittableRows",
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Duration")},
-		{kind: "FittableColumns", components:[
-			{components: [
-				{content:$L("Pick a Locale to use:")},		
-				{kind: "onyx.PickerDecorator", style:"padding:10px;", onSelect: "pickerHandler", components: [
-					{content: "Pick One...", style: "width: 200px"},
-					{kind: "onyx.Picker", components: [
-						{content: 'en_us', active:true},
-						{content: 'en_ca'},
-						{content: 'en_ie'},
-						{content: 'en_gb'},
-						{content: 'en_mx'},
-						{content: 'de_de'},
-						{content: 'fr_fr'},
-						{content: 'fr_ca'},
-						{content: 'it_it'},
-						{content: 'es_es'},
-						{content: 'es_mx'},
-						{content: 'es_us'}																																																								
-					]}
-				]}
-			]},
-			{style:"padding-left:60px;", components:[
-				{name:"currentLocale"},			
-				{name:"language"},
-				{name:"dialect"},
-				{name:"timezone"}				
-			]},					
-		]},
-		{style:"width:100%;height:5px;background-color:black;margin-bottom:5px;"},
-		{caption: "Duration", components: [
-			{name:"DurationExample", allowHtml:true},
-			{name:"DurationExample2", style:"padding-top:10px;", allowHtml:true}				
-		]}
+		{kind: "onyx.Groupbox", style:"padding:20px 0;", components: [
+			{kind: "onyx.GroupboxHeader", content: "Duration"},
+			{content:"1 year, 2 months, 3 weeks, 27 days, 8 hours, 9 minutes & 10 seconds", style: 'padding: 8px'}
+        ]},
+		{kind: "onyx.Groupbox", components: [
+			{kind: "onyx.GroupboxHeader", content: "Duration Styles"},
+			{name:"DurationExample", style: 'padding: 8px', allowHtml:true},
+			{name:"DurationExample2", style:"padding: 8px;", allowHtml:true},
+			{name:"DurationExample3", style:"padding: 8px;", allowHtml:true}				
+        ]}
 	],
 	initComponents: function() {
 		this.inherited(arguments);
-			
 		var locale = enyo.g11n.currentLocale().getLocale();
-       	this.$.currentLocale.setContent("System locale = " + locale);
-        this.$.language.setContent("System language = " + locale.language);
-        this.$.dialect.setContent("System region = " + locale.region);
-		this.$.timezone.setContent("System timezone = " + (new enyo.g11n.TzFmt()).getCurrentTimeZone());
-
 		this.format(locale);
 	},
 	pickerHandler: function(inSender, inEvent){
@@ -68,12 +39,18 @@ enyo.kind({
 			minutes: 9,
 			seconds: 10
 		}
-		 this.$.DurationExample.setContent("1 year, 2 months, 3 weeks, 27 days, 8 hours, 9 minutes & 10 seconds in " + locale + " in short form = <br>" + durfmt.format(duration));	
+		 this.$.DurationExample.setContent("<b>short:</b>&nbsp;&nbsp;&nbsp;" + durfmt.format(duration));	
 		
 		 var durfmt2 = new enyo.g11n.DurationFmt({
-		     style: "long",
+		     style: "medium",
 		     locale: new enyo.g11n.Locale(locale)
 		 });
-		 this.$.DurationExample2.setContent("1 year, 2 months, 3 weeks, 27 days, 8 hours, 9 minutes & 10 seconds in " + locale + " in medium form = <br>" + durfmt2.format(duration));			
+		 this.$.DurationExample2.setContent("<b>medium:</b>&nbsp;&nbsp;&nbsp;" + durfmt2.format(duration));			
+	    
+	     var durfmt3 = new enyo.g11n.DurationFmt({
+ 		     style: "long",
+ 		     locale: new enyo.g11n.Locale(locale)
+ 		 });
+ 		 this.$.DurationExample3.setContent("<b>long:</b>&nbsp;&nbsp;&nbsp;" + durfmt3.format(duration));
 	}
 });
