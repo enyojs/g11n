@@ -1,6 +1,7 @@
 enyo.kind({
 	name:"g11n.sample.PhoneSample",
 	kind: "FittableRows",
+	classes: "g11n-sample",	
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Phone Numbers")},
 		{tag:"br"},

@@ -1,6 +1,7 @@
 enyo.kind({
 	name:"g11n.sample.StringSample",
 	kind: "FittableRows",
+	classes: "g11n-sample",	
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Strings")},
 		{kind: "FittableColumns", components:[
@@ -26,7 +27,7 @@ enyo.kind({
 			]}				
 		]},
 		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", classes: "onyx-sample-divider", content: $L("Translations")},
+			{kind: "onyx.GroupboxHeader", content: $L("Translations")},
 			{kind:"Scroller", style: 'height:300px', components: [
 				{name:"Box", allowHtml: true, style:"font-size:1.2em"}
 			]}

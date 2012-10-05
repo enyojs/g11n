@@ -1,6 +1,7 @@
 enyo.kind({
 	name:"g11n.sample.NameSample",
 	kind: "FittableRows",
+	classes: "g11n-sample",	
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Names")},
 		{tag:"br"},

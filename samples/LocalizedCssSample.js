@@ -1,7 +1,7 @@
 enyo.kind({
 	name:"g11n.sample.LocalizedCssSample",
 	kind: "FittableRows",
-	classes:"g11n-text-color",
+	classes:"g11n-sample g11n-text-color",
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Localized CSS")},
 		{tag:"br"},		

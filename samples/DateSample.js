@@ -1,6 +1,7 @@
 enyo.kind({
 	name: "g11n.sample.DateSample",
 	kind: "FittableRows",
+	classes: "g11n-sample",		
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Dates")},
 		{kind: "FittableColumns", components:[

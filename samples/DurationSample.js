@@ -1,6 +1,7 @@
 enyo.kind({
 	name:"g11n.sample.DurationSample",
 	kind: "FittableRows",
+	classes: "g11n-sample",	
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Duration")},
 		{kind: "onyx.Groupbox", style:"padding:20px 0;", components: [

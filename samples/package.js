@@ -6,5 +6,6 @@ enyo.depends(
 	"DurationSample.js",
 	"AddressSample.js",		
 	"PhoneSample.js",
-	"NameSample.js"
+	"NameSample.js",
+	"LocalizedCssSample.js"
 );
