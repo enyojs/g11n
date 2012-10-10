@@ -1,23 +1,24 @@
 enyo.kind({
 	name:"g11n.sample.AddressSample",
 	kind: "FittableRows",
-	classes: "g11n-sample",
+	classes: "enyo-fit",
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Addresses")},
-		{tag:"br"},
-		{kind: "onyx.InputDecorator", components: [
-			{name:"numberInput", kind: "onyx.Input", placeholder: "Enter Address String",  
-			    style:"width:100%;", oninput:"inputChanged"}
-		]},
-		{tag:"br"},{tag:"br"},		
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: "Address"},
-			{name:"streetAddress", style: 'padding: 8px', content: "Street Address ="},
-			{name:"locality", style: 'padding: 8px', content: "Locality = "},
-			{name:"postalCode", style: 'padding: 8px', content: "Postal Code = "},
-			{name:"region", style: 'padding: 8px', content: "Region = "},
-			{name:"country", style: 'padding: 8px', content: "Country Code = "}
-		]},
+		{style: "padding: 10px", components: [
+    		{kind: "onyx.InputDecorator",  components: [
+    			{name:"numberInput", kind: "onyx.Input", placeholder: "Enter Address String",  
+    			    style:"width:100%;", oninput:"inputChanged"}
+    		]},
+    		{tag:"br"},{tag:"br"},		
+    		{kind: "onyx.Groupbox", components: [
+    			{kind: "onyx.GroupboxHeader", content: "Address"},
+    			{name:"streetAddress", style: 'padding: 8px', content: "Street Address ="},
+    			{name:"locality", style: 'padding: 8px', content: "Locality = "},
+    			{name:"postalCode", style: 'padding: 8px', content: "Postal Code = "},
+    			{name:"region", style: 'padding: 8px', content: "Region = "},
+    			{name:"country", style: 'padding: 8px', content: "Country Code = "}
+    		]}
+    	]}
 	],
 	inputChanged: function(inSender, inEvent) {
 		var address = new enyo.g11n.Address(inSender.getValue())

@@ -1,18 +1,20 @@
 enyo.kind({
 	name:"g11n.sample.DurationSample",
 	kind: "FittableRows",
-	classes: "g11n-sample",	
+	classes: "enyo-fit",	
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Duration")},
-		{kind: "onyx.Groupbox", style:"padding:20px 0;", components: [
-			{kind: "onyx.GroupboxHeader", content: "Duration"},
-			{content:"1 year, 2 months, 3 weeks, 27 days, 8 hours, 9 minutes & 10 seconds", style: 'padding: 8px'}
-        ]},
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: "Duration Styles"},
-			{name:"DurationExample", style: 'padding: 8px', allowHtml:true},
-			{name:"DurationExample2", style:"padding: 8px;", allowHtml:true},
-			{name:"DurationExample3", style:"padding: 8px;", allowHtml:true}				
+		{style: "padding: 10px", components: [
+    		{kind: "onyx.Groupbox", style:"padding:20px 0;", components: [
+    			{kind: "onyx.GroupboxHeader", content: "Duration"},
+    			{content:"1 year, 2 months, 3 weeks, 27 days, 8 hours, 9 minutes & 10 seconds", style: 'padding: 8px'}
+            ]},
+    		{kind: "onyx.Groupbox", components: [
+    			{kind: "onyx.GroupboxHeader", content: "Duration Styles"},
+    			{name:"DurationExample", style: 'padding: 8px', allowHtml:true},
+    			{name:"DurationExample2", style:"padding: 8px;", allowHtml:true},
+    			{name:"DurationExample3", style:"padding: 8px;", allowHtml:true}				
+            ]}
         ]}
 	],
 	initComponents: function() {

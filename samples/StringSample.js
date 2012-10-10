@@ -1,10 +1,10 @@
 enyo.kind({
 	name:"g11n.sample.StringSample",
 	kind: "FittableRows",
-	classes: "g11n-sample",	
+	classes: "enyo-fit",
 	components: [
 		{kind: "onyx.Toolbar", content:$L("Strings")},
-		{kind: "FittableColumns", components:[
+		{kind: "FittableColumns", style: "padding: 10px", components:[
 			{components: [
 				{content:$L("Choose Locale:"), classes: "g11n-sample-divider"},		
 				{kind: "onyx.PickerDecorator", style:"padding:10px;", onSelect: "pickerHandler", components: [
@@ -26,8 +26,8 @@ enyo.kind({
 				]}
 			]}				
 		]},
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: $L("Translations")},
+		{kind: "onyx.Groupbox", style: "padding:10px", components: [
+			{kind: "onyx.GroupboxHeader", content: $L("Example Translations")},
 			{kind:"Scroller", style: 'height:300px', components: [
 				{name:"Box", allowHtml: true, style:"font-size:1.2em"}
 			]}
