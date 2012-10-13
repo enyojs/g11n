@@ -11,9 +11,9 @@ enyo.kind({
     		{tag:"br"},{tag:"br"},		
     		{kind: "onyx.Groupbox", components: [
     			{kind: "onyx.GroupboxHeader", content: "Name"},
-    			{name:"familyName", style: 'padding: 8px', content: "Family Name = "},
     			{name:"givenName", style: 'padding: 8px', content: "Given Name = "},
     			{name:"middleName", style: 'padding: 8px', content: "Middle Name = "},
+    			{name:"familyName", style: 'padding: 8px', content: "Family Name = "}
     		]}
     	]}
 	],
@@ -22,12 +22,13 @@ enyo.kind({
 
 		try {
 			//note we're stripping undefined out of the result to beautify the sample
-			this.$.familyName.setContent("Family Name = " + name.familyName.replace("undefined",""));
 			this.$.givenName.setContent("Given Name = " + name.givenName.replace("undefined",""));
-			this.$.middleName.setContent("Middle Name = " + name.middleName.replace("undefined",""));
+			this.$.middleName.setContent("Middle Name = " + name.middleName.replace("undefined",""));			
+			this.$.familyName.setContent("Family Name = " + name.familyName.replace("undefined",""));
 		}
 		catch (err){
 			enyo.log(err);
-		}	
+		}
+
 	},
 });
