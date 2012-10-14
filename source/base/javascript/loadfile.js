@@ -53,7 +53,7 @@ enyo.g11n.Utils._getEnyoRoot = function _getEnyoRoot(prefix) {
 	if (!enyo.g11n.isEnyoAvailable() && prefix){
 		prependPath =  prefix;
 	}
-	return prependPath + enyo.path.paths.g11n + "/source";
+	return prependPath + enyo.path.paths.enyo + "/../lib/g11n/source";	
 };
 
 /*
