@@ -23,12 +23,30 @@ enyo.g11n.Utils._getRootWindow = function() {
 }
 
 /**
+	Finds and returns the base URL.
+*/
+enyo.g11n.Utils._getBaseURL = function(doc) {
+    if ('baseURI' in doc) {
+        return doc.baseURI;
+    }
+    else {
+        var baseTags = doc.getElementsByTagName ("base");
+        if (baseTags.length > 0) {
+            return baseTags[0].href;
+        }
+        else {
+            return window.location.href;
+        }
+    }
+}
+
+/**
 	Returns a string with the URL that is the root path of the application.
 */
 enyo.g11n.Utils._fetchAppRootPath = function() {
 	var r = enyo.g11n.Utils._getRootWindow();
 	var doc = r.document;
-	var match = doc.baseURI.match(new RegExp(".*:\/\/[^#]*\/"));
+	var match = enyo.g11n.Utils._getBaseURL(doc).match(new RegExp(".*:\/\/[^#]*\/"));
 	if (match) {
 		return match[0];
 	}
