@@ -12,17 +12,6 @@ enyo.g11n.Utils = enyo.g11n.Utils || function() {};
 enyo.g11n.Utils._fileCache = {};
 
 /**
-	Finds and returns the root window.
-*/
-enyo.g11n.Utils._getRootWindow = function() {
-	var w = window.opener || window.rootWindow || window.top || window;
-	if(!w.setTimeout) { // use this window as the root if we don't have access to the real root.
-		w = window;
-	}
-	return w;
-}
-
-/**
 	Finds and returns the base URL.
 */
 enyo.g11n.Utils._getBaseURL = function(doc) {
@@ -44,8 +33,7 @@ enyo.g11n.Utils._getBaseURL = function(doc) {
 	Returns a string with the URL that is the root path of the application.
 */
 enyo.g11n.Utils._fetchAppRootPath = function() {
-	var r = enyo.g11n.Utils._getRootWindow();
-	var doc = r.document;
+	var doc = window.document; //this might need to change for multiple window apps on webOS
 	var match = enyo.g11n.Utils._getBaseURL(doc).match(new RegExp(".*:\/\/[^#]*\/"));
 	if (match) {
 		return match[0];
