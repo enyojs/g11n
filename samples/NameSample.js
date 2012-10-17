@@ -19,12 +19,12 @@ enyo.kind({
 	],
 	inputChanged: function(inSender, inEvent) {
 		var name = new enyo.g11n.Name(inSender.getValue())
-
+				
 		try {
 			//note we're stripping undefined out of the result to beautify the sample
-			this.$.givenName.setContent("Given Name = " + name.givenName.replace("undefined",""));
-			this.$.middleName.setContent("Middle Name = " + name.middleName.replace("undefined",""));			
-			this.$.familyName.setContent("Family Name = " + name.familyName.replace("undefined",""));
+			this.$.givenName.setContent("Given Name = " + (name.givenName ? name.givenName.replace("undefined","") : ""));
+			this.$.middleName.setContent("Middle Name = " + (name.middleName ? name.middleName.replace("undefined","") : ""));		
+			this.$.familyName.setContent("Family Name = " + (name.familyName ? name.familyName.replace("undefined","") : ""));
 		}
 		catch (err){
 			enyo.log(err);
