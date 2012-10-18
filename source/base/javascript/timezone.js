@@ -56,8 +56,8 @@ enyo.g11n.TzFmt.prototype = {
 	 */
 	setTZ: function() {
 		var d = new Date().toString();
-		var s = d.indexOf("(");
-		var e = d.indexOf(")");
+		var s = enyo.indexOf("(", d);
+		var e = enyo.indexOf(")", d);
 		var z = d.slice(s + 1, e);
 		if (z !== undefined) {
 			this.setCurrentTimeZone(z);

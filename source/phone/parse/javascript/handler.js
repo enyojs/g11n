@@ -258,7 +258,7 @@ enyo.g11n.StateHandler.prototype = {
 		
 		// extensions are separated from the number by a dash in Germany
 		if (regionSettings.plan.findExtensions !== undefined && fields.subscriberNumber !== undefined) {
-			var dash = fields.subscriberNumber.indexOf("-");
+			var dash = enyo.indexOf("-", fields.subscriberNumber);			
 			if (dash > -1) {
 				fields.subscriberNumber = fields.subscriberNumber.substring(0, dash);
 				fields.extension = fields.subscriberNumber.substring(dash+1);

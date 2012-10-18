@@ -275,8 +275,8 @@ enyo.g11n.Name = function(name, params) {
 			
 			//enyo.log("checking prefix: '" + prefixLower + "'");
 			
-			if ( (nameInfo.titles && nameInfo.titles.indexOf(prefixLower) > -1) || 
-					(nameInfo.honorifics && nameInfo.honorifics.indexOf(prefixLower) > -1) ) {
+ 			if ( (nameInfo.titles && enyo.indexOf(prefixLower, nameInfo.titles) > -1) || 						
+					(nameInfo.honorifics && enyo.indexOf(prefixLower, nameInfo.honorifics) > -1) ) {
 				if ( this.prefix  ) {
 					if ( !asianName ) {
 						this.prefix += ' ';
@@ -303,7 +303,7 @@ enyo.g11n.Name = function(name, params) {
 			
 			//enyo.log("checking suffix: '" + suffixLower + "'");
 			
-			if ( nameInfo.suffixes && nameInfo.suffixes.indexOf(suffixLower) > -1 ) {
+			if ( nameInfo.suffixes && enyo.indexOf(suffixLower, nameInfo.suffixes) > -1 ) {				
 				if ( this.suffix ) {
 					if ( !asianName ) {
 						this.suffix = ' ' + this.suffix;

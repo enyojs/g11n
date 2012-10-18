@@ -347,7 +347,7 @@ enyo.g11n.Address.prototype = {
 			matchGroup = matchGroup || 0;
 			if (match[matchGroup] !== undefined) {
 				ret.match = match[matchGroup].trim();
-				last = (startAt === 'end') ? line.lastIndexOf(match[matchGroup]) : line.indexOf(match[matchGroup]); 
+				last = (startAt === 'end') ? line.lastIndexOf(match[matchGroup]) : enyo.indexOf(match[matchGroup], line); 				
 				// enyo.log("last is " + last);
 				ret.line = line.slice(0,last);
 				if (address.format !== "asian") {

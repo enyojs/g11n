@@ -145,7 +145,7 @@ enyo.g11n.Template.prototype.formatChoice = function(value, model) {
 		for (i = 0; i < choices.length; i++) {
 			// Note that the string can contain more hashes for 
 			// replacement parameters, so only search for the first one with indexOf.
-			var index = choices[i].indexOf('#');
+			var index = enyo.indexOf('#', choices[i]);			
 			if ( index !== -1 ) {
 				limits[i] = choices[i].substring(0,index);
 				strings[i] = choices[i].substring(index+1);

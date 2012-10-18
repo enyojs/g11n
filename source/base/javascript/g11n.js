@@ -30,6 +30,13 @@ if(!this.enyo){
 	};
 }
 
+// Add trim method if not supported (IE8)
+if (!('trim' in String.prototype)) {
+	String.prototype.trim = function() {
+		return this.replace(/^\s+|\s+$/g, ''); 
+	}
+}
+	
 enyo.g11n = function () {
 };
 

@@ -273,7 +273,7 @@ enyo.g11n.PhoneFmt.prototype = {
 			ch = phoneNumber.charAt(i);
 			if (enyo.g11n.PhoneUtils._getCharacterCode(ch) > -1) {
 				dialableCount++;
-			} else if (formatChars.indexOf(ch) > -1) {
+			} else if (enyo.indexOf(ch, formatChars) > -1) {				
 				formatCount++;
 			} else {
 				otherCount++; 
