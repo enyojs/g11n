@@ -24,9 +24,7 @@ GOTO :EOF
 :OK
 
 REM copy all files
-pushd %SOURCE%
-xcopy %SOURCE%source %TARGET%\source\ /q /e 
-popd
+xcopy %SOURCE%\source %TARGET%\source\ /q /e
 
 REM recursively go through target directories & remove non-data directories
 pushd %TARGET%

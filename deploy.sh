@@ -14,9 +14,10 @@ Must supply target folder parameter, e.g.:
 EOF
 else
 	pushd $SOURCE/source
-    for f in `find . -name *data -o -name *formats -type d`; 
-    	do mkdir -p $TARGET/source/$f/; 
-    	cp -r $f/ $TARGET/source/$f; 
-    done
+	DATA=`find . -name *data -o -name *formats -type d`
 	popd
+    for f in $DATA; 
+    	do mkdir -p $TARGET/source/$f/; 
+    	cp -r $SOURCE/source/$f/ $TARGET/source/$f; 
+    done
 fi
