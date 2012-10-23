@@ -358,6 +358,15 @@ enyo.g11n.DateFmt = function(params){
 		type: "region"
 	});
 	
+	if (!self.dateTimeFormatHash){
+		self.dateTimeFormatHash = enyo.g11n.Utils.getJsonFile({
+			root: enyo.g11n.Utils._getEnyoRoot(),
+			path: "base/formats",
+			locale: new enyo.g11n.Locale("en_us"),
+			type: "region"
+		});
+	}
+	
 	self.rb = new enyo.g11n.Resources({
 		root: enyo.g11n.Utils._getEnyoRoot() + "/base",
 		locale: locale
