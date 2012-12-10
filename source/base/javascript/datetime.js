@@ -450,7 +450,7 @@ enyo.g11n.DateFmt.prototype.isAmPmDefault = function(){
     * 6: Saturday
 */
 enyo.g11n.DateFmt.prototype.getFirstDayOfWeek = function(){
-	return this.dateTimeHash.firstDayOfWeek;
+	return this.dateTimeFormatHash.firstDayOfWeek;
 };
 
 //* @protected
