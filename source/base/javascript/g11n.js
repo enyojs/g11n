@@ -26,23 +26,23 @@ if(!this.enyo){
 				}
 			}
 		}
-		return target; 
+		return target;
 	};
 }
 
 // Add trim method if not supported (IE8)
 if (!('trim' in String.prototype)) {
 	String.prototype.trim = function() {
-		return this.replace(/^\s+|\s+$/g, ''); 
-	}
+		return this.replace(/^\s+|\s+$/g, '');
+	};
 }
-	
+
 enyo.g11n = function () {
 };
 
 enyo.g11n._init = function _init(){
 	if (!enyo.g11n._initialized){
-		
+
 		if  (typeof(window) !== 'undefined') {
 			enyo.g11n._platform = "browser";
 			enyo.g11n._enyoAvailable = true;
@@ -66,24 +66,24 @@ enyo.g11n._init = function _init(){
 			enyo.warn("enyo.g11n._init: could not find current locale, so using default of en_us.");
 			enyo.g11n._locale = new enyo.g11n.Locale("en_us");
 		}
-		
+
 		if (enyo.g11n._formatLocale === undefined) {
 			enyo.warn("enyo.g11n._init: could not find current formats locale, so using default of us.");
 			enyo.g11n._formatLocale = new enyo.g11n.Locale("en_us");
-		} 
+		}
 
 		if (enyo.g11n._phoneLocale === undefined) {
 			enyo.warn("enyo.g11n._init: could not find current phone locale, so defaulting to the same thing as the formats locale.");
 			enyo.g11n._phoneLocale = enyo.g11n._formatLocale;
 		}
-		
+
 		if (enyo.g11n._sourceLocale === undefined){
 			enyo.g11n._sourceLocale = new enyo.g11n.Locale("en_us");
 		}
-		
+
 		enyo.g11n._initialized = true;
 	}
-	
+
 };
 
 enyo.g11n.getPlatform = function getPlatform(){
@@ -103,7 +103,7 @@ enyo.g11n.isEnyoAvailable = function isEnyoAvailable(){
 //* @public
 /**
     Returns an _enyo.g11n.Locale_ instance containing the current locale for the
-    user interface.. 
+    user interface..
 */
 enyo.g11n.currentLocale = function currentLocale(){
 	if (!enyo.g11n._locale){
@@ -177,9 +177,5 @@ enyo.g11n.setLocale = function setLocale(params) {
 		if (params.sourceLocale) {
 			enyo.g11n._sourceLocale = new enyo.g11n.Locale(params.sourceLocale);
 		}
-		if (enyo.g11n._enyoAvailable){
-			enyo.reloadG11nResources();
-		}
-		
 	}
 };
