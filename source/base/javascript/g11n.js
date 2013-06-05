@@ -55,10 +55,14 @@ enyo.g11n._init = function _init(){
 		/* Old browsers might not have a navigator object */
 		if (navigator) {
 			/* Everyone uses navigator.language, except for IE which uses navigator.userLanguage. Of course they do. */
-			var locale = (navigator.language || navigator.userLanguage).replace(/-/g,'_').toLowerCase();
-			enyo.g11n._locale = new enyo.g11n.Locale(locale);
-			enyo.g11n._formatLocale = enyo.g11n._locale;
-			enyo.g11n._phoneLocale = enyo.g11n._locale;
+			var language = navigator.language || navigator.userLanguage;
+			/* To be safe, make sure we have a string. */
+			if ("string" === typeof language) {
+				var locale = language.replace(/-/g,'_').toLowerCase();
+				enyo.g11n._locale = new enyo.g11n.Locale(locale);
+				enyo.g11n._formatLocale = enyo.g11n._locale;
+				enyo.g11n._phoneLocale = enyo.g11n._locale;
+			}
 		}
 
 		if (enyo.g11n._locale === undefined) {
