@@ -17,7 +17,7 @@ else
 	DATA=`find . -name *data -o -name *formats -type d`
 	popd
     for f in $DATA; 
-		do mkdir -p $TARGET/source/;
-		cp -r $SOURCE/source/$f/ $TARGET/source/;
+		do mkdir -p $TARGET/source/$f;
+		cp -r $SOURCE/source/$f/ $(dirname $TARGET/source/$f);
     done
 fi
