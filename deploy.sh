@@ -18,6 +18,6 @@ else
 	popd
     for f in $DATA; 
 		do mkdir -p $TARGET/source/$f;
-		cp -r $SOURCE/source/$f/ $(dirname $TARGET/source/$f);
+		cp -r $SOURCE/source/$f $(dirname $TARGET/source/$f);
     done
 fi
